@@ -13,23 +13,27 @@ return new class extends Migration
     {
         Schema::create('wallet_defi_positions', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('wallet_id')
-                ->constrained('wallets')
-                ->cascadeOnDelete();
-
-            $table->string('protocol_name', 100);
+            $table->foreignUuid('wallet_id')->constrained('wallets')->cascadeOnDelete();
+            $table->string('protocol_name', 150);
             $table->string('protocol_slug', 100)->nullable();
-            $table->string('protocol_logo_url', 500)->nullable();
+            $table->string('protocol_logo_url', 1000)->nullable();
             $table->string('network', 50);
             $table->string('position_type', 50);
             $table->decimal('total_value_usd', 24, 8);
-            $table->json('assets_data')->nullable();
+            $table->decimal('deposited_value_usd', 24, 8)->nullable();
+            $table->decimal('rewards_value_usd', 24, 8)->nullable();
+            $table->decimal('apr', 12, 4)->nullable();
+            $table->jsonb('assets_data')->nullable();
             $table->timestamp('synced_at');
             $table->timestamps();
+            $table->softDeletes();
             $table->index([
                 'wallet_id',
                 'network'
             ]);
+
+            $table->index('protocol_name');
+            $table->index('position_type');
         });
     }
 

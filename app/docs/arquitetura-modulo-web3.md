@@ -389,8 +389,7 @@ app/
 │   ├── WalletTokenBalance.php
 │   ├── WalletDefiPosition.php
 │   ├── WalletNft.php
-│   ├── WalletTransaction.php
-│   └── ZapperSyncLog.php
+│   └── WalletTransaction.php
 │
 ├── Services/
 │   ├── ZapperService.php
