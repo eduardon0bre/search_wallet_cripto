@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'zapper' => [
+        'endpoint' => env('ZAPPER_ENDPOINT'),
+        'api_key' => env('ZAPPER_API_KEY'),
+    ],
+
 ];

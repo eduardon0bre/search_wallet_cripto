@@ -13,21 +13,19 @@ return new class extends Migration
     {
         Schema::create('wallet_nfts', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->foreignUuid('wallet_id')
-                ->constrained('wallets')
-                ->cascadeOnDelete();
-
+            $table->foreignUuid('wallet_id')->constrained('wallets')->cascadeOnDelete();
             $table->string('collection_name', 255);
-            $table->string('collection_address', 42);
-            $table->string('token_id', 100);
+            $table->string('collection_address', 100);
+            $table->string('token_id', 255);
             $table->string('image_url', 1000)->nullable();
-            $table->decimal('floor_price_usd', 24, 8)
-                ->nullable();
-
+            $table->decimal('floor_price_usd', 24, 8)->nullable();
+            $table->decimal('estimated_value_usd', 24, 8)->nullable();
+            $table->string('rarity_rank', 100)->nullable();
             $table->string('network', 50);
-            $table->json('metadata')->nullable();
+            $table->jsonb('metadata')->nullable();
             $table->timestamp('synced_at');
             $table->timestamps();
+            $table->softDeletes();
             $table->unique([
                 'wallet_id',
                 'collection_address',
@@ -38,6 +36,8 @@ return new class extends Migration
                 'wallet_id',
                 'network'
             ]);
+
+            $table->index('collection_name');
         });
     }
 
