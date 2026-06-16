@@ -18,22 +18,42 @@ return new class extends Migration
                 ->cascadeOnDelete();
 
             $table->string('network', 50);
-            $table->string('token_address', 42);
-            $table->string('symbol', 20);
-            $table->string('name', 150)->nullable();
-            $table->unsignedTinyInteger('decimals')->nullable();
+            $table->string('token_address', 100);
+            $table->string('symbol', 30);
+            $table->string('name', 255)
+                ->nullable();
+
+            $table->string('logo_url', 1000)
+                ->nullable();
+
+            $table->unsignedTinyInteger('decimals')
+                ->nullable();
+
             $table->decimal('balance_quantity', 38, 18);
-            $table->decimal('balance_usd', 24, 8)->default(0);
-            $table->decimal('token_price_usd', 24, 8)->nullable();
+
+            $table->decimal('balance_usd', 24, 8)
+                ->default(0);
+
+            $table->decimal('token_price_usd', 24, 8)
+                ->nullable();
+
             $table->timestamp('synced_at');
             $table->timestamps();
+            $table->softDeletes();
+
             $table->unique([
                 'wallet_id',
                 'network',
                 'token_address'
             ]);
 
-            $table->index(['wallet_id', 'network']);
+            $table->index([
+                'wallet_id',
+                'network'
+            ]);
+
+            $table->index('symbol');
+            $table->index('balance_usd');
         });
     }
 

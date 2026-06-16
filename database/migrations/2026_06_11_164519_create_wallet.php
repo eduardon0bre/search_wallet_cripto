@@ -18,7 +18,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('wallet_address', 42);
+            $table->string('wallet_address', 120);
             $table->string('label', 100)->nullable();
             $table->timestamp('last_sync_at')->nullable();
             $table->timestamps();
