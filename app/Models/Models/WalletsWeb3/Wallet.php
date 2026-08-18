@@ -51,6 +51,11 @@ class Wallet extends Model
         return $this->hasMany(WalletTransaction::class);
     }
 
+    public function snapshots(): HasMany
+    {
+        return $this->hasMany(WalletSnapshot::class);
+    }
+
     public function getShortAddressAttribute(): string
     {
         return substr($this->wallet_address, 0, 6)
