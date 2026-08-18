@@ -11,7 +11,7 @@ O módulo Web3 tem como objetivo permitir que usuários da plataforma conectem c
 - Histórico de transações
 - Evolução patrimonial futura
 
-Toda a leitura de dados on-chain será realizada através da API GraphQL da Zapper, abstraindo a necessidade de integração direta com RPCs das blockchains.
+Toda a leitura de dados on-chain é realizada através da REST API da Zerion, abstraindo a necessidade de integração direta com RPCs das blockchains.
 
 ---
 
@@ -24,7 +24,7 @@ Usuário
 Carteira Web3
     │
     ▼
-Zapper API
+Zerion API (REST)
     │
     ▼
 Serviço de Sincronização
@@ -272,7 +272,7 @@ Exemplo de asset_deltas:
 
 ---
 
-## zapper_sync_logs
+## zerion_sync_logs
 
 Controle de auditoria e consumo da API.
 
@@ -289,7 +289,7 @@ Controle de auditoria e consumo da API.
 
 ### Regras
 
-Toda chamada para a Zapper deve gerar um log.
+Toda chamada para a Zerion deve gerar um log.
 
 ---
 
@@ -325,7 +325,7 @@ A cada 6 horas
 
 ## Controle de Rate Limit
 
-Antes de consultar a Zapper:
+Antes de consultar a Zerion:
 
 Verificar:
 
@@ -392,7 +392,7 @@ app/
 │   └── WalletTransaction.php
 │
 ├── Services/
-│   ├── ZapperService.php
+│   ├── ZerionService.php
 │   ├── WalletSyncService.php
 │   ├── TokenSyncService.php
 │   ├── DefiSyncService.php

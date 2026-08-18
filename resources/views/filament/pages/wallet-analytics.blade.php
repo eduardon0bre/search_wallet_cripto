@@ -385,11 +385,11 @@
                 <!-- Filtro de Rede -->
                 <div class="wa-filter-box">
                     <span class="wa-filter-label">Rede Blockchain</span>
-                    <select wire:model.live="selectedNetwork" class="wa-select" style="min-width: 140px;">
-                        <option value="all">Todas as Redes</option>
-                        <option value="ethereum">Ethereum</option>
-                        <option value="arbitrum">Arbitrum</option>
-                        <option value="polygon">Polygon</option>
+                    <select wire:model.live="selectedNetwork" class="wa-select" style="min-width: 160px;">
+                        <option value="all">🌐 Todas as Redes</option>
+                        @foreach($this->availableNetworks as $net)
+                            <option value="{{ $net }}">{{ ucfirst(str_replace('-', ' ', $net)) }}</option>
+                        @endforeach
                     </select>
                 </div>
 

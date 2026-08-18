@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('zapper_sync_logs', function (Blueprint $table) {
+        Schema::create('zerion_sync_logs', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->foreignUuid('wallet_id')
                 ->constrained('wallets')
@@ -45,6 +45,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('zapper_sync_logs');
+        Schema::dropIfExists('zerion_sync_logs');
     }
 };

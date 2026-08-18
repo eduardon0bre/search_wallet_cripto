@@ -27,7 +27,6 @@ class WalletAnalytics extends Page
         return \Filament\Support\Enums\Width::Full;
     }
 
-    // Filtros Globais do Painel
     public string $selectedWalletId = 'all';
     public string $selectedNetwork = 'all';
     public string $selectedPeriod = '30D';
@@ -40,6 +39,22 @@ class WalletAnalytics extends Page
     public function getWalletsProperty(): Collection
     {
         return Wallet::orderBy('label')->get();
+    }
+
+    /**
+     * Retorna dinamicamente todas as redes presentes nos tokens da carteira
+     */
+    public function getAvailableNetworksProperty(): Collection
+    {
+        $walletIds = $this->getFilteredWalletIds();
+
+        return WalletTokenBalance::whereIn('wallet_id', $walletIds)
+            ->whereNotNull('network')
+            ->where('network', '!=', '')
+            ->distinct()
+            ->pluck('network')
+            ->sort()
+            ->values();
     }
 
     /**
@@ -62,7 +77,7 @@ class WalletAnalytics extends Page
         $walletIds = $this->getFilteredWalletIds();
 
         return WalletTokenBalance::whereIn('wallet_id', $walletIds)
-            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
             ->orderByDesc('balance_usd')
             ->get();
     }
@@ -75,7 +90,7 @@ class WalletAnalytics extends Page
         $walletIds = $this->getFilteredWalletIds();
 
         return WalletDefiPosition::whereIn('wallet_id', $walletIds)
-            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
             ->orderByDesc('total_value_usd')
             ->get();
     }
@@ -88,7 +103,7 @@ class WalletAnalytics extends Page
         $walletIds = $this->getFilteredWalletIds();
 
         return WalletNft::whereIn('wallet_id', $walletIds)
-            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
             ->orderByDesc('estimated_value_usd')
             ->get();
     }
@@ -118,20 +133,18 @@ class WalletAnalytics extends Page
 
         // Valor patrimonial exato no início do período
         $startSnapshots = WalletSnapshot::whereIn('wallet_id', $walletIds)
-            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork), fn ($q) => $q->where('network', 'all'))
             ->where('snapshot_at', '<=', $startDate)
             ->orderBy('snapshot_at')
             ->get()
             ->groupBy('wallet_id')
-            ->map(fn ($snapshots) => $snapshots->last());
+            ->map(fn($snapshots) => $snapshots->last());
 
         if ($startSnapshots->isEmpty()) {
             $startSnapshots = WalletSnapshot::whereIn('wallet_id', $walletIds)
-                ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork), fn ($q) => $q->where('network', 'all'))
                 ->orderBy('snapshot_at')
                 ->get()
                 ->groupBy('wallet_id')
-                ->map(fn ($snapshots) => $snapshots->first());
+                ->map(fn($snapshots) => $snapshots->first());
         }
 
         $startSnapshotNetWorth = (float) $startSnapshots->sum('total_net_worth_usd');
@@ -141,14 +154,17 @@ class WalletAnalytics extends Page
 
         // Dynamic Health Score baseado na proporção de ativos de alta liquidez no banco
         $stablecoinsAndMajors = (float) $this->tokenBalances->filter(function ($t) {
-            return in_array(strtoupper($t->symbol), ['ETH', 'WBTC', 'USDC', 'USDT', 'DAI', 'POL', 'SOL']);
+            return in_array(
+                strtoupper($t->symbol),
+                ['ETH', 'WBTC', 'USDC', 'USDT', 'DAI', 'POL', 'SOL', 'BNB', 'MATIC', 'AVAX']
+            );
         })->sum('balance_usd');
 
         $healthScore = $netWorth > 0 ? (int) min(100, max(1, round(($stablecoinsAndMajors / $netWorth) * 100))) : 0;
 
         // Gás Total Gasto calculado via soma da coluna `gas_fee_usd` na tabela `wallet_transactions`
         $gasSpentUsd = (float) WalletTransaction::whereIn('wallet_id', $walletIds)
-            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
             ->sum('gas_fee_usd');
 
         return [
@@ -173,7 +189,7 @@ class WalletAnalytics extends Page
         $result = [];
 
         $totalBuyTxCount = WalletTransaction::whereIn('wallet_id', $walletIds)
-            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
             ->where('action_type', 'buy')
             ->count();
 
@@ -221,18 +237,13 @@ class WalletAnalytics extends Page
             ? now()->subHours(24)
             : now()->subDays($days);
 
-        $network = $this->selectedNetwork;
-
-        // Query snapshots filtering by walletIds, network and date
         $rawSnapshots = WalletSnapshot::whereIn('wallet_id', $walletIds)
-            ->when($network !== 'all', fn ($q) => $q->where('network', $network), fn ($q) => $q->where('network', 'all'))
             ->where('snapshot_at', '>=', $startDate)
             ->orderBy('snapshot_at')
             ->get();
 
         if ($rawSnapshots->isEmpty()) {
             $rawSnapshots = WalletSnapshot::whereIn('wallet_id', $walletIds)
-                ->where('snapshot_at', '>=', $startDate)
                 ->orderBy('snapshot_at')
                 ->get();
         }
@@ -242,24 +253,25 @@ class WalletAnalytics extends Page
         $btcBenchmark = [];
 
         if ($rawSnapshots->isNotEmpty()) {
-            $is1D = $this->selectedPeriod === '1D';
+            $uniqueDays = $rawSnapshots->pluck('snapshot_at')
+                ->map(fn($d) => $d->format('Y-m-d'))->unique()->count();
+            $isSameDay = $this->selectedPeriod === '1D' || $uniqueDays === 1;
 
-            $grouped = $rawSnapshots->groupBy(function ($item) use ($is1D) {
-                return $is1D
-                    ? $item->snapshot_at->format('H:00')
+            $grouped = $rawSnapshots->groupBy(function ($item) use ($isSameDay) {
+                return $isSameDay
+                    ? $item->snapshot_at->format('H:i')
                     : $item->snapshot_at->format('d/m');
             });
 
             foreach ($grouped as $dateLabel => $items) {
-                // Evita somar múltiplos snapshots do mesmo dia pegando o mais recente de cada carteira
-                $latestPerWallet = $items->groupBy('wallet_id')->map(fn ($walletSnapshots) => $walletSnapshots->last());
+                $latestPerWallet = $items->groupBy('wallet_id')->map(fn($walletSnapshots) => $walletSnapshots->last());
 
                 $labels[] = $dateLabel;
                 $portfolioData[] = round((float) $latestPerWallet->sum('total_net_worth_usd'), 2);
                 $btcBenchmark[] = round((float) $latestPerWallet->avg('btc_benchmark_usd'), 2);
             }
         } else {
-            $labels = [now()->format('d/m')];
+            $labels = [now()->format('H:i')];
             $portfolioData = [$this->metrics['net_worth']];
             $btcBenchmark = [0];
         }

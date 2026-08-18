@@ -9,17 +9,16 @@ use App\Models\Models\WalletsWeb3\WalletNft;
 use App\Models\Models\WalletsWeb3\WalletSnapshot;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class WalletSyncService
 {
     public function __construct(
-        protected ZapperService $zapperService
+        protected ZerionService $zerionService
     ) {}
 
-    /**
-     * Sincroniza todas as informações de uma carteira (Tokens, DeFi, NFTs)
-     */
+
     public function syncWallet(Wallet $wallet): array
     {
         $startTime = microtime(true);
@@ -31,9 +30,22 @@ class WalletSyncService
             'errors' => [],
         ];
 
-        // 1. Sincronizar Tokens
+        $address = trim($wallet->wallet_address ?? '');
+
+        // Validação de formato EVM (0x + 40 hex chars) ou ENS (.eth)
+        if (!preg_match('/^(0x[a-fA-F0-9]{40}|[a-zA-Z0-9-]+\.eth)$/i', $address)) {
+            $errorMsg = "Endereço da carteira é inválido: '{$address}'. O formato deve ser um endereço EVM válido (ex: 0x...) ou ENS (.eth).";
+            $syncResults['errors'][] = $errorMsg;
+            $syncResults['status'] = 'error';
+            $this->logSync($wallet->id, 'validateAddress', 'error', $errorMsg, $startTime);
+            Log::warning("Tentativa de sincronizar carteira {$wallet->id} com endereço inválido: {$address}");
+            return $syncResults;
+        }
+            $tokenData = $this->zerionService->getTokens($wallet->wallet_address);
+
+            // 1. Sincronizar Tokens
         try {
-            $tokenData = $this->zapperService->getTokens($wallet->wallet_address);
+            $tokenData = $this->zerionService->getTokens($wallet->wallet_address);
             $syncResults['tokens_count'] = $this->saveTokenBalances($wallet, $tokenData);
             $this->logSync($wallet->id, 'getTokens', 'success', null, $startTime);
         } catch (\Throwable $e) {
@@ -44,7 +56,7 @@ class WalletSyncService
 
         // 2. Sincronizar Posições DeFi
         try {
-            $appData = $this->zapperService->getAppBalances($wallet->wallet_address);
+            $appData = $this->zerionService->getAppBalances($wallet->wallet_address);
             $syncResults['defi_count'] = $this->saveDefiPositions($wallet, $appData);
             $this->logSync($wallet->id, 'getAppBalances', 'success', null, $startTime);
         } catch (\Throwable $e) {
@@ -53,9 +65,10 @@ class WalletSyncService
             Log::error("Erro ao sincronizar DeFi da carteira {$wallet->id}: " . $e->getMessage());
         }
 
-        // 3. Sincronizar NFTs
+        usleep(100000);
+
         try {
-            $nftData = $this->zapperService->getNfts($wallet->wallet_address);
+            $nftData = $this->zerionService->getNfts($wallet->wallet_address);
             $syncResults['nfts_count'] = $this->saveNfts($wallet, $nftData);
             $this->logSync($wallet->id, 'getNfts', 'success', null, $startTime);
         } catch (\Throwable $e) {
@@ -79,15 +92,20 @@ class WalletSyncService
      */
     public function saveTokenBalances(Wallet $wallet, array $apiResponse): int
     {
-        $edges = $apiResponse['portfolioV2']['tokenBalances']['byToken']['edges'] ?? [];
+        $items = $apiResponse['data'] ?? [];
         $count = 0;
 
-        foreach ($edges as $edge) {
-            $node = $edge['node'] ?? null;
-            if (!$node) continue;
+        foreach ($items as $item) {
+            $attributes = $item['attributes'] ?? null;
+            if (!$attributes) continue;
 
-            $network = $node['network']['slug'] ?? $node['network']['name'] ?? 'ethereum';
-            $tokenAddress = $node['tokenAddress'] ?? '0x0000000000000000000000000000000000000000';
+            $fungibleInfo = $attributes['fungible_info'] ?? [];
+            $chainData = $item['relationships']['chain']['data'] ?? [];
+            $network = $chainData['id'] ?? 'ethereum';
+
+            $implementations = $fungibleInfo['implementations'] ?? [];
+            $firstImpl = $implementations[0] ?? [];
+            $tokenAddress = $firstImpl['address'] ?? '0x0000000000000000000000000000000000000000';
 
             WalletTokenBalance::updateOrCreate(
                 [
@@ -96,13 +114,13 @@ class WalletSyncService
                     'token_address' => $tokenAddress,
                 ],
                 [
-                    'symbol' => $node['symbol'] ?? 'UNKNOWN',
-                    'name' => $node['name'] ?? null,
-                    'logo_url' => $node['imgUrlV2'] ?? null,
-                    'decimals' => $node['decimals'] ?? 18,
-                    'balance_quantity' => $node['balance'] ?? 0,
-                    'balance_usd' => $node['balanceUSD'] ?? 0,
-                    'token_price_usd' => $node['price'] ?? null,
+                    'symbol' => $fungibleInfo['symbol'] ?? 'UNKNOWN',
+                    'name' => $fungibleInfo['name'] ?? $attributes['name'] ?? null,
+                    'logo_url' => $fungibleInfo['icon']['url'] ?? null,
+                    'decimals' => $firstImpl['decimals'] ?? $attributes['quantity']['decimals'] ?? 18,
+                    'balance_quantity' => $attributes['quantity']['float'] ?? 0,
+                    'balance_usd' => $attributes['value'] ?? 0,
+                    'token_price_usd' => $attributes['price'] ?? null,
                     'synced_at' => now(),
                 ]
             );
@@ -118,16 +136,23 @@ class WalletSyncService
      */
     public function saveDefiPositions(Wallet $wallet, array $apiResponse): int
     {
-        $edges = $apiResponse['portfolioV2']['appBalances']['byApp']['edges'] ?? [];
+        $items = $apiResponse['data'] ?? [];
         $count = 0;
 
-        foreach ($edges as $edge) {
-            $node = $edge['node'] ?? null;
-            if (!$node) continue;
+        foreach ($items as $item) {
+            $attributes = $item['attributes'] ?? null;
+            if (!$attributes) continue;
 
-            $app = $node['app'] ?? [];
-            $network = $node['network']['slug'] ?? 'ethereum';
-            $protocolSlug = $app['slug'] ?? Str::slug($app['displayName'] ?? 'unknown');
+            $appMetadata = $attributes['application_metadata'] ?? [];
+            $chainData = $item['relationships']['chain']['data'] ?? [];
+            $dappData = $item['relationships']['dapp']['data'] ?? [];
+
+            $network = $chainData['id'] ?? 'ethereum';
+            $protocolSlug = $dappData['id'] ?? $attributes['protocol'] ?? Str::slug($appMetadata['name'] ?? $attributes['name'] ?? 'unknown');
+            $protocolName = $appMetadata['name'] ?? $attributes['name'] ?? 'Desconhecido';
+            $protocolLogoUrl = $appMetadata['icon']['url'] ?? null;
+            $positionType = $attributes['position_type'] ?? $attributes['protocol_module'] ?? 'DeFi';
+            $totalValueUsd = $attributes['value'] ?? 0;
 
             WalletDefiPosition::updateOrCreate(
                 [
@@ -136,13 +161,13 @@ class WalletSyncService
                     'network' => $network,
                 ],
                 [
-                    'protocol_name' => $app['displayName'] ?? 'Desconhecido',
-                    'protocol_logo_url' => $app['imgUrl'] ?? null,
-                    'position_type' => $app['category']['name'] ?? 'DeFi',
-                    'total_value_usd' => $node['balanceUSD'] ?? 0,
-                    'deposited_value_usd' => $node['balanceUSD'] ?? 0,
+                    'protocol_name' => $protocolName,
+                    'protocol_logo_url' => $protocolLogoUrl,
+                    'position_type' => $positionType,
+                    'total_value_usd' => $totalValueUsd,
+                    'deposited_value_usd' => $totalValueUsd,
                     'rewards_value_usd' => 0,
-                    'assets_data' => $app,
+                    'assets_data' => $attributes,
                     'synced_at' => now(),
                 ]
             );
@@ -158,25 +183,23 @@ class WalletSyncService
      */
     public function saveNfts(Wallet $wallet, array $apiResponse): int
     {
-        $edges = $apiResponse['portfolioV2']['nftBalances']['byToken']['edges'] ?? [];
+        $items = $apiResponse['data'] ?? [];
         $count = 0;
 
-        foreach ($edges as $edge) {
-            $node = $edge['node'] ?? null;
-            $token = $node['token'] ?? null;
-            if (!$token) continue;
+        foreach ($items as $item) {
+            $attributes = $item['attributes'] ?? null;
+            if (!$attributes) continue;
 
-            $collection = $token['collection'] ?? [];
-            $collectionAddress = $collection['address'] ?? '0x0000000000000000000000000000000000000000';
-            $tokenId = $token['tokenId'] ?? (string)$count;
+            $nftInfo = $attributes['nft_info'] ?? [];
+            $chainData = $item['relationships']['chain']['data'] ?? [];
 
-            $imageUrl = null;
-            $mediaEdges = $token['mediasV3']['images']['edges'] ?? [];
-            if (!empty($mediaEdges[0]['node']['original'])) {
-                $imageUrl = $mediaEdges[0]['node']['original'];
-            } elseif (!empty($mediaEdges[0]['node']['thumbnail'])) {
-                $imageUrl = $mediaEdges[0]['node']['thumbnail'];
-            }
+            $network = $chainData['id'] ?? 'ethereum';
+            $collectionAddress = $nftInfo['contract_address'] ?? '0x0000000000000000000000000000000000000000';
+            $tokenId = (string) ($nftInfo['token_id'] ?? $count);
+
+            $imageUrl = $nftInfo['content']['preview']['url'] ?? $nftInfo['content']['detail']['url'] ?? null;
+            $floorPrice = $attributes['price'] ?? $attributes['value'] ?? 0;
+            $estimatedValue = $attributes['value'] ?? $attributes['price'] ?? 0;
 
             WalletNft::updateOrCreate(
                 [
@@ -185,12 +208,12 @@ class WalletSyncService
                     'token_id' => $tokenId,
                 ],
                 [
-                    'collection_name' => $collection['name'] ?? 'NFT Collection',
+                    'collection_name' => $nftInfo['name'] ?? 'NFT Collection',
                     'image_url' => $imageUrl,
-                    'floor_price_usd' => $token['estimatedValue']['valueUsd'] ?? 0,
-                    'estimated_value_usd' => $token['estimatedValue']['valueUsd'] ?? 0,
-                    'network' => $collection['network'] ?? 'ethereum',
-                    'metadata' => $token,
+                    'floor_price_usd' => $floorPrice,
+                    'estimated_value_usd' => $estimatedValue,
+                    'network' => $network,
+                    'metadata' => $nftInfo,
                     'synced_at' => now(),
                 ]
             );
@@ -225,13 +248,13 @@ class WalletSyncService
     }
 
     /**
-     * Grava log de sincronização na tabela `zapper_sync_logs`
+     * Grava log de sincronização na tabela `zerion_sync_logs`
      */
     protected function logSync(string $walletId, string $endpoint, string $status, ?string $errorMessage, float $startTime): void
     {
         $responseTimeMs = (int) round((microtime(true) - $startTime) * 1000);
 
-        DB::table('zapper_sync_logs')->insert([
+        DB::table('zerion_sync_logs')->insert([
             'id' => (string) Str::uuid(),
             'wallet_id' => $walletId,
             'endpoint' => $endpoint,

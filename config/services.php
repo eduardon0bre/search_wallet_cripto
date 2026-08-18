@@ -21,10 +21,10 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
-
-    'zapper' => [
-        'endpoint' => env('ZAPPER_ENDPOINT'),
-        'api_key' => env('ZAPPER_API_KEY'),
+    
+    'zerion' => [
+        'base_url' => env('ZERION_BASE_URL', 'https://api.zerion.io/v1'),
+        'api_key' => env('ZERION_API_KEY'),
     ],
 
 ];
