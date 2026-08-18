@@ -12,7 +12,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Filament\Notifications\Notification;
-use App\Services\ZapperService;
+use App\Services\ZerionService;
 use App\Services\WalletSyncService;
 
 class WalletsTable

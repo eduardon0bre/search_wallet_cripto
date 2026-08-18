@@ -26,6 +26,11 @@ class Wallet extends Model
         'last_sync_at' => 'datetime',
     ];
 
+    public function setWalletAddressAttribute($value): void
+    {
+        $this->attributes['wallet_address'] = is_string($value) ? trim($value) : $value;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

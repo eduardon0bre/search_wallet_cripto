@@ -25,7 +25,6 @@ class CreateWallet extends CreateRecord
 
     /**
      * Executado após a criação da carteira no banco.
-     * Dispara a sincronização de tokens, posições DeFi e NFTs via Zapper API.
      */
     protected function afterCreate(): void
     {
