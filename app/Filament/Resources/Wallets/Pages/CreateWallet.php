@@ -3,6 +3,8 @@
 namespace App\Filament\Resources\Wallets\Pages;
 
 use App\Filament\Resources\Wallets\WalletResource;
+use App\Models\Models\WalletsWeb3\Wallet;
+use App\Services\WalletService;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateWallet extends CreateRecord
@@ -11,7 +13,6 @@ class CreateWallet extends CreateRecord
 
     /**
      * Executado antes de criar o registro.
-     *
      * Aqui adicionamos automaticamente
      * o usuário autenticado.
      */
@@ -21,4 +22,15 @@ class CreateWallet extends CreateRecord
 
         return $data;
     }
+
+    /**
+     * Executado após a criação da carteira no banco.
+     * Dispara a sincronização de tokens, posições DeFi e NFTs via Zapper API.
+     */
+    protected function afterCreate(): void
+    {
+        $wallet = $this->record;
+        app(\App\Services\WalletSyncService::class)->syncWallet($wallet);
+    }
 }
+
