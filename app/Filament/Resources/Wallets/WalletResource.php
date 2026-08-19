@@ -22,6 +22,10 @@ class WalletResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static ?string $navigationLabel = 'Cadastro de Wallets';
+
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $recordTitleAttribute = 'WalletRegistration';
 
     public static function form(Schema $schema): Schema

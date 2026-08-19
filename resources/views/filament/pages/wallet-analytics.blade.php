@@ -527,7 +527,6 @@
                     <h2>
                         <span class="wa-pulse-dot"></span>
                         Análise de Carteiras de Terceiros
-                        <span class="wa-badge wa-badge-success">AUDITORIA ON-CHAIN</span>
                     </h2>
                     <div class="wa-title-sub">
                         Gestão Broad e Inspeção de Portfólio de Clientes e Endereços Externos em Tempo Real
