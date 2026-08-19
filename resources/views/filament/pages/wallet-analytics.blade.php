@@ -5,14 +5,16 @@
 
     @push('styles')
         <style>
+            /* Base / Light Mode (Tema Branco -> Fundo Cinza, Cards Escuros) */
             .wa-dashboard {
-                background-color: #0B0E11 !important;
-                color: #EAECEF !important;
+                background-color: #CBD5E1 !important;
+                color: #0F172A !important;
                 font-family: 'Inter', system-ui, -apple-system, sans-serif;
                 border-radius: 12px;
                 padding: 24px;
                 margin-top: -10px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+                border: 1px solid #94A3B8;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
             }
 
             .wa-header {
@@ -22,14 +24,14 @@
                 justify-content: space-between;
                 gap: 16px;
                 padding-bottom: 20px;
-                border-bottom: 1px solid #2B313A;
+                border-bottom: 1px solid #94A3B8;
                 margin-bottom: 24px;
             }
 
             .wa-title-group h2 {
                 font-size: 1.5rem;
                 font-weight: 800;
-                color: #EAECEF;
+                color: #0F172A;
                 margin: 0;
                 display: flex;
                 align-items: center;
@@ -38,8 +40,20 @@
 
             .wa-title-sub {
                 font-size: 0.8rem;
-                color: #848E9C;
+                color: #475569;
                 margin-top: 4px;
+            }
+
+            .wa-text-main {
+                color: #F8FAFC;
+            }
+
+            .wa-text-sub {
+                color: #94A3B8;
+            }
+
+            .wa-text-accent {
+                color: #38BDF8;
             }
 
             .wa-pulse-dot {
@@ -63,15 +77,15 @@
             }
 
             .wa-badge-success {
-                background-color: rgba(14, 203, 129, 0.18);
+                background-color: rgba(14, 203, 129, 0.2);
                 color: #0ECB81;
-                border: 1px solid rgba(14, 203, 129, 0.3);
+                border: 1px solid rgba(14, 203, 129, 0.4);
             }
 
             .wa-badge-danger {
-                background-color: rgba(246, 70, 93, 0.18);
+                background-color: rgba(246, 70, 93, 0.2);
                 color: #F6465D;
-                border: 1px solid rgba(246, 70, 93, 0.3);
+                border: 1px solid rgba(246, 70, 93, 0.4);
             }
 
             .wa-filters {
@@ -89,16 +103,16 @@
             .wa-filter-label {
                 font-size: 0.65rem;
                 font-weight: 700;
-                color: #848E9C;
+                color: #475569;
                 text-transform: uppercase;
                 margin-bottom: 4px;
                 letter-spacing: 0.5px;
             }
 
             .wa-select {
-                background-color: #181A20 !important;
-                color: #EAECEF !important;
-                border: 1px solid #2B313A !important;
+                background-color: #1E293B !important;
+                color: #F8FAFC !important;
+                border: 1px solid #334155 !important;
                 border-radius: 8px !important;
                 padding: 8px 14px !important;
                 font-size: 0.85rem !important;
@@ -108,21 +122,21 @@
             }
 
             .wa-select:focus {
-                border-color: #3861FB !important;
-                box-shadow: 0 0 0 2px rgba(56, 97, 251, 0.2);
+                border-color: #38BDF8 !important;
+                box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
             }
 
             .wa-btn-group {
                 display: flex;
-                background-color: #181A20;
+                background-color: #1E293B;
                 padding: 3px;
                 border-radius: 8px;
-                border: 1px solid #2B313A;
+                border: 1px solid #334155;
             }
 
             .wa-period-btn {
                 background: transparent;
-                color: #848E9C;
+                color: #94A3B8;
                 border: none;
                 padding: 6px 14px;
                 border-radius: 6px;
@@ -133,9 +147,9 @@
             }
 
             .wa-period-btn.active {
-                background-color: #3861FB;
+                background-color: #0284C7;
                 color: #FFFFFF;
-                box-shadow: 0 2px 8px rgba(56, 97, 251, 0.4);
+                box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
             }
 
             .wa-kpi-grid {
@@ -145,9 +159,10 @@
                 margin-bottom: 24px;
             }
 
+            /* Cards escuros */
             .wa-card {
-                background-color: #1E2329;
-                border: 1px solid #2B313A;
+                background-color: #1E293B;
+                border: 1px solid #334155;
                 border-radius: 10px;
                 padding: 20px;
                 display: flex;
@@ -157,7 +172,7 @@
             }
 
             .wa-card:hover {
-                border-color: #3B424C;
+                border-color: #475569;
             }
 
             .wa-card-header {
@@ -170,7 +185,7 @@
             .wa-card-title {
                 font-size: 0.7rem;
                 font-weight: 700;
-                color: #848E9C;
+                color: #94A3B8;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }
@@ -178,39 +193,39 @@
             .wa-card-value {
                 font-size: 1.75rem;
                 font-weight: 800;
-                color: #EAECEF;
+                color: #F8FAFC;
                 line-height: 1.2;
             }
 
             .wa-card-sub {
                 font-size: 0.75rem;
-                color: #848E9C;
+                color: #94A3B8;
                 margin-top: 12px;
                 padding-top: 10px;
-                border-top: 1px solid #2B313A;
+                border-top: 1px solid #334155;
                 display: flex;
                 justify-content: space-between;
             }
 
             .wa-progress-bar {
                 width: 100%;
-                background-color: #181A20;
+                background-color: #0F172A;
                 border-radius: 999px;
                 height: 8px;
                 overflow: hidden;
-                border: 1px solid #2B313A;
+                border: 1px solid #334155;
                 margin-top: 10px;
             }
 
             .wa-progress-fill {
                 height: 100%;
-                background: linear-gradient(90deg, #0ECB81 0%, #F0B90B 100%);
+                background: linear-gradient(90deg, #0ECB81 0%, #38BDF8 100%);
                 border-radius: 999px;
             }
 
             .wa-chart-section {
-                background-color: #1E2329;
-                border: 1px solid #2B313A;
+                background-color: #1E293B;
+                border: 1px solid #334155;
                 border-radius: 10px;
                 padding: 20px;
                 margin-bottom: 24px;
@@ -223,7 +238,7 @@
                 justify-content: space-between;
                 gap: 12px;
                 padding-bottom: 14px;
-                border-bottom: 1px solid #2B313A;
+                border-bottom: 1px solid #334155;
                 margin-bottom: 16px;
             }
 
@@ -256,21 +271,21 @@
             .wa-table th {
                 font-size: 0.65rem;
                 font-weight: 700;
-                color: #848E9C;
+                color: #94A3B8;
                 text-transform: uppercase;
                 padding: 10px 8px;
-                border-bottom: 1px solid #2B313A;
+                border-bottom: 1px solid #334155;
             }
 
             .wa-table td {
                 padding: 12px 8px;
-                border-bottom: 1px solid #2B313A;
-                color: #EAECEF;
+                border-bottom: 1px solid #334155;
+                color: #F8FAFC;
                 vertical-align: middle;
             }
 
             .wa-table tr:hover td {
-                background-color: #262C34;
+                background-color: #334155;
             }
 
             .wa-token-info {
@@ -290,7 +305,7 @@
                 width: 28px;
                 height: 28px;
                 border-radius: 50%;
-                background-color: #3861FB;
+                background-color: #0284C7;
                 color: #FFFFFF;
                 font-weight: 800;
                 font-size: 0.7rem;
@@ -300,8 +315,8 @@
             }
 
             .wa-defi-card {
-                background-color: #181A20;
-                border: 1px solid #2B313A;
+                background-color: #1E293B;
+                border: 1px solid #334155;
                 border-radius: 8px;
                 padding: 12px 14px;
                 margin-bottom: 10px;
@@ -312,7 +327,7 @@
             }
 
             .wa-defi-card:hover {
-                border-color: #3861FB;
+                border-color: #38BDF8;
             }
 
             .wa-nft-grid {
@@ -322,21 +337,21 @@
             }
 
             .wa-nft-card {
-                background-color: #181A20;
-                border: 1px solid #2B313A;
+                background-color: #1E293B;
+                border: 1px solid #334155;
                 border-radius: 8px;
                 overflow: hidden;
                 transition: transform 0.2s ease, border-color 0.2s ease;
             }
 
             .wa-nft-card:hover {
-                border-color: #3861FB;
+                border-color: #38BDF8;
                 transform: translateY(-2px);
             }
 
             .wa-nft-thumb {
                 height: 160px;
-                background-color: #0B0E11;
+                background-color: #0F172A;
                 position: relative;
                 overflow: hidden;
                 display: flex;
@@ -348,6 +363,157 @@
                 width: 100%;
                 height: 100%;
                 object-fit: cover;
+            }
+
+            /* Overrides para Dark Mode */
+            html.dark .wa-dashboard {
+                background-color: #0B0E11 !important;
+                color: #EAECEF !important;
+                border: none;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            }
+
+            html.dark .wa-header {
+                border-bottom-color: #2B313A;
+            }
+
+            html.dark .wa-title-group h2 {
+                color: #EAECEF;
+            }
+
+            html.dark .wa-title-sub {
+                color: #848E9C;
+            }
+
+            html.dark .wa-text-main {
+                color: #EAECEF;
+            }
+
+            html.dark .wa-text-sub {
+                color: #848E9C;
+            }
+
+            html.dark .wa-text-accent {
+                color: #38BDF8;
+            }
+
+            html.dark .wa-badge-success {
+                background-color: rgba(14, 203, 129, 0.18);
+                color: #0ECB81;
+                border-color: rgba(14, 203, 129, 0.3);
+            }
+
+            html.dark .wa-badge-danger {
+                background-color: rgba(246, 70, 93, 0.18);
+                color: #F6465D;
+                border-color: rgba(246, 70, 93, 0.3);
+            }
+
+            html.dark .wa-filter-label {
+                color: #848E9C;
+            }
+
+            html.dark .wa-select {
+                background-color: #181A20 !important;
+                color: #EAECEF !important;
+                border-color: #2B313A !important;
+            }
+
+            html.dark .wa-select:focus {
+                border-color: #3861FB !important;
+                box-shadow: 0 0 0 2px rgba(56, 97, 251, 0.2);
+            }
+
+            html.dark .wa-btn-group {
+                background-color: #181A20;
+                border-color: #2B313A;
+            }
+
+            html.dark .wa-period-btn {
+                color: #848E9C;
+            }
+
+            html.dark .wa-period-btn.active {
+                background-color: #3861FB;
+                color: #FFFFFF;
+                box-shadow: 0 2px 8px rgba(56, 97, 251, 0.4);
+            }
+
+            html.dark .wa-card {
+                background-color: #242A32;
+                border-color: #333B46;
+            }
+
+            html.dark .wa-card:hover {
+                border-color: #4A5568;
+            }
+
+            html.dark .wa-card-title {
+                color: #848E9C;
+            }
+
+            html.dark .wa-card-value {
+                color: #EAECEF;
+            }
+
+            html.dark .wa-card-sub {
+                color: #848E9C;
+                border-top-color: #333B46;
+            }
+
+            html.dark .wa-progress-bar {
+                background-color: #181A20;
+                border-color: #2B313A;
+            }
+
+            html.dark .wa-chart-section {
+                background-color: #242A32;
+                border-color: #333B46;
+            }
+
+            html.dark .wa-chart-header {
+                border-bottom-color: #333B46;
+            }
+
+            html.dark .wa-table th {
+                color: #848E9C;
+                border-bottom-color: #333B46;
+            }
+
+            html.dark .wa-table td {
+                border-bottom-color: #333B46;
+                color: #EAECEF;
+            }
+
+            html.dark .wa-table tr:hover td {
+                background-color: #2C333E;
+            }
+
+            html.dark .wa-token-avatar {
+                background-color: #3861FB;
+                color: #FFFFFF;
+            }
+
+            html.dark .wa-defi-card {
+                background-color: #181A20;
+                border-color: #333B46;
+            }
+
+            html.dark .wa-defi-card:hover {
+                border-color: #3861FB;
+            }
+
+            html.dark .wa-nft-card {
+                background-color: #181A20;
+                border-color: #333B46;
+            }
+
+            html.dark .wa-nft-card:hover {
+                border-color: #3861FB;
+            }
+
+            html.dark .wa-nft-thumb {
+                background-color: #0B0E11;
             }
         </style>
     @endpush
@@ -423,9 +589,9 @@
                     </div>
                 </div>
                 <div class="wa-card-sub">
-                    <span>Tokens: <strong style="color: #EAECEF;">${{ number_format($this->metrics['tokens_total'], 0) }}</strong></span>
-                    <span>DeFi: <strong style="color: #EAECEF;">${{ number_format($this->metrics['defi_total'], 0) }}</strong></span>
-                    <span>NFTs: <strong style="color: #EAECEF;">${{ number_format($this->metrics['nfts_total'], 0) }}</strong></span>
+                    <span>Tokens: <strong class="wa-text-main">${{ number_format($this->metrics['tokens_total'], 0) }}</strong></span>
+                    <span>DeFi: <strong class="wa-text-main">${{ number_format($this->metrics['defi_total'], 0) }}</strong></span>
+                    <span>NFTs: <strong class="wa-text-main">${{ number_format($this->metrics['nfts_total'], 0) }}</strong></span>
                 </div>
             </div>
 
@@ -443,7 +609,7 @@
                     </div>
                 </div>
                 <div class="wa-card-sub">
-                    <span>Retorno estimado no período: <strong style="color: #EAECEF;">{{ $selectedPeriod }}</strong></span>
+                    <span>Retorno estimado no período: <strong class="wa-text-main">{{ $selectedPeriod }}</strong></span>
                 </div>
             </div>
 
@@ -452,10 +618,10 @@
                 <div>
                     <div class="wa-card-header">
                         <span class="wa-card-title">Health Score & Risco</span>
-                        <span style="font-size: 0.7rem; font-weight: 800; color: #F0B90B;">BAIXO RISCO</span>
+                        <span class="wa-text-accent" style="font-size: 0.7rem; font-weight: 800;">BAIXO RISCO</span>
                     </div>
                     <div class="wa-card-value">
-                        {{ $this->metrics['health_score'] }} <span style="font-size: 0.9rem; color: #848E9C; font-weight: 500;">/ 100</span>
+                        {{ $this->metrics['health_score'] }} <span style="font-size: 0.9rem; font-weight: 500;" class="wa-text-sub">/ 100</span>
                     </div>
                 </div>
                 <div>
@@ -490,13 +656,13 @@
         <div class="wa-chart-section">
             <div class="wa-chart-header">
                 <div>
-                    <h3 style="font-size: 1rem; font-weight: 700; color: #EAECEF; margin: 0;">Evolução Patrimonial do Portfólio de Terceiros</h3>
-                    <div style="font-size: 0.75rem; color: #848E9C; margin-top: 2px;">Histórico do Patrimônio Líquido vs Benchmarks</div>
+                    <h3 class="wa-text-main" style="font-size: 1rem; font-weight: 700; margin: 0;">Evolução Patrimonial do Portfólio de Terceiros</h3>
+                    <div class="wa-text-sub" style="font-size: 0.75rem; margin-top: 2px;">Histórico do Patrimônio Líquido vs Benchmarks</div>
                 </div>
 
-                <div style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem; color: #848E9C;">
+                <div class="wa-text-sub" style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem;">
                     <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" wire:model.live="compareBtc" style="accent-color: #F0B90B;">
+                        <input type="checkbox" wire:model.live="compareBtc" style="accent-color: #38BDF8;">
                         <span>Benchmark BTC</span>
                     </label>
                 </div>
@@ -518,8 +684,8 @@
             <div class="wa-card" style="justify-content: flex-start;">
                 <div class="wa-chart-header" style="margin-bottom: 12px; padding-bottom: 10px;">
                     <div>
-                        <h3 style="font-size: 0.95rem; font-weight: 700; color: #EAECEF; margin: 0;">Tokens Mais Comprados (Buy Momentum)</h3>
-                        <div style="font-size: 0.7rem; color: #848E9C;">Aportes de Entrada e Preço Médio (DCA)</div>
+                        <h3 class="wa-text-main" style="font-size: 0.95rem; font-weight: 700; margin: 0;">Tokens Mais Comprados (Buy Momentum)</h3>
+                        <div class="wa-text-sub" style="font-size: 0.7rem;">Aportes de Entrada e Preço Médio (DCA)</div>
                     </div>
                     <span class="wa-badge wa-badge-success">TOP COMPRAS</span>
                 </div>
@@ -547,20 +713,20 @@
                                                 <div class="wa-token-avatar">{{ substr($t['symbol'], 0, 2) }}</div>
                                             @endif
                                             <div>
-                                                <strong style="color: #EAECEF; display: block;">{{ $t['symbol'] }}</strong>
-                                                <span style="font-size: 0.65rem; color: #848E9C;">{{ $t['name'] }}</span>
+                                                <strong class="wa-text-main" style="display: block;">{{ $t['symbol'] }}</strong>
+                                                <span class="wa-text-sub" style="font-size: 0.65rem;">{{ $t['name'] }}</span>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <span class="wa-badge" style="background-color: #181A20; color: #848E9C; border: 1px solid #2B313A;">
+                                        <span class="wa-badge wa-btn-group" style="padding: 2px 6px;">
                                             {{ $t['network'] }}
                                         </span>
                                     </td>
-                                    <td style="text-align: right; font-weight: 700; color: #EAECEF;">
+                                    <td class="wa-text-main" style="text-align: right; font-weight: 700;">
                                         $ {{ number_format($t['allocated_usd'], 2) }}
                                     </td>
-                                    <td style="text-align: right; color: #848E9C;">
+                                    <td class="wa-text-sub" style="text-align: right;">
                                         $ {{ number_format($t['dca_price'], 2) }}
                                     </td>
                                     <td style="text-align: center;">
@@ -577,7 +743,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="6" style="text-align: center; color: #848E9C; padding: 20px;">Nenhum token encontrado.</td>
+                                    <td colspan="6" class="wa-text-sub" style="text-align: center; padding: 20px;">Nenhum token encontrado.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -589,10 +755,10 @@
             <div class="wa-card" style="justify-content: flex-start;">
                 <div class="wa-chart-header" style="margin-bottom: 12px; padding-bottom: 10px;">
                     <div>
-                        <h3 style="font-size: 0.95rem; font-weight: 700; color: #EAECEF; margin: 0;">Posições DeFi de Terceiros</h3>
-                        <div style="font-size: 0.7rem; color: #848E9C;">Lending, Staking e Pools</div>
+                        <h3 class="wa-text-main" style="font-size: 0.95rem; font-weight: 700; margin: 0;">Posições DeFi de Terceiros</h3>
+                        <div class="wa-text-sub" style="font-size: 0.7rem;">Lending, Staking e Pools</div>
                     </div>
-                    <span style="font-size: 0.75rem; color: #848E9C;">Total: <strong style="color: #EAECEF;">${{ number_format($this->metrics['defi_total'], 2) }}</strong></span>
+                    <span class="wa-text-sub" style="font-size: 0.75rem;">Total: <strong class="wa-text-main">${{ number_format($this->metrics['defi_total'], 2) }}</strong></span>
                 </div>
 
                 <div style="max-height: 320px; overflow-y: auto; padding-right: 4px;">
@@ -602,14 +768,14 @@
                                 @if($d->protocol_logo_url)
                                     <img src="{{ $d->protocol_logo_url }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="{{ $d->protocol_name }}">
                                 @else
-                                    <div class="wa-token-avatar" style="width: 32px; height: 32px; background-color: #F0B90B; color: #000;">
+                                    <div class="wa-token-avatar" style="width: 32px; height: 32px; font-weight: 800;">
                                         {{ substr($d->protocol_name, 0, 2) }}
                                     </div>
                                 @endif
                                 <div>
-                                    <strong style="font-size: 0.85rem; color: #EAECEF; display: block;">{{ $d->protocol_name }}</strong>
+                                    <strong class="wa-text-main" style="font-size: 0.85rem; display: block;">{{ $d->protocol_name }}</strong>
                                     <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                                        <span style="font-size: 0.65rem; color: #3861FB; font-weight: 700; text-transform: uppercase;">{{ $d->position_type }}</span>
+                                        <span class="wa-text-accent" style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">{{ $d->position_type }}</span>
                                         @if($d->apr)
                                             <span style="font-size: 0.65rem; color: #0ECB81; font-weight: 800;">APR {{ number_format($d->apr, 2) }}%</span>
                                         @endif
@@ -617,14 +783,14 @@
                                 </div>
                             </div>
                             <div style="text-align: right;">
-                                <strong style="font-size: 0.85rem; color: #EAECEF; display: block;">$ {{ number_format($d->total_value_usd, 2) }}</strong>
+                                <strong class="wa-text-main" style="font-size: 0.85rem; display: block;">$ {{ number_format($d->total_value_usd, 2) }}</strong>
                                 @if($d->rewards_value_usd > 0)
                                     <span style="font-size: 0.65rem; color: #0ECB81; display: block;">+ ${{ number_format($d->rewards_value_usd, 2) }} Recompensas</span>
                                 @endif
                             </div>
                         </div>
                     @empty
-                        <div style="padding: 20px; text-align: center; font-size: 0.8rem; color: #848E9C;">Nenhuma posição DeFi cadastrada.</div>
+                        <div class="wa-text-sub" style="padding: 20px; text-align: center; font-size: 0.8rem;">Nenhuma posição DeFi cadastrada.</div>
                     @endforelse
                 </div>
             </div>
@@ -635,10 +801,10 @@
         <div class="wa-card">
             <div class="wa-chart-header" style="margin-bottom: 16px; padding-bottom: 10px;">
                 <div>
-                    <h3 style="font-size: 1rem; font-weight: 700; color: #EAECEF; margin: 0;">Inventário de NFTs de Terceiros</h3>
-                    <div style="font-size: 0.75rem; color: #848E9C;">Coleções e Valor Estimado de Floor Price</div>
+                    <h3 class="wa-text-main" style="font-size: 1rem; font-weight: 700; margin: 0;">Inventário de NFTs de Terceiros</h3>
+                    <div class="wa-text-sub" style="font-size: 0.75rem;">Coleções e Valor Estimado de Floor Price</div>
                 </div>
-                <span style="font-size: 0.75rem; color: #848E9C;">Total em NFTs: <strong style="color: #EAECEF;">${{ number_format($this->metrics['nfts_total'], 2) }}</strong></span>
+                <span class="wa-text-sub" style="font-size: 0.75rem;">Total em NFTs: <strong class="wa-text-main">${{ number_format($this->metrics['nfts_total'], 2) }}</strong></span>
             </div>
 
             <div class="wa-nft-grid">
@@ -648,7 +814,7 @@
                             @if($nft->image_url)
                                 <img src="{{ $nft->image_url }}" alt="{{ $nft->name }}">
                             @else
-                                <div style="text-align: center; color: #848E9C; font-size: 0.75rem;">
+                                <div class="wa-text-sub" style="text-align: center; font-size: 0.75rem;">
                                     <div style="font-size: 1.5rem; margin-bottom: 4px;">🖼️</div>
                                     Sem Imagem
                                 </div>
@@ -658,17 +824,17 @@
                             </span>
                         </div>
                         <div style="padding: 12px;">
-                            <strong style="font-size: 0.8rem; color: #EAECEF; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            <strong class="wa-text-main" style="font-size: 0.8rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
                                 {{ $nft->collection_name }}
                             </strong>
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid #2B313A;">
-                                <span style="font-size: 0.65rem; color: #848E9C;">Floor Price:</span>
+                            <div class="wa-header" style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; padding-bottom: 0; margin-bottom: 0;">
+                                <span class="wa-text-sub" style="font-size: 0.65rem;">Floor Price:</span>
                                 <strong style="font-size: 0.85rem; color: #0ECB81;">$ {{ number_format($nft->estimated_value_usd, 2) }}</strong>
                             </div>
                         </div>
                     </div>
                 @empty
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 30px; font-size: 0.8rem; color: #848E9C;">
+                    <div class="wa-text-sub" style="grid-column: 1 / -1; text-align: center; padding: 30px; font-size: 0.8rem;">
                         Nenhum NFT encontrado nas carteiras selecionadas.
                     </div>
                 @endforelse
@@ -723,7 +889,7 @@
                 datasets.push({
                     label: 'Benchmark BTC (Relativo)',
                     data: chartData.btc_benchmark,
-                    borderColor: '#F0B90B',
+                    borderColor: '#38BDF8',
                     borderWidth: 1.8,
                     borderDash: [5, 5],
                     fill: false,
@@ -751,17 +917,17 @@
                             position: 'top',
                             align: 'end',
                             labels: {
-                                color: '#848E9C',
+                                color: '#94A3B8',
                                 font: { size: 11, weight: '600' },
                                 boxWidth: 12,
                             }
                         },
                         tooltip: {
-                            backgroundColor: '#1E2329',
-                            borderColor: '#2B313A',
+                            backgroundColor: '#0F172A',
+                            borderColor: '#334155',
                             borderWidth: 1,
-                            titleColor: '#EAECEF',
-                            bodyColor: '#EAECEF',
+                            titleColor: '#F8FAFC',
+                            bodyColor: '#F8FAFC',
                             padding: 12,
                             displayColors: true,
                             callbacks: {
@@ -773,13 +939,13 @@
                     },
                     scales: {
                         x: {
-                            grid: { color: 'rgba(43, 49, 58, 0.4)', drawBorder: false },
-                            ticks: { color: '#848E9C', font: { size: 10 } }
+                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
+                            ticks: { color: '#94A3B8', font: { size: 10 } }
                         },
                         y: {
-                            grid: { color: 'rgba(43, 49, 58, 0.4)', drawBorder: false },
+                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
                             ticks: {
-                                color: '#848E9C',
+                                color: '#94A3B8',
                                 font: { size: 10 },
                                 callback: function(value) {
                                     return '$' + (value >= 1000 ? (value/1000).toFixed(0) + 'k' : value);
