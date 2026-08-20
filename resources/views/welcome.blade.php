@@ -63,7 +63,7 @@
         <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full mb-12 sm:mb-16">
             <div class="max-w-2xl text-left">
                 <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-tight">
-                    Explorando Tecnologias com <br />
+                    Estudando Tecnologias <br />
                     <span class="text-sky-400">
                         Laravel & Filament PHP
                     </span>

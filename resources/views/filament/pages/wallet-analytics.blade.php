@@ -515,6 +515,105 @@
             html.dark .wa-nft-thumb {
                 background-color: #0B0E11;
             }
+
+            /* Estilos de Paginação Customizada para NFTs */
+            .wa-pagination-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin-top: 20px;
+                padding-top: 16px;
+                border-top: 1px solid #334155;
+            }
+
+            .wa-pagination-info {
+                font-size: 0.8rem;
+                color: #94A3B8;
+            }
+
+            .wa-pagination-controls {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .wa-pagination-btn, .wa-pagination-num {
+                background-color: #1E293B;
+                color: #F8FAFC;
+                border: 1px solid #334155;
+                border-radius: 6px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                line-height: 1.2;
+                user-select: none;
+            }
+
+            .wa-pagination-btn:hover:not(:disabled), .wa-pagination-num:hover:not(.active) {
+                background-color: #334155;
+                border-color: #38BDF8;
+                color: #38BDF8;
+            }
+
+            .wa-pagination-num.active {
+                background-color: #0284C7;
+                border-color: #0284C7;
+                color: #FFFFFF;
+                font-weight: 700;
+                box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
+            }
+
+            .wa-pagination-btn:disabled {
+                opacity: 0.4;
+                cursor: not-allowed;
+            }
+
+            .wa-pagination-ellipsis {
+                color: #94A3B8;
+                padding: 0 4px;
+                font-size: 0.8rem;
+                display: inline-flex;
+                align-items: center;
+            }
+
+            /* Overrides de Paginação no Dark Mode */
+            html.dark .wa-pagination-container {
+                border-top-color: #333B46;
+            }
+
+            html.dark .wa-pagination-info {
+                color: #848E9C;
+            }
+
+            html.dark .wa-pagination-btn, html.dark .wa-pagination-num {
+                background-color: #181A20;
+                color: #EAECEF;
+                border-color: #333B46;
+            }
+
+            html.dark .wa-pagination-btn:hover:not(:disabled), html.dark .wa-pagination-num:hover:not(.active) {
+                background-color: #2C333E;
+                border-color: #3861FB;
+                color: #FFFFFF;
+            }
+
+            html.dark .wa-pagination-num.active {
+                background-color: #3861FB;
+                border-color: #3861FB;
+                color: #FFFFFF;
+                box-shadow: 0 2px 6px rgba(56, 97, 251, 0.4);
+            }
+
+            html.dark .wa-pagination-ellipsis {
+                color: #848E9C;
+            }
         </style>
     @endpush
 
@@ -528,9 +627,6 @@
                         <span class="wa-pulse-dot"></span>
                         Análise de Carteiras de Terceiros
                     </h2>
-                    <div class="wa-title-sub">
-                        Gestão Broad e Inspeção de Portfólio de Clientes e Endereços Externos em Tempo Real
-                    </div>
                 </div>
             </div>
 
@@ -797,11 +893,10 @@
         </div>
 
         <!-- SECAO DE NFTS DA CARTEIRA DE TERCEIROS -->
-        <div class="wa-card">
+        <div id="nft-inventory-section" class="wa-card">
             <div class="wa-chart-header" style="margin-bottom: 16px; padding-bottom: 10px;">
                 <div>
                     <h3 class="wa-text-main" style="font-size: 1rem; font-weight: 700; margin: 0;">Inventário de NFTs de Terceiros</h3>
-                    <div class="wa-text-sub" style="font-size: 0.75rem;">Coleções e Valor Estimado de Floor Price</div>
                 </div>
                 <span class="wa-text-sub" style="font-size: 0.75rem;">Total em NFTs: <strong class="wa-text-main">${{ number_format($this->metrics['nfts_total'], 2) }}</strong></span>
             </div>
@@ -838,6 +933,82 @@
                     </div>
                 @endforelse
             </div>
+
+            @if($this->nfts->hasPages())
+                @php
+                    $currentPage = $this->nfts->currentPage();
+                    $lastPage = $this->nfts->lastPage();
+                    $startPage = max(1, $currentPage - 2);
+                    $endPage = min($lastPage, $currentPage + 2);
+
+                    if ($endPage - $startPage < 4) {
+                        if ($startPage == 1) {
+                            $endPage = min($lastPage, $startPage + 4);
+                        } else {
+                            $startPage = max(1, $endPage - 4);
+                        }
+                    }
+                @endphp
+
+                <div class="wa-pagination-container">
+                    <div class="wa-pagination-info">
+                        Mostrando <strong class="wa-text-main">{{ $this->nfts->firstItem() ?? 0 }}</strong> a <strong class="wa-text-main">{{ $this->nfts->lastItem() ?? 0 }}</strong> de <strong class="wa-text-main">{{ $this->nfts->total() }}</strong> NFTs
+                    </div>
+
+                    <div class="wa-pagination-controls">
+                        {{-- Botão Anterior --}}
+                        <button type="button"
+                                wire:click="previousPage('page')"
+                                x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
+                                class="wa-pagination-btn"
+                                @if($this->nfts->onFirstPage()) disabled @endif>
+                            &laquo; Anterior
+                        </button>
+
+                        @if($startPage > 1)
+                            <button type="button"
+                                    wire:click="gotoPage(1, 'page')"
+                                    x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
+                                    class="wa-pagination-num">
+                                1
+                            </button>
+                            @if($startPage > 2)
+                                <span class="wa-pagination-ellipsis">&hellip;</span>
+                            @endif
+                        @endif
+
+                        @for($p = $startPage; $p <= $endPage; $p++)
+                            <button type="button"
+                                    wire:click="gotoPage({{ $p }}, 'page')"
+                                    x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
+                                    class="wa-pagination-num {{ $p === $currentPage ? 'active' : '' }}">
+                                {{ $p }}
+                            </button>
+                        @endfor
+
+                        @if($endPage < $lastPage)
+                            @if($endPage < $lastPage - 1)
+                                <span class="wa-pagination-ellipsis">&hellip;</span>
+                            @endif
+                            <button type="button"
+                                    wire:click="gotoPage({{ $lastPage }}, 'page')"
+                                    x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
+                                    class="wa-pagination-num">
+                                {{ $lastPage }}
+                            </button>
+                        @endif
+
+                        {{-- Botão Próxima --}}
+                        <button type="button"
+                                wire:click="nextPage('page')"
+                                x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
+                                class="wa-pagination-btn"
+                                @if(!$this->nfts->hasMorePages()) disabled @endif>
+                            Próxima &raquo;
+                        </button>
+                    </div>
+                </div>
+            @endif
         </div>
 
     </div>
@@ -965,6 +1136,12 @@
 
             document.addEventListener('livewire:init', () => {
                 if (window.Livewire) {
+                    Livewire.on('scroll-to-nfts', () => {
+                        setTimeout(() => {
+                            document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' });
+                        }, 50);
+                    });
+
                     Livewire.hook('commit', ({ succeed }) => {
                         succeed(() => {
                             setTimeout(renderPortfolioChart, 50);
