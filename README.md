@@ -68,9 +68,7 @@ O **Search Wallet Cripto** é uma aplicação para rastreamento patrimonial de c
    ```
    
    *Edite o arquivo `.env` e insira sua chave de acesso da API Web3:*
+   [https://zerion.io/api/#get-started]
    ```env
    ZERION_API_KEY=sua_chave_de_api_aqui
    ```
-   
-6. **Acesse no navegador:**
-   [http://127.0.0.1:8001/)
