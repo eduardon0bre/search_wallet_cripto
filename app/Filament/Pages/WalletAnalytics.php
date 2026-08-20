@@ -10,11 +10,15 @@ use App\Models\Models\WalletsWeb3\WalletNft;
 use App\Models\Models\WalletsWeb3\WalletTransaction;
 use App\Models\Models\WalletsWeb3\WalletSnapshot;
 use Illuminate\Support\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use BackedEnum;
 use Filament\Support\Icons\Heroicon;
+use Livewire\WithPagination;
 
 class WalletAnalytics extends Page
 {
+    use WithPagination;
+
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartPie;
     protected static ?string $navigationLabel = 'Dashboard Análise de Terceiros';
     protected static ?string $title = 'Análise Broad e Direta de Carteiras de Terceiros';
@@ -32,6 +36,16 @@ class WalletAnalytics extends Page
     public string $selectedPeriod = '30D';
     public bool $compareBtc = true;
     public bool $compareEth = false;
+
+    public function updatedSelectedWalletId(): void
+    {
+        $this->resetPage();
+    }
+
+    public function updatedSelectedNetwork(): void
+    {
+        $this->resetPage();
+    }
 
     /**
      * Retorna a lista de todas as carteiras de terceiros disponíveis para análise
@@ -96,16 +110,16 @@ class WalletAnalytics extends Page
     }
 
     /**
-     * Consulta de NFTs filtrados no banco de dados
+     * Consulta de NFTs filtrados no banco de dados com paginação de 15 por página
      */
-    public function getNftsProperty(): Collection
+    public function getNftsProperty(): LengthAwarePaginator
     {
         $walletIds = $this->getFilteredWalletIds();
 
         return WalletNft::whereIn('wallet_id', $walletIds)
             ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
             ->orderByDesc('estimated_value_usd')
-            ->get();
+            ->paginate(15);
     }
 
     /**
@@ -117,7 +131,9 @@ class WalletAnalytics extends Page
 
         $tokensTotal = (float) $this->tokenBalances->sum('balance_usd');
         $defiTotal = (float) $this->defiPositions->sum('total_value_usd');
-        $nftsTotal = (float) $this->nfts->sum('estimated_value_usd');
+        $nftsTotal = (float) WalletNft::whereIn('wallet_id', $walletIds)
+            ->when($this->selectedNetwork !== 'all', fn($q) => $q->where('network', $this->selectedNetwork))
+            ->sum('estimated_value_usd');
         $netWorth = $tokensTotal + $defiTotal + $nftsTotal;
 
         // Cálculo dinâmico do P&L (Profit & Loss) baseado nos Snapshots do Banco de Dados

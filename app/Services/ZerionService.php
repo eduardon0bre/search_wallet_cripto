@@ -107,6 +107,7 @@ class ZerionService
     {
         return $this->get("wallets/{$walletAddress}/nft-positions/", [
             'currency' => 'usd',
+            'filter[trash]' => 'only_non_trash',
             'sort' => '-floor_price',
             'page[size]' => $pageSize,
         ]);
