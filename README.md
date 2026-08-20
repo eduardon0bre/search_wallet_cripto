@@ -3,6 +3,15 @@
 Aplicação desenvolvida em **Laravel 13** + **Filament** para consulta de carteiras Web3 utilizando a API da **Zapper**.
 O projeto permite cadastrar carteiras, consultar informações diretamente na API da Zapper e, futuramente, sincronizar tokens, NFTs e posições DeFi.
 
+## 🎮 Sobre o Projeto
+
+<div align="left">
+<img src="https://github.com/user-attachments/assets/f9164b2b-d3a7-4828-8a34-7b48793b131d" width="400px" />
+ <img src="https://github.com/user-attachments/assets/9f11023f-d15f-40e9-88b1-07731465a739" width="400px" />
+  <img src="https://github.com/user-attachments/assets/1a780c2c-32ee-4c0e-b5a7-072a58ecf638" width="400px" />
+ <img src="https://github.com/user-attachments/assets/3efc7d00-373e-4da6-b5e4-620bd32c24ea" width="400px" />
+</div>
+
 ## Tecnologias
 
 - PHP 8.3+
