@@ -1,153 +1,128 @@
-# Search Wallet Crypto (Em desenvolvimento)
+<p align="center">
+  <h1 align="center">⚡ Search Wallet Cripto — Web3 Portfolio & Analytics</h1>
+  <p align="center">
+    Painel de gestão, monitoramento e consolidação patrimonial de carteiras Web3 multi-chain desenvolvido com <b>Laravel</b> e <b>Filament v5</b>.
+  </p>
+</p>
 
-Aplicação desenvolvida em **Laravel 13** + **Filament** para consulta de carteiras Web3 utilizando a API da **Zapper**.
-O projeto permite cadastrar carteiras, consultar informações diretamente na API da Zapper e, futuramente, sincronizar tokens, NFTs e posições DeFi.
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Em_Desenvolvimento-yellow?style=for-the-badge" alt="Status" />
+  <img src="https://img.shields.io/badge/PHP-8.3%2B-777BB4?style=for-the-badge&logo=php&logoColor=white" alt="PHP 8.3" />
+  <img src="https://img.shields.io/badge/Laravel-13.x-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel" />
+  <img src="https://img.shields.io/badge/Filament-v5-FFA500?style=for-the-badge&logo=livewire&logoColor=white" alt="Filament" />
+  <img src="https://img.shields.io/badge/TailwindCSS-v4-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" />
+</p>
 
-## 🎮 Sobre o Projeto
+---
+
+> 🚧 **Status do Projeto:** Este projeto está **em desenvolvimento ativo** para fins de estudo e aprofundamento em arquitetura de integrações Web3, processamento assíncrono e ecossistema moderno do Laravel. Novas features estão sendo incrementadas continuamente.
+
+---
+
+## 📌 Sobre o Projeto
+
+O **Search Wallet Cripto** é uma aplicação para rastreamento patrimonial de carteiras blockchain (EVM). O sistema consome dados on-chain indexados através de uma **API REST especializada em dados Web3**, centralizando informações complexas em um painel administrativo moderno e reativo:
+
+- 💰 **Consolidação Patrimonial**: Totalização em USD de saldos de tokens em múltiplas redes blockchain.
+- 🌾 **Posições em Protocolos DeFi**: Rastreamento de posições ativas em Staking, Lending, Borrowing, Liquidity Pools e Vaults.
+- 🖼️ **Galeria de NFTs**: Inventário de coleções, metadados e estimativa de *Floor Price*.
+- 📜 **Histórico de Transações**: Auditoria detalhada de movimentações com cálculo de taxas de rede (*Gas Fee*) e deltas de entrada/saída de ativos.
+- 📊 **Dashboard & Analytics**: Visão analítica com gráficos de distribuição por rede e categorias patrimoniais.
+
+## 🎮 Sobre o Projeto / Telas
 
 <div align="left">
 <img src="https://github.com/user-attachments/assets/f9164b2b-d3a7-4828-8a34-7b48793b131d" width="400px" />
- <img src="https://github.com/user-attachments/assets/9f11023f-d15f-40e9-88b1-07731465a739" width="400px" />
-  <img src="https://github.com/user-attachments/assets/1a780c2c-32ee-4c0e-b5a7-072a58ecf638" width="400px" />
- <img src="https://github.com/user-attachments/assets/3efc7d00-373e-4da6-b5e4-620bd32c24ea" width="400px" />
+<img src="https://github.com/user-attachments/assets/9f11023f-d15f-40e9-88b1-07731465a739" width="400px" />
+<img src="https://github.com/user-attachments/assets/1a780c2c-32ee-4c0e-b5a7-072a58ecf638" width="400px" />
+<img src="https://github.com/user-attachments/assets/3efc7d00-373e-4da6-b5e4-620bd32c24ea" width="400px" />
 </div>
 
-## Tecnologias
+---
 
-- PHP 8.3+
-- Laravel 13
-- Filament 5
-- SQLite
-- GraphQL
-- Zapper API
+## 🏗️ Arquitetura do Sistema
+
+```text
+Usuário (Filament Admin Panel)
+    │
+    ▼
+Módulo de Carteiras (Laravel Models & Services)
+    │
+    ▼
+API de Indexação On-Chain (Tratamento de Rate Limit & Retries)
+    │
+    ├── Consulta de Saldos e Tokens Multi-chain
+    ├── Mapeamento de Posições DeFi
+    ├── Inventário de Coleções NFT
+    └── Histórico de Transações On-chain
+    │
+    ▼
+Banco de Dados Relacional (SQLite / MySQL / PostgreSQL)
+```
+
+### 🛡️ Segurança & Boas Práticas
+* **Zero Custódia / Read-Only**: O sistema trabalha **exclusivamente com endereços públicos de carteiras**. Chaves privadas (*private keys*) ou palavras-semente (*seed phrases*) **nunca** são solicitadas ou armazenadas.
+* **Resiliência na Camada de Integração**: Implementação de políticas de retries automáticos com backoff exponencial, timeouts controlados e tratamento de limite de requisições (*Rate Limiting - HTTP 429*).
+* **Processamento em Segundo Plano**: Arquitetura orientada a filas (`Laravel Queues`) para sincronização assíncrona das carteiras, evitando gargalos na navegação do usuário.
 
 ---
 
-## Pré-requisitos
+## 🛠️ Tecnologias Utilizadas
 
-- PHP 8.3 ou superior
-- Composer
-- Node.js
-- NPM
-- Git
-
----
-
-## Configuração
-
-### 1. Clone o repositório
-
-```bash
-git clone https://github.com/eduardon0bre/search_wallet_cripto.git
-```
-
-```bash
-cd search_wallet_cripto
-```
-
-### 2. Instale as dependências do PHP
-
-```bash
-composer install
-```
-
-### 3. Instale as dependências do Front-end
-
-```bash
-npm install
-```
-
-### 4. Configure o arquivo `.env`
-
-Copie o arquivo de exemplo:
-
-```bash
-cp .env.example .env
-```
-
-Gere a chave da aplicação:
-
-```bash
-php artisan key:generate
-```
-
-
-## Configuração da API Zapper
-
-É necessário possuir uma conta na Zapper e gerar uma chave de API.
-
-Cadastre-se em:
-
-https://build.zapper.xyz/
-
-Depois adicione ao arquivo `.env`:
-
-```env
-ZAPPER_API_KEY=sua_chave_aqui
-ZAPPER_ENDPOINT=https://public.zapper.xyz/graphql
-```
+* **Linguagem**: PHP 8.3+
+* **Framework**: Laravel 13
+* **Painel Administrativo**: Filament v5 (Livewire / Alpine.js)
+* **Frontend / Estilização**: Tailwind CSS v4 + Vite
+* **Banco de Dados**: SQLite (desenvolvimento) / MySQL ou PostgreSQL (produção)
+* **Testes**: PHPUnit / Pest
 
 ---
 
-## Executando o projeto
+## 🚀 Como Executar o Projeto Localmente
 
-Inicie o servidor Laravel:
+### Pré-requisitos
+* PHP 8.3+ com extensões `pdo_sqlite`, `curl`, `mbstring`, `openssl`
+* Composer
+* Node.js & NPM
+* Chave de acesso para a API de dados on-chain
 
-```bash
-php artisan serve
-```
+### Passo a Passo
 
-Em outro terminal execute o Vite:
+1. **Clone o repositório:**
+   ```bash
+   git clone https://github.com/seu-usuario/search_wallet_cripto.git
+   cd search_wallet_cripto
+   ```
 
-```bash
-npm run dev
-```
+2. **Configure as variáveis de ambiente:**
+   ```bash
+   cp .env.example .env
+   ```
+   *Edite o arquivo `.env` e insira sua chave de acesso da API Web3:*
+   ```env
+   ZERION_API_KEY=sua_chave_de_api_aqui
+   ```
 
----
+3. **Execute a instalação automatizada:**
+   ```bash
+   composer run setup
+   ```
+   *(Este comando instala os pacotes PHP/Node, gera a chave da aplicação, roda as migrações do banco e compila os assets)*.
 
-## Acessando o painel
+4. **Crie um usuário para o painel administrativo:**
+   ```bash
+   php artisan make:filament-user
+   ```
 
-Após iniciar os serviços, acesse:
+5. **Inicie o servidor e os serviços integrados:**
+   ```bash
+   composer run dev
+   ```
 
-```
-http://127.0.0.1:8000/admin
-```
-
-O painel administrativo foi desenvolvido utilizando **Filament**.
----
-
-## Estrutura do projeto
-
-```
-app/
- ├── Filament/
- ├── Models/
- ├── Services/
- │     └── ZapperService.php
- └── ...
-```
-
----
-
-## Funcionalidades
-
-- Cadastro de carteiras
-- Consulta de carteiras Web3
-- Integração com a API GraphQL da Zapper
-- Consulta de:
-    - Portfolio
-    - Tokens
-    - NFTs
-    - Protocolos DeFi
+6. **Acesse no navegador:**
+   [http://localhost:8000/admin](http://localhost:8000/admin)
 
 ---
 
-## Próximas funcionalidades
-
-- Sincronização completa da carteira
-- Analise multi carteira
-- Cotação atual
-- Histórico de sincronizações
-- Dashboard
-
----
+## 📄 Licença
+Este projeto está sob a licença [MIT](LICENSE).
