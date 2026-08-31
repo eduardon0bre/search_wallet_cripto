@@ -423,14 +423,18 @@
             .wa-loading-overlay {
                 position: absolute;
                 inset: 0;
+                width: 100%;
+                height: 100%;
                 background-color: rgba(15, 23, 42, 0.85);
                 backdrop-filter: blur(4px);
+                -webkit-backdrop-filter: blur(4px);
                 display: flex;
                 flex-direction: column;
                 align-items: center;
                 justify-content: center;
-                gap: 10px;
-                z-index: 20;
+                text-align: center;
+                gap: 12px;
+                z-index: 30;
                 border-radius: 10px;
                 color: #38BDF8;
                 font-weight: 600;
@@ -1130,9 +1134,15 @@
                  x-on:zerion-chart-reload.window="draw()"
             >
                 <!-- Loading Overlay no Centro Exato do Gráfico -->
-                <div wire:loading wire:target="setPeriod, selectedWalletId, clearCacheAndReload, currency, positionsFilter" class="wa-loading-overlay">
-                    <x-heroicon-o-arrow-path class="wa-spin" style="width: 38px; height: 38px; color: #38BDF8;" />
-                    <span style="font-size: 0.9rem; font-weight: 600; color: #F8FAFC;">Sincronizando dados on-chain...</span>
+                <div
+                    wire:loading.flex
+                    wire:target="setPeriod, selectedWalletId, clearCacheAndReload, currency, positionsFilter, selectedNetwork"
+                    class="wa-loading-overlay"
+                >
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; margin: auto;">
+                        <x-heroicon-o-arrow-path class="wa-spin" style="width: 40px; height: 40px; color: #38BDF8;" />
+                        <span style="font-size: 0.9rem; font-weight: 600; color: #F8FAFC; letter-spacing: 0.3px;">Sincronizando dados on-chain...</span>
+                    </div>
                 </div>
 
                 <canvas x-ref="canvas"></canvas>
