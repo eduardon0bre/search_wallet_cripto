@@ -3,8 +3,7 @@
 namespace App\Filament\Resources\Wallets\Pages;
 
 use App\Filament\Resources\Wallets\WalletResource;
-use App\Models\Models\WalletsWeb3\Wallet;
-use App\Services\WalletService;
+use App\Services\WalletSyncService;
 use Filament\Resources\Pages\CreateRecord;
 
 class CreateWallet extends CreateRecord
@@ -29,7 +28,6 @@ class CreateWallet extends CreateRecord
     protected function afterCreate(): void
     {
         $wallet = $this->record;
-        app(\App\Services\WalletSyncService::class)->syncWallet($wallet);
+        app(WalletSyncService::class)->syncWallet($wallet);
     }
 }
-

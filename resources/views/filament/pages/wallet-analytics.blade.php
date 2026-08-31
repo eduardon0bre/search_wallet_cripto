@@ -5,7 +5,6 @@
 
     @push('styles')
         <style>
-            /* Base / Light Mode (Tema Branco -> Fundo Cinza, Cards Escuros) */
             .wa-dashboard {
                 background-color: #CBD5E1 !important;
                 color: #0F172A !important;
@@ -59,10 +58,19 @@
             .wa-pulse-dot {
                 width: 10px;
                 height: 10px;
-                background-color: #0ECB81;
+                background-color: #10B981;
                 border-radius: 50%;
                 display: inline-block;
-                box-shadow: 0 0 10px #0ECB81;
+                box-shadow: 0 0 10px #10B981;
+            }
+
+            .wa-spin {
+                animation: waSpin 1s linear infinite;
+            }
+
+            @keyframes waSpin {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
             }
 
             .wa-badge {
@@ -76,74 +84,148 @@
                 text-transform: uppercase;
             }
 
+            .wa-badge-sky {
+                background-color: rgba(56, 189, 248, 0.15);
+                color: #0284C7;
+                border: 1px solid rgba(56, 189, 248, 0.35);
+            }
+
             .wa-badge-success {
-                background-color: rgba(14, 203, 129, 0.2);
-                color: #0ECB81;
-                border: 1px solid rgba(14, 203, 129, 0.4);
+                background-color: rgba(16, 185, 129, 0.2);
+                color: #10B981;
+                border: 1px solid rgba(16, 185, 129, 0.4);
             }
 
             .wa-badge-danger {
-                background-color: rgba(246, 70, 93, 0.2);
-                color: #F6465D;
-                border: 1px solid rgba(246, 70, 93, 0.4);
+                background-color: rgba(239, 68, 68, 0.2);
+                color: #EF4444;
+                border: 1px solid rgba(239, 68, 68, 0.4);
             }
 
-            .wa-filters {
+            /* BARRA DE FILTROS PRINCIPAL */
+            .wa-filter-card {
+                background-color: #1E293B;
+                border: 1px solid #334155;
+                border-radius: 12px;
+                padding: 20px;
+                margin-bottom: 24px;
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            }
+
+            .wa-filter-card-header {
                 display: flex;
                 flex-wrap: wrap;
                 align-items: center;
+                justify-content: space-between;
                 gap: 12px;
+                padding-bottom: 14px;
+                border-bottom: 1px solid #334155;
+                margin-bottom: 18px;
             }
 
-            .wa-filter-box {
+            .wa-filter-card-title {
                 display: flex;
-                flex-direction: column;
-            }
-
-            .wa-filter-label {
-                font-size: 0.65rem;
+                align-items: center;
+                gap: 8px;
+                font-size: 0.85rem;
                 font-weight: 700;
-                color: #475569;
+                color: #F8FAFC;
                 text-transform: uppercase;
-                margin-bottom: 4px;
                 letter-spacing: 0.5px;
             }
 
-            .wa-select {
-                background-color: #1E293B !important;
+            .wa-filter-grid {
+                display: grid;
+                grid-template-columns: 2fr 1.6fr 1fr 1.3fr auto;
+                gap: 16px;
+                align-items: flex-end;
+            }
+
+            @media (max-width: 1280px) {
+                .wa-filter-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+            }
+
+            @media (max-width: 768px) {
+                .wa-filter-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .wa-filter-item {
+                display: flex;
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .wa-filter-label {
+                font-size: 0.68rem;
+                font-weight: 700;
+                color: #94A3B8;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+
+            .wa-filter-icon {
+                width: 15px;
+                height: 15px;
+                color: #38BDF8;
+                flex-shrink: 0;
+            }
+
+            .wa-select-custom {
+                width: 100%;
+                background-color: #0F172A !important;
                 color: #F8FAFC !important;
                 border: 1px solid #334155 !important;
                 border-radius: 8px !important;
-                padding: 8px 14px !important;
-                font-size: 0.85rem !important;
-                font-weight: 500 !important;
+                padding: 8px 12px !important;
+                font-size: 0.82rem !important;
+                font-weight: 600 !important;
                 outline: none !important;
-                min-width: 180px;
+                transition: all 0.2s ease;
+                cursor: pointer;
+                height: 38px;
             }
 
-            .wa-select:focus {
+            .wa-select-custom:focus {
                 border-color: #38BDF8 !important;
-                box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2);
+                box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25) !important;
             }
 
-            .wa-btn-group {
-                display: flex;
-                background-color: #1E293B;
+            .wa-period-group {
+                display: inline-flex;
+                background-color: #0F172A;
                 padding: 3px;
                 border-radius: 8px;
                 border: 1px solid #334155;
+                width: 100%;
+                height: 38px;
+                align-items: center;
             }
 
             .wa-period-btn {
+                flex: 1;
                 background: transparent;
                 color: #94A3B8;
                 border: none;
-                padding: 6px 14px;
+                padding: 6px 4px;
                 border-radius: 6px;
-                font-size: 0.75rem;
+                font-size: 0.72rem;
                 font-weight: 700;
                 cursor: pointer;
+                text-align: center;
                 transition: all 0.2s ease;
+                white-space: nowrap;
+            }
+
+            .wa-period-btn:hover {
+                color: #F8FAFC;
+                background-color: rgba(56, 189, 248, 0.1);
             }
 
             .wa-period-btn.active {
@@ -152,19 +234,76 @@
                 box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
             }
 
+            .wa-btn-refresh {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+                color: #FFFFFF;
+                border: 1px solid #38BDF8;
+                border-radius: 8px;
+                padding: 0 16px;
+                height: 38px;
+                font-size: 0.8rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                white-space: nowrap;
+            }
+
+            .wa-btn-refresh:hover:not(:disabled) {
+                background: linear-gradient(135deg, #0369A1 0%, #075985 100%);
+                box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+            }
+
+            .wa-btn-refresh:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+
+            .wa-filter-meta-bar {
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px;
+                padding-top: 14px;
+                margin-top: 16px;
+                border-top: 1px dashed #334155;
+                font-size: 0.75rem;
+                color: #94A3B8;
+            }
+
+            .wa-filter-meta-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .wa-mono-badge {
+                padding: 4px 10px;
+                border-radius: 6px;
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                font-weight: 600;
+                background-color: #0F172A;
+                border: 1px solid #334155;
+                color: #38BDF8;
+            }
+
+            /* KPIS E CARDS */
             .wa-kpi-grid {
                 display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
                 gap: 16px;
                 margin-bottom: 24px;
             }
 
-            /* Cards escuros */
             .wa-card {
                 background-color: #1E293B;
                 border: 1px solid #334155;
                 border-radius: 10px;
-                padding: 20px;
+                padding: 18px;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
@@ -173,6 +312,18 @@
 
             .wa-card:hover {
                 border-color: #475569;
+            }
+
+            .wa-card-sky {
+                border-left: 4px solid #0284C7;
+            }
+
+            .wa-card-emerald {
+                border-left: 4px solid #10B981;
+            }
+
+            .wa-card-rose {
+                border-left: 4px solid #EF4444;
             }
 
             .wa-card-header {
@@ -191,19 +342,38 @@
             }
 
             .wa-card-value {
-                font-size: 1.75rem;
+                font-size: 1.5rem;
                 font-weight: 800;
                 color: #F8FAFC;
                 line-height: 1.2;
             }
 
             .wa-card-sub {
-                font-size: 0.75rem;
+                font-size: 0.72rem;
                 color: #94A3B8;
-                margin-top: 12px;
-                padding-top: 10px;
+                margin-top: 10px;
+                padding-top: 8px;
                 border-top: 1px solid #334155;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+
+            /* SUB-METRICAS BAR */
+            .wa-submetrics-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+                gap: 12px;
+                margin-bottom: 24px;
+            }
+
+            .wa-submetric-box {
+                background-color: #1E293B;
+                border: 1px solid #334155;
+                border-radius: 8px;
+                padding: 12px 14px;
                 display: flex;
+                align-items: center;
                 justify-content: space-between;
             }
 
@@ -211,24 +381,26 @@
                 width: 100%;
                 background-color: #0F172A;
                 border-radius: 999px;
-                height: 8px;
+                height: 6px;
                 overflow: hidden;
                 border: 1px solid #334155;
-                margin-top: 10px;
+                margin-top: 6px;
             }
 
             .wa-progress-fill {
                 height: 100%;
-                background: linear-gradient(90deg, #0ECB81 0%, #38BDF8 100%);
+                background: linear-gradient(90deg, #10B981 0%, #38BDF8 100%);
                 border-radius: 999px;
             }
 
+            /* GRAFICO PATRIMONIAL */
             .wa-chart-section {
                 background-color: #1E293B;
                 border: 1px solid #334155;
                 border-radius: 10px;
                 padding: 20px;
                 margin-bottom: 24px;
+                position: relative;
             }
 
             .wa-chart-header {
@@ -244,21 +416,40 @@
 
             .wa-chart-container {
                 position: relative;
-                height: 300px;
+                height: 350px;
                 width: 100%;
             }
 
-            .wa-intelligence-grid {
-                display: grid;
-                grid-template-columns: 1.3fr 1fr;
-                gap: 20px;
+            .wa-loading-overlay {
+                position: absolute;
+                inset: 0;
+                background-color: rgba(15, 23, 42, 0.85);
+                backdrop-filter: blur(4px);
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                z-index: 20;
+                border-radius: 10px;
+                color: #38BDF8;
+                font-weight: 600;
+                font-size: 0.85rem;
+            }
+
+            .wa-section-card {
+                background-color: #1E293B;
+                border: 1px solid #334155;
+                border-radius: 10px;
+                padding: 20px;
                 margin-bottom: 24px;
             }
 
-            @media (max-width: 1024px) {
-                .wa-intelligence-grid {
-                    grid-template-columns: 1fr;
-                }
+            .wa-table-scroll {
+                max-height: 400px;
+                overflow-y: auto;
+                border-radius: 8px;
+                border: 1px solid #334155;
             }
 
             .wa-table {
@@ -273,12 +464,16 @@
                 font-weight: 700;
                 color: #94A3B8;
                 text-transform: uppercase;
-                padding: 10px 8px;
+                padding: 10px 14px;
                 border-bottom: 1px solid #334155;
+                background-color: #0F172A;
+                position: sticky;
+                top: 0;
+                z-index: 10;
             }
 
             .wa-table td {
-                padding: 12px 8px;
+                padding: 12px 14px;
                 border-bottom: 1px solid #334155;
                 color: #F8FAFC;
                 vertical-align: middle;
@@ -291,7 +486,7 @@
             .wa-token-info {
                 display: flex;
                 align-items: center;
-                gap: 10px;
+                gap: 12px;
             }
 
             .wa-token-icon {
@@ -299,6 +494,7 @@
                 height: 28px;
                 border-radius: 50%;
                 object-fit: cover;
+                flex-shrink: 0;
             }
 
             .wa-token-avatar {
@@ -312,10 +508,53 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                flex-shrink: 0;
+            }
+
+            .wa-mono-val {
+                font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+                font-size: 0.8rem;
+            }
+
+            /* TABS NAVIGATION */
+            .wa-tabs-nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin-bottom: 16px;
+                border-bottom: 1px solid #334155;
+                padding-bottom: 10px;
+            }
+
+            .wa-tab-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: transparent;
+                border: 1px solid transparent;
+                color: #94A3B8;
+                padding: 8px 16px;
+                border-radius: 8px;
+                font-size: 0.8rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .wa-tab-btn:hover {
+                color: #F8FAFC;
+                background-color: #0F172A;
+            }
+
+            .wa-tab-btn.active {
+                background-color: #0284C7;
+                color: #FFFFFF;
+                border-color: #38BDF8;
+                box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
             }
 
             .wa-defi-card {
-                background-color: #1E293B;
+                background-color: #0F172A;
                 border: 1px solid #334155;
                 border-radius: 8px;
                 padding: 12px 14px;
@@ -337,7 +576,7 @@
             }
 
             .wa-nft-card {
-                background-color: #1E293B;
+                background-color: #0F172A;
                 border: 1px solid #334155;
                 border-radius: 8px;
                 overflow: hidden;
@@ -351,7 +590,7 @@
 
             .wa-nft-thumb {
                 height: 160px;
-                background-color: #0F172A;
+                background-color: #0B0E11;
                 position: relative;
                 overflow: hidden;
                 display: flex;
@@ -365,7 +604,53 @@
                 object-fit: cover;
             }
 
-            /* Overrides para Dark Mode */
+            .wa-pagination-container {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-wrap: wrap;
+                gap: 12px;
+                margin-top: 20px;
+                padding-top: 16px;
+                border-top: 1px solid #334155;
+            }
+
+            .wa-pagination-btn, .wa-pagination-num {
+                background-color: #0F172A;
+                color: #F8FAFC;
+                border: 1px solid #334155;
+                border-radius: 6px;
+                padding: 6px 12px;
+                font-size: 0.8rem;
+                font-weight: 500;
+                cursor: pointer;
+                transition: all 0.2s ease;
+            }
+
+            .wa-pagination-btn:hover:not(:disabled), .wa-pagination-num:hover:not(.active) {
+                background-color: #334155;
+                border-color: #38BDF8;
+                color: #38BDF8;
+            }
+
+            .wa-pagination-num.active {
+                background-color: #0284C7;
+                border-color: #0284C7;
+                color: #FFFFFF;
+                font-weight: 700;
+            }
+
+            .wa-alert-warning {
+                padding: 24px;
+                border-radius: 10px;
+                background-color: rgba(245, 158, 11, 0.12);
+                border: 1px solid rgba(245, 158, 11, 0.35);
+                color: #FCD34D;
+                text-align: center;
+                margin-bottom: 24px;
+            }
+
+            /* DARK MODE OVERRIDES */
             html.dark .wa-dashboard {
                 background-color: #0B0E11 !important;
                 color: #EAECEF !important;
@@ -381,103 +666,50 @@
                 color: #EAECEF;
             }
 
-            html.dark .wa-title-sub {
-                color: #848E9C;
+            html.dark .wa-filter-card,
+            html.dark .wa-section-card,
+            html.dark .wa-card,
+            html.dark .wa-chart-section,
+            html.dark .wa-submetric-box {
+                background-color: #242A32;
+                border-color: #333B46;
             }
 
-            html.dark .wa-text-main {
-                color: #EAECEF;
+            html.dark .wa-filter-card-header,
+            html.dark .wa-chart-header,
+            html.dark .wa-tabs-nav,
+            html.dark .wa-card-sub,
+            html.dark .wa-filter-meta-bar,
+            html.dark .wa-pagination-container {
+                border-color: #333B46;
             }
 
-            html.dark .wa-text-sub {
-                color: #848E9C;
-            }
-
-            html.dark .wa-text-accent {
-                color: #38BDF8;
-            }
-
-            html.dark .wa-badge-success {
-                background-color: rgba(14, 203, 129, 0.18);
-                color: #0ECB81;
-                border-color: rgba(14, 203, 129, 0.3);
-            }
-
-            html.dark .wa-badge-danger {
-                background-color: rgba(246, 70, 93, 0.18);
-                color: #F6465D;
-                border-color: rgba(246, 70, 93, 0.3);
-            }
-
-            html.dark .wa-filter-label {
-                color: #848E9C;
-            }
-
-            html.dark .wa-select {
+            html.dark .wa-select-custom,
+            html.dark .wa-period-group,
+            html.dark .wa-mono-badge,
+            html.dark .wa-defi-card,
+            html.dark .wa-nft-card,
+            html.dark .wa-table th,
+            html.dark .wa-pagination-btn,
+            html.dark .wa-pagination-num {
                 background-color: #181A20 !important;
                 color: #EAECEF !important;
                 border-color: #2B313A !important;
             }
 
-            html.dark .wa-select:focus {
-                border-color: #3861FB !important;
-                box-shadow: 0 0 0 2px rgba(56, 97, 251, 0.2);
-            }
-
-            html.dark .wa-btn-group {
-                background-color: #181A20;
-                border-color: #2B313A;
-            }
-
-            html.dark .wa-period-btn {
-                color: #848E9C;
-            }
-
-            html.dark .wa-period-btn.active {
+            html.dark .wa-period-btn.active,
+            html.dark .wa-tab-btn.active,
+            html.dark .wa-pagination-num.active {
                 background-color: #3861FB;
+                border-color: #3861FB;
                 color: #FFFFFF;
                 box-shadow: 0 2px 8px rgba(56, 97, 251, 0.4);
             }
 
-            html.dark .wa-card {
-                background-color: #242A32;
-                border-color: #333B46;
-            }
-
-            html.dark .wa-card:hover {
-                border-color: #4A5568;
-            }
-
-            html.dark .wa-card-title {
-                color: #848E9C;
-            }
-
-            html.dark .wa-card-value {
-                color: #EAECEF;
-            }
-
-            html.dark .wa-card-sub {
-                color: #848E9C;
-                border-top-color: #333B46;
-            }
-
-            html.dark .wa-progress-bar {
-                background-color: #181A20;
-                border-color: #2B313A;
-            }
-
-            html.dark .wa-chart-section {
-                background-color: #242A32;
-                border-color: #333B46;
-            }
-
-            html.dark .wa-chart-header {
-                border-bottom-color: #333B46;
-            }
-
-            html.dark .wa-table th {
-                color: #848E9C;
-                border-bottom-color: #333B46;
+            html.dark .wa-btn-refresh {
+                background: linear-gradient(135deg, #3861FB 0%, #254EDB 100%);
+                border-color: #3861FB;
+                box-shadow: 0 2px 8px rgba(56, 97, 251, 0.3);
             }
 
             html.dark .wa-table td {
@@ -488,667 +720,768 @@
             html.dark .wa-table tr:hover td {
                 background-color: #2C333E;
             }
-
-            html.dark .wa-token-avatar {
-                background-color: #3861FB;
-                color: #FFFFFF;
-            }
-
-            html.dark .wa-defi-card {
-                background-color: #181A20;
-                border-color: #333B46;
-            }
-
-            html.dark .wa-defi-card:hover {
-                border-color: #3861FB;
-            }
-
-            html.dark .wa-nft-card {
-                background-color: #181A20;
-                border-color: #333B46;
-            }
-
-            html.dark .wa-nft-card:hover {
-                border-color: #3861FB;
-            }
-
-            html.dark .wa-nft-thumb {
-                background-color: #0B0E11;
-            }
-
-            /* Estilos de Paginação Customizada para NFTs */
-            .wa-pagination-container {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                flex-wrap: wrap;
-                gap: 12px;
-                margin-top: 20px;
-                padding-top: 16px;
-                border-top: 1px solid #334155;
-            }
-
-            .wa-pagination-info {
-                font-size: 0.8rem;
-                color: #94A3B8;
-            }
-
-            .wa-pagination-controls {
-                display: flex;
-                align-items: center;
-                gap: 6px;
-            }
-
-            .wa-pagination-btn, .wa-pagination-num {
-                background-color: #1E293B;
-                color: #F8FAFC;
-                border: 1px solid #334155;
-                border-radius: 6px;
-                padding: 6px 12px;
-                font-size: 0.8rem;
-                font-weight: 500;
-                cursor: pointer;
-                transition: all 0.2s ease;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-                line-height: 1.2;
-                user-select: none;
-            }
-
-            .wa-pagination-btn:hover:not(:disabled), .wa-pagination-num:hover:not(.active) {
-                background-color: #334155;
-                border-color: #38BDF8;
-                color: #38BDF8;
-            }
-
-            .wa-pagination-num.active {
-                background-color: #0284C7;
-                border-color: #0284C7;
-                color: #FFFFFF;
-                font-weight: 700;
-                box-shadow: 0 2px 6px rgba(2, 132, 199, 0.4);
-            }
-
-            .wa-pagination-btn:disabled {
-                opacity: 0.4;
-                cursor: not-allowed;
-            }
-
-            .wa-pagination-ellipsis {
-                color: #94A3B8;
-                padding: 0 4px;
-                font-size: 0.8rem;
-                display: inline-flex;
-                align-items: center;
-            }
-
-            /* Overrides de Paginação no Dark Mode */
-            html.dark .wa-pagination-container {
-                border-top-color: #333B46;
-            }
-
-            html.dark .wa-pagination-info {
-                color: #848E9C;
-            }
-
-            html.dark .wa-pagination-btn, html.dark .wa-pagination-num {
-                background-color: #181A20;
-                color: #EAECEF;
-                border-color: #333B46;
-            }
-
-            html.dark .wa-pagination-btn:hover:not(:disabled), html.dark .wa-pagination-num:hover:not(.active) {
-                background-color: #2C333E;
-                border-color: #3861FB;
-                color: #FFFFFF;
-            }
-
-            html.dark .wa-pagination-num.active {
-                background-color: #3861FB;
-                border-color: #3861FB;
-                color: #FFFFFF;
-                box-shadow: 0 2px 6px rgba(56, 97, 251, 0.4);
-            }
-
-            html.dark .wa-pagination-ellipsis {
-                color: #848E9C;
-            }
         </style>
     @endpush
 
+    @php
+        $chartResult = $this->chartData;
+        $hasData = $chartResult['has_data'] ?? false;
+        $stats = $chartResult['stats'] ?? [];
+        $symbol = $this->getCurrencySymbol();
+        $activeAddr = $this->getActiveAddress();
+        $selectedWallet = $this->selectedWallet;
+        $tokens = $this->tokenBalances;
+        $defiPositions = $this->defiPositions;
+        $nfts = $this->nfts;
+        $metrics = $this->metrics;
+        $topBoughtTokens = $this->topBoughtTokens;
+        $availableNetworks = $this->availableNetworks;
+    @endphp
+
     <div class="wa-dashboard">
 
-        <!-- HEADER DA PAGINA & FILTROS GLOBAIS DE TERCEIROS -->
+        <!-- 1. HEADER PRINCIPAL DO DASHBOARD -->
         <div class="wa-header">
             <div class="wa-title-group">
                 <div>
                     <h2>
                         <span class="wa-pulse-dot"></span>
-                        Análise de Carteiras de Terceiros
+                        Dashboard Web3: Histórico On-Chain & Analytics
                     </h2>
+                    <div class="wa-title-sub">
+                        Monitoramento de patrimônio on-chain em tempo real, cotações multi-moedas e inteligência de ativos.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. BARRA DE FILTROS PRINCIPAL (CARTEIRA, PERÍODO, MOEDA, COMPOSIÇÃO E ATUALIZAR) -->
+        <div class="wa-filter-card">
+            <div class="wa-filter-card-header">
+                <div class="wa-filter-card-title">
+                    <x-heroicon-o-adjustments-horizontal class="wa-filter-icon" />
+                    <span>Controles e Filtros Globais</span>
                 </div>
             </div>
 
-            <!-- FILTROS CONTROLES -->
-            <div class="wa-filters">
+            <div class="wa-filter-grid">
                 <!-- Seletor de Carteira -->
-                <div class="wa-filter-box">
-                    <span class="wa-filter-label">Carteira de Terceiros</span>
-                    <select wire:model.live="selectedWalletId" class="wa-select">
-                        <option value="all">🌐 Todas as Carteiras (Consolidado)</option>
-                        @foreach($this->wallets as $w)
-                            <option value="{{ $w->id }}">{{ $w->label ?: 'Carteira' }} ({{ $w->short_address }})</option>
+                <div class="wa-filter-item">
+                    <label class="wa-filter-label">
+                        <x-heroicon-o-wallet class="wa-filter-icon" />
+                        Carteira Web3
+                    </label>
+                    <select wire:model.live="selectedWalletId" class="wa-select-custom">
+                        <option value="all">🌐 Todas as Carteiras (Visão Consolidada)</option>
+                        @foreach ($this->wallets as $w)
+                            <option value="{{ $w->id }}">{{ $w->label ?: 'Carteira' }} — {{ $w->wallet_address }}</option>
                         @endforeach
                     </select>
                 </div>
 
-                <!-- Filtro de Rede -->
-                <div class="wa-filter-box">
-                    <span class="wa-filter-label">Rede Blockchain</span>
-                    <select wire:model.live="selectedNetwork" class="wa-select" style="min-width: 160px;">
-                        <option value="all">🌐 Todas as Redes</option>
-                        @foreach($this->availableNetworks as $net)
-                            <option value="{{ $net }}">{{ ucfirst(str_replace('-', ' ', $net)) }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Período -->
-                <div class="wa-filter-box">
-                    <span class="wa-filter-label">Período</span>
-                    <div class="wa-btn-group">
-                        @foreach(['1D', '7D', '30D', 'ALL'] as $period)
-                            <button wire:click="$set('selectedPeriod', '{{ $period }}')"
-                                    class="wa-period-btn {{ $selectedPeriod === $period ? 'active' : '' }}">
-                                {{ $period }}
+                <!-- Período Histórico -->
+                <div class="wa-filter-item">
+                    <span class="wa-filter-label">
+                        <x-heroicon-o-calendar-days class="wa-filter-icon" />
+                        Período Histórico
+                    </span>
+                    <div class="wa-period-group">
+                        @foreach (['hour' => '1H', 'day' => '24H', 'week' => '7D', 'month' => '30D', 'year' => '1A', 'max' => 'MAX'] as $key => $lbl)
+                            <button
+                                wire:click="setPeriod('{{ $key }}')"
+                                wire:loading.attr="disabled"
+                                type="button"
+                                class="wa-period-btn {{ $chartType === $key ? 'active' : '' }}"
+                            >
+                                {{ $lbl }}
                             </button>
                         @endforeach
                     </div>
                 </div>
+
+                <!-- Moeda Base (Prioridade) -->
+                <div class="wa-filter-item">
+                    <span class="wa-filter-label">
+                        <x-heroicon-o-currency-dollar class="wa-filter-icon" />
+                        Moeda Base
+                    </span>
+                    <select wire:model.live="currency" class="wa-select-custom">
+                        <option value="usd">USD ($)</option>
+                        <option value="brl">BRL (R$)</option>
+                        <option value="eur">EUR (€)</option>
+                        <option value="btc">BTC (₿)</option>
+                        <option value="eth">ETH (Ξ)</option>
+                    </select>
+                </div>
+
+                <!-- Composição / Posições -->
+                <div class="wa-filter-item">
+                    <span class="wa-filter-label">
+                        <x-heroicon-o-rectangle-stack class="wa-filter-icon" />
+                        Composição
+                    </span>
+                    <select wire:model.live="positionsFilter" class="wa-select-custom">
+                        <option value="no_filter">Todos (Tokens + DeFi)</option>
+                        <option value="only_simple">Apenas Tokens</option>
+                        <option value="only_complex">Apenas DeFi</option>
+                    </select>
+                </div>
+
+                <!-- Botão Atualizar / Sincronizar Zerion -->
+                <div class="wa-filter-item">
+                    <button
+                        wire:click="clearCacheAndReload"
+                        wire:loading.attr="disabled"
+                        type="button"
+                        class="wa-btn-refresh"
+                        title="Limpar Cache e Sincronizar da Zerion API"
+                    >
+                        <x-heroicon-o-arrow-path wire:loading.class="wa-spin" wire:target="clearCacheAndReload" class="w-4 h-4" />
+                        <span>Atualizar</span>
+                    </button>
+                </div>
             </div>
+
+            <!-- Sub-barra de Metadados / Resumo da Carteira -->
+            @if ($selectedWallet)
+                <div class="wa-filter-meta-bar">
+                    <div class="wa-filter-meta-item">
+                        <span>Endereço On-Chain:</span>
+                        <span class="wa-mono-badge">{{ $selectedWallet->wallet_address }}</span>
+                    </div>
+                    <div class="wa-filter-meta-item">
+                        <span>Tokens em Carteira: <strong class="wa-text-main" style="color: #38BDF8;">{{ $tokens->count() }} ativos</strong></span>
+                        <span style="opacity: 0.4;">|</span>
+                        <span>Saldo Total em Banco: <strong style="color: #10B981;">${{ number_format((float) ($tokens->sum('balance_usd') ?? 0), 2, ',', '.') }}</strong></span>
+                    </div>
+                </div>
+            @endif
         </div>
 
-        <!-- CARDS KPIS (METRICAS CONSOLIDADAS) -->
-        <div class="wa-kpi-grid">
-
-            <!-- Net Worth -->
-            <div class="wa-card">
-                <div>
-                    <div class="wa-card-header">
-                        <span class="wa-card-title">Net Worth (Patrimônio)</span>
-                        <span class="wa-card-title">USD</span>
-                    </div>
-                    <div class="wa-card-value">
-                        $ {{ number_format($this->metrics['net_worth'], 2, '.', ',') }}
-                    </div>
-                </div>
-                <div class="wa-card-sub">
-                    <span>Tokens: <strong class="wa-text-main">${{ number_format($this->metrics['tokens_total'], 0) }}</strong></span>
-                    <span>DeFi: <strong class="wa-text-main">${{ number_format($this->metrics['defi_total'], 0) }}</strong></span>
-                    <span>NFTs: <strong class="wa-text-main">${{ number_format($this->metrics['nfts_total'], 0) }}</strong></span>
-                </div>
+        @if (!$hasData && !empty($chartResult['error']))
+            <div class="wa-alert-warning">
+                <x-heroicon-o-exclamation-circle style="width: 36px; height: 36px; margin: 0 auto 10px auto; color: #F59E0B;" />
+                <h3 style="font-size: 1rem; font-weight: 700; margin: 0 0 6px 0; color: #FCD34D;">Não foi possível carregar os dados históricos</h3>
+                <div style="font-size: 0.85rem; color: #E2E8F0;">{{ $chartResult['error'] }}</div>
             </div>
+        @endif
 
-            <!-- P&L Total -->
-            <div class="wa-card">
-                <div>
+        <!-- 3. KPIS CONSOLIDADOS DO PERÍODO & PATRIMÔNIO -->
+        @if (!empty($stats))
+            <div class="wa-kpi-grid">
+                <!-- 1. Patrimônio Atual -->
+                <div class="wa-card wa-card-sky">
                     <div class="wa-card-header">
-                        <span class="wa-card-title">Lucro / Prejuízo (P&L)</span>
-                        <span class="wa-badge {{ $this->metrics['pnl_usd'] >= 0 ? 'wa-badge-success' : 'wa-badge-danger' }}">
-                            {{ $this->metrics['pnl_usd'] >= 0 ? '▲ +' : '▼ ' }}{{ number_format($this->metrics['pnl_percentage'], 2) }}%
+                        <span class="wa-card-title">Patrimônio Atual</span>
+                        <span class="wa-badge wa-badge-sky">{{ strtoupper($currency) }}</span>
+                    </div>
+                    <div class="wa-card-value" style="color: #38BDF8;">
+                        {{ $symbol }} {{ number_format((float) ($stats['current_value'] ?? 0), 2, ',', '.') }}
+                    </div>
+                    <div class="wa-card-sub">
+                        Cotação final no período selecionado
+                    </div>
+                </div>
+
+                <!-- 2. PnL do Período -->
+                <div class="wa-card {{ ($stats['trend'] ?? 'positive') === 'positive' ? 'wa-card-emerald' : 'wa-card-rose' }}">
+                    <div class="wa-card-header">
+                        <span class="wa-card-title">PnL do Período</span>
+                        <span class="wa-badge {{ ($stats['trend'] ?? 'positive') === 'positive' ? 'wa-badge-success' : 'wa-badge-danger' }}">
+                            {{ ($stats['trend'] ?? 'positive') === 'positive' ? '▲ +' : '▼ ' }}{{ number_format((float) ($stats['change_percent'] ?? 0), 2, ',', '.') }}%
                         </span>
                     </div>
-                    <div class="wa-card-value" style="color: {{ $this->metrics['pnl_usd'] >= 0 ? '#0ECB81' : '#F6465D' }};">
-                        {{ $this->metrics['pnl_usd'] >= 0 ? '+$ ' : '-$ ' }}{{ number_format(abs($this->metrics['pnl_usd']), 2, '.', ',') }}
+                    <div class="wa-card-value" style="color: {{ ($stats['trend'] ?? 'positive') === 'positive' ? '#10B981' : '#EF4444' }};">
+                        {{ ($stats['change_value'] ?? 0) >= 0 ? '+' : '-' }}{{ $symbol }} {{ number_format(abs((float) ($stats['change_value'] ?? 0)), 2, ',', '.') }}
+                    </div>
+                    <div class="wa-card-sub">
+                        Variação de lucro/prejuízo no período
                     </div>
                 </div>
-                <div class="wa-card-sub">
-                    <span>Retorno estimado no período: <strong class="wa-text-main">{{ $selectedPeriod }}</strong></span>
-                </div>
-            </div>
 
-            <!-- Health Score -->
-            <div class="wa-card">
-                <div>
+                <!-- 3. Patrimônio Inicial -->
+                <div class="wa-card">
                     <div class="wa-card-header">
-                        <span class="wa-card-title">Health Score & Risco</span>
-                        <span class="wa-text-accent" style="font-size: 0.7rem; font-weight: 800;">BAIXO RISCO</span>
+                        <span class="wa-card-title">Patrimônio Inicial</span>
                     </div>
                     <div class="wa-card-value">
-                        {{ $this->metrics['health_score'] }} <span style="font-size: 0.9rem; font-weight: 500;" class="wa-text-sub">/ 100</span>
+                        {{ $symbol }} {{ number_format((float) ($stats['start_value'] ?? 0), 2, ',', '.') }}
+                    </div>
+                    <div class="wa-card-sub">
+                        Início da série temporal
                     </div>
                 </div>
+
+                <!-- 4. ATH do Período -->
+                <div class="wa-card">
+                    <div class="wa-card-header">
+                        <span class="wa-card-title">Máxima (ATH)</span>
+                        <x-heroicon-m-arrow-trending-up style="width: 18px; height: 18px; color: #10B981;" />
+                    </div>
+                    <div class="wa-card-value">
+                        {{ $symbol }} {{ number_format((float) ($stats['max_value'] ?? 0), 2, ',', '.') }}
+                    </div>
+                    <div class="wa-card-sub" title="{{ $stats['max_date'] ?? '-' }}">
+                        {{ $stats['max_date'] ?? '-' }}
+                    </div>
+                </div>
+
+                <!-- 5. ATL do Período -->
+                <div class="wa-card">
+                    <div class="wa-card-header">
+                        <span class="wa-card-title">Mínima (ATL)</span>
+                        <x-heroicon-m-arrow-trending-down style="width: 18px; height: 18px; color: #EF4444;" />
+                    </div>
+                    <div class="wa-card-value">
+                        {{ $symbol }} {{ number_format((float) ($stats['min_value'] ?? 0), 2, ',', '.') }}
+                    </div>
+                    <div class="wa-card-sub" title="{{ $stats['min_date'] ?? '-' }}">
+                        {{ $stats['min_date'] ?? '-' }}
+                    </div>
+                </div>
+            </div>
+        @endif
+
+        <!-- 4. SUB-METRICAS DE COMPOSICAO (BANCO LOCAL) -->
+        <div class="wa-submetrics-grid">
+            <div class="wa-submetric-box">
                 <div>
+                    <span class="wa-card-title" style="display: block;">Tokens</span>
+                    <strong class="wa-text-main" style="font-size: 1.1rem;">${{ number_format($metrics['tokens_total'], 2, ',', '.') }}</strong>
+                </div>
+                <x-heroicon-o-circle-stack style="width: 24px; height: 24px; color: #38BDF8;" />
+            </div>
+
+            <div class="wa-submetric-box">
+                <div>
+                    <span class="wa-card-title" style="display: block;">DeFi</span>
+                    <strong class="wa-text-main" style="font-size: 1.1rem;">${{ number_format($metrics['defi_total'], 2, ',', '.') }}</strong>
+                </div>
+                <x-heroicon-o-building-library style="width: 24px; height: 24px; color: #10B981;" />
+            </div>
+
+            <div class="wa-submetric-box">
+                <div>
+                    <span class="wa-card-title" style="display: block;">NFTs</span>
+                    <strong class="wa-text-main" style="font-size: 1.1rem;">${{ number_format($metrics['nfts_total'], 2, ',', '.') }}</strong>
+                </div>
+                <x-heroicon-o-photo style="width: 24px; height: 24px; color: #F59E0B;" />
+            </div>
+
+            <div class="wa-submetric-box">
+                <div style="width: 100%;">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span class="wa-card-title">Health Score</span>
+                        <strong class="wa-text-accent" style="font-size: 0.85rem;">{{ $metrics['health_score'] }}/100</strong>
+                    </div>
                     <div class="wa-progress-bar">
-                        <div class="wa-progress-fill" style="width: {{ $this->metrics['health_score'] }}%;"></div>
-                    </div>
-                    <div class="wa-card-sub" style="border: none; padding-top: 6px; margin-top: 0;">
-                        <span>Proporção de Alta Liquidez</span>
+                        <div class="wa-progress-fill" style="width: {{ $metrics['health_score'] }}%;"></div>
                     </div>
                 </div>
             </div>
 
-            <!-- Gás Total Gasto -->
-            <div class="wa-card">
+            <div class="wa-submetric-box">
                 <div>
-                    <div class="wa-card-header">
-                        <span class="wa-card-title">Gás Total Gasto</span>
-                        <span class="wa-card-title">Fees</span>
-                    </div>
-                    <div class="wa-card-value">
-                        $ {{ number_format($this->metrics['gas_spent_usd'], 2, '.', ',') }}
-                    </div>
+                    <span class="wa-card-title" style="display: block;">Gás Total Gasto</span>
+                    <strong class="wa-text-main" style="font-size: 1.1rem;">${{ number_format($metrics['gas_spent_usd'], 2, ',', '.') }}</strong>
                 </div>
-                <div class="wa-card-sub">
-                    <span>Taxas gastas em transações na rede</span>
-                </div>
+                <x-heroicon-o-fire style="width: 24px; height: 24px; color: #EF4444;" />
             </div>
-
         </div>
 
-        <!-- SECAO CENTRAL: GRAFICO DE EVOLUCAO TEMPORAL -->
-        <div class="wa-chart-section">
+        <!-- 5. GRAFICO DE EVOLUÇÃO PATRIMONIAL ON-CHAIN INTERATIVO -->
+        <div class="wa-chart-section" wire:key="unified-chart-{{ $activeAddr }}-{{ $chartType }}-{{ $currency }}-{{ $positionsFilter }}-{{ $reloadTimestamp }}">
             <div class="wa-chart-header">
-                <div>
-                    <h3 class="wa-text-main" style="font-size: 1rem; font-weight: 700; margin: 0;">Evolução Patrimonial do Portfólio de Terceiros</h3>
-                    <div class="wa-text-sub" style="font-size: 0.75rem; margin-top: 2px;">Histórico do Patrimônio Líquido vs Benchmarks</div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <span class="wa-pulse-dot"></span>
+                    <h3 style="font-size: 0.95rem; font-weight: 700; margin: 0;" class="wa-text-main">
+                        Curva de Evolução Patrimonial On-Chain ({{ strtoupper($currency) }})
+                    </h3>
                 </div>
-
-                <div class="wa-text-sub" style="display: flex; align-items: center; gap: 14px; font-size: 0.75rem;">
-                    <label style="display: flex; align-items: center; gap: 6px; cursor: pointer;">
-                        <input type="checkbox" wire:model.live="compareBtc" style="accent-color: #38BDF8;">
-                        <span>Benchmark BTC</span>
-                    </label>
+                <div class="wa-text-sub" style="font-size: 0.75rem;">
+                    Resolução: <strong style="color: #38BDF8; text-transform: uppercase;">{{ $chartType }}</strong>
+                    @if(!empty($chartResult['is_zerion']))
+                        <span style="margin-left: 6px; padding: 2px 6px; background: rgba(56, 189, 248, 0.15); border-radius: 4px; color: #38BDF8; font-weight: 700;">Zerion Live</span>
+                    @else
+                        <span style="margin-left: 6px; padding: 2px 6px; background: rgba(16, 185, 129, 0.15); border-radius: 4px; color: #10B981; font-weight: 700;">Snapshots Banco</span>
+                    @endif
                 </div>
             </div>
 
-            <!-- DATA HOLDER ELEMENT FOR LIVEWIRE COMPONENT STATE RE-RENDERING -->
-            <div class="wa-chart-container" 
-                 id="chartDataContainer" 
-                 data-chart='@json($this->chartData)' 
-                 data-compare-btc="{{ $this->compareBtc ? 'true' : 'false' }}">
-                <canvas id="portfolioChart"></canvas>
+            <!-- Chart Container with Alpine Component -->
+            <div class="wa-chart-container"
+                 x-data="{
+                    chart: null,
+                    init() {
+                        this.$nextTick(() => this.draw());
+                    },
+                    destroy() {
+                        if (this.chart) {
+                            try { this.chart.destroy(); } catch(e) {}
+                            this.chart = null;
+                        }
+                        const canvas = this.$refs.canvas;
+                        if (canvas && typeof window.Chart !== 'undefined') {
+                            try {
+                                const existing = window.Chart.getChart(canvas);
+                                if (existing) existing.destroy();
+                            } catch(e) {}
+                        }
+                    },
+                    draw() {
+                        const canvas = this.$refs.canvas;
+                        if (!canvas) return;
+
+                        if (typeof window.Chart === 'undefined') {
+                            return;
+                        }
+
+                        this.destroy();
+
+                        const labels = @js($chartResult['labels'] ?? []);
+                        const values = @js($chartResult['values'] ?? []);
+                        const symbol = @js($symbol);
+                        const isPositive = @js(($stats['trend'] ?? 'positive') === 'positive');
+
+                        if (!labels.length || !values.length) return;
+
+                        const strokeColor = isPositive ? '#10B981' : '#EF4444';
+                        const canvasCtx = canvas.getContext('2d');
+                        const gradientBg = canvasCtx.createLinearGradient(0, 0, 0, 350);
+                        gradientBg.addColorStop(0, isPositive ? 'rgba(16, 185, 129, 0.35)' : 'rgba(239, 68, 68, 0.35)');
+                        gradientBg.addColorStop(1, isPositive ? 'rgba(16, 185, 129, 0.0)' : 'rgba(239, 68, 68, 0.0)');
+
+                        try {
+                            this.chart = new window.Chart(canvas, {
+                                type: 'line',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Patrimônio (' + symbol + ')',
+                                        data: values,
+                                        borderColor: strokeColor,
+                                        borderWidth: 2.5,
+                                        backgroundColor: gradientBg,
+                                        fill: true,
+                                        tension: 0.25,
+                                        pointRadius: values.length > 50 ? 0 : 3,
+                                        pointHoverRadius: 6,
+                                        pointHoverBackgroundColor: strokeColor,
+                                        pointHoverBorderColor: '#FFFFFF',
+                                        pointHoverBorderWidth: 2,
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    maintainAspectRatio: false,
+                                    animation: { duration: 250 },
+                                    interaction: {
+                                        mode: 'index',
+                                        intersect: false,
+                                    },
+                                    plugins: {
+                                        legend: { display: false },
+                                        tooltip: {
+                                            backgroundColor: '#0F172A',
+                                            titleColor: '#94A3B8',
+                                            bodyColor: '#F8FAFC',
+                                            borderColor: '#334155',
+                                            borderWidth: 1,
+                                            padding: 12,
+                                            displayColors: false,
+                                            callbacks: {
+                                                label: function(context) {
+                                                    const val = context.parsed.y;
+                                                    return 'Patrimônio: ' + symbol + ' ' + Number(val).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                                                }
+                                            }
+                                        }
+                                    },
+                                    scales: {
+                                        x: {
+                                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
+                                            ticks: {
+                                                color: '#94A3B8',
+                                                maxRotation: 0,
+                                                autoSkip: true,
+                                                maxTicksLimit: 10,
+                                                font: { size: 10 }
+                                            }
+                                        },
+                                        y: {
+                                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
+                                            ticks: {
+                                                color: '#94A3B8',
+                                                font: { size: 10 },
+                                                callback: function(value) {
+                                                    return symbol + ' ' + Number(value).toLocaleString('pt-BR', { notation: 'compact', compactDisplay: 'short' });
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        } catch(err) {
+                            console.error('Erro ao renderizar Chart.js:', err);
+                        }
+                    }
+                 }"
+                 x-init="init()"
+                 x-on:zerion-chart-reload.window="draw()"
+            >
+                <!-- Loading Overlay no Centro Exato do Gráfico -->
+                <div wire:loading wire:target="setPeriod, selectedWalletId, clearCacheAndReload, currency, positionsFilter" class="wa-loading-overlay">
+                    <x-heroicon-o-arrow-path class="wa-spin" style="width: 38px; height: 38px; color: #38BDF8;" />
+                    <span style="font-size: 0.9rem; font-weight: 600; color: #F8FAFC;">Sincronizando dados on-chain...</span>
+                </div>
+
+                <canvas x-ref="canvas"></canvas>
             </div>
         </div>
 
-        <!-- SECAO INFERIOR: TOKENS MAIS COMPRADOS E POSICOES DEFI -->
-        <div class="wa-intelligence-grid">
-
-            <!-- BLOCO ESQUERDO: TOKENS MAIS COMPRADOS (BUY MOMENTUM & DCA) -->
-            <div class="wa-card" style="justify-content: flex-start;">
-                <div class="wa-chart-header" style="margin-bottom: 12px; padding-bottom: 10px;">
-                    <div>
-                        <h3 class="wa-text-main" style="font-size: 0.95rem; font-weight: 700; margin: 0;">Tokens Mais Comprados (Buy Momentum)</h3>
-                        <div class="wa-text-sub" style="font-size: 0.7rem;">Aportes de Entrada e Preço Médio (DCA)</div>
+        <!-- 6. TABELA EXPLORADORA DE PONTOS RECENTES DA API (COLAPSÁVEL) -->
+        @if (!empty($chartResult['recent_points']))
+            <div class="wa-section-card" x-data="{ open: false }" style="margin-bottom: 24px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" @click="open = !open">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <x-heroicon-o-table-cells style="width: 18px; height: 18px; color: #38BDF8;" />
+                        <strong style="font-size: 0.8rem; font-weight: 700;" class="wa-text-main">
+                            Explorador de Amostras de Pontos da API (Últimos 10 registros da Zerion)
+                        </strong>
                     </div>
-                    <span class="wa-badge wa-badge-success">TOP COMPRAS</span>
+                    <button type="button" style="background: transparent; border: none; font-size: 0.75rem; font-weight: 600; color: #94A3B8; cursor: pointer;">
+                        <span x-text="open ? '▲ Ocultar Amostras' : '▼ Ver Amostras Brutas'"></span>
+                    </button>
                 </div>
 
-                <div style="overflow-x: auto;">
+                <div x-show="open" x-cloak style="margin-top: 14px;" class="wa-table-scroll">
                     <table class="wa-table">
                         <thead>
                             <tr>
-                                <th>Ativo</th>
-                                <th>Rede</th>
-                                <th style="text-align: right;">Volume Alocado</th>
-                                <th style="text-align: right;">Preço DCA</th>
-                                <th style="text-align: center;">Frequência Compras</th>
-                                <th style="text-align: right;">Tendência 24h</th>
+                                <th>Data & Horário</th>
+                                <th>Timestamp Unix</th>
+                                <th style="text-align: right;">Patrimônio On-Chain ({{ $symbol }})</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($this->topBoughtTokens as $t)
+                            @foreach ($chartResult['recent_points'] as $pt)
                                 <tr>
-                                    <td>
-                                        <div class="wa-token-info">
-                                            @if($t['logo_url'])
-                                                <img src="{{ $t['logo_url'] }}" class="wa-token-icon" alt="{{ $t['symbol'] }}">
-                                            @else
-                                                <div class="wa-token-avatar">{{ substr($t['symbol'], 0, 2) }}</div>
-                                            @endif
-                                            <div>
-                                                <strong class="wa-text-main" style="display: block;">{{ $t['symbol'] }}</strong>
-                                                <span class="wa-text-sub" style="font-size: 0.65rem;">{{ $t['name'] }}</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <span class="wa-badge wa-btn-group" style="padding: 2px 6px;">
-                                            {{ $t['network'] }}
-                                        </span>
-                                    </td>
-                                    <td class="wa-text-main" style="text-align: right; font-weight: 700;">
-                                        $ {{ number_format($t['allocated_usd'], 2) }}
-                                    </td>
-                                    <td class="wa-text-sub" style="text-align: right;">
-                                        $ {{ number_format($t['dca_price'], 2) }}
-                                    </td>
-                                    <td style="text-align: center;">
-                                        <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-                                            <div class="wa-progress-bar" style="width: 70px; margin: 0;">
-                                                <div class="wa-progress-fill" style="width: {{ $t['buy_ratio'] }}%; background: #0ECB81;"></div>
-                                            </div>
-                                            <span style="font-size: 0.7rem; font-weight: 800; color: #0ECB81;">{{ $t['buy_ratio'] }}%</span>
-                                        </div>
-                                    </td>
-                                    <td style="text-align: right; font-weight: 800; color: #0ECB81;">
-                                        +{{ number_format($t['price_change_24h'], 2) }}%
+                                    <td class="wa-mono-val">{{ $pt['formatted_date'] }}</td>
+                                    <td class="wa-text-sub wa-mono-val">{{ $pt['timestamp'] }}</td>
+                                    <td class="wa-mono-val" style="text-align: right; font-weight: 700; color: #38BDF8;">
+                                        {{ $symbol }} {{ number_format((float) ($pt['value'] ?? 0), 2, ',', '.') }}
                                     </td>
                                 </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="6" class="wa-text-sub" style="text-align: center; padding: 20px;">Nenhum token encontrado.</td>
-                                </tr>
-                            @endforelse
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
+        @endif
 
-            <!-- BLOCO DIREITO: POSICOES DEFI DA CARTEIRA -->
-            <div class="wa-card" style="justify-content: flex-start;">
-                <div class="wa-chart-header" style="margin-bottom: 12px; padding-bottom: 10px;">
-                    <div>
-                        <h3 class="wa-text-main" style="font-size: 0.95rem; font-weight: 700; margin: 0;">Posições DeFi de Terceiros</h3>
-                        <div class="wa-text-sub" style="font-size: 0.7rem;">Lending, Staking e Pools</div>
-                    </div>
-                    <span class="wa-text-sub" style="font-size: 0.75rem;">Total: <strong class="wa-text-main">${{ number_format($this->metrics['defi_total'], 2) }}</strong></span>
-                </div>
+        <!-- 7. SEÇÕES DE ATIVOS & INTELIGÊNCIA EM ABAS (TOKENS, DEFI, NFTS, BUY MOMENTUM) -->
+        <div class="wa-section-card">
+            <!-- NAVEGAÇÃO POR ABAS -->
+            <div class="wa-tabs-nav">
+                <button
+                    type="button"
+                    wire:click="setActiveTab('tokens')"
+                    class="wa-tab-btn {{ $activeTab === 'tokens' ? 'active' : '' }}"
+                >
+                    <x-heroicon-o-currency-dollar style="width: 18px; height: 18px;" />
+                    <span>Tokens da Carteira ({{ $tokens->count() }})</span>
+                </button>
 
-                <div style="max-height: 320px; overflow-y: auto; padding-right: 4px;">
-                    @forelse($this->defiPositions as $d)
-                        <div class="wa-defi-card">
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                @if($d->protocol_logo_url)
-                                    <img src="{{ $d->protocol_logo_url }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="{{ $d->protocol_name }}">
-                                @else
-                                    <div class="wa-token-avatar" style="width: 32px; height: 32px; font-weight: 800;">
-                                        {{ substr($d->protocol_name, 0, 2) }}
-                                    </div>
-                                @endif
-                                <div>
-                                    <strong class="wa-text-main" style="font-size: 0.85rem; display: block;">{{ $d->protocol_name }}</strong>
-                                    <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
-                                        <span class="wa-text-accent" style="font-size: 0.65rem; font-weight: 700; text-transform: uppercase;">{{ $d->position_type }}</span>
-                                        @if($d->apr)
-                                            <span style="font-size: 0.65rem; color: #0ECB81; font-weight: 800;">APR {{ number_format($d->apr, 2) }}%</span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="text-align: right;">
-                                <strong class="wa-text-main" style="font-size: 0.85rem; display: block;">$ {{ number_format($d->total_value_usd, 2) }}</strong>
-                                @if($d->rewards_value_usd > 0)
-                                    <span style="font-size: 0.65rem; color: #0ECB81; display: block;">+ ${{ number_format($d->rewards_value_usd, 2) }} Recompensas</span>
-                                @endif
-                            </div>
-                        </div>
-                    @empty
-                        <div class="wa-text-sub" style="padding: 20px; text-align: center; font-size: 0.8rem;">Nenhuma posição DeFi cadastrada.</div>
-                    @endforelse
-                </div>
+                <button
+                    type="button"
+                    wire:click="setActiveTab('defi')"
+                    class="wa-tab-btn {{ $activeTab === 'defi' ? 'active' : '' }}"
+                >
+                    <x-heroicon-o-building-library style="width: 18px; height: 18px;" />
+                    <span>Posições DeFi ({{ $defiPositions->count() }})</span>
+                </button>
+
+                <button
+                    type="button"
+                    wire:click="setActiveTab('nfts')"
+                    class="wa-tab-btn {{ $activeTab === 'nfts' ? 'active' : '' }}"
+                >
+                    <x-heroicon-o-photo style="width: 18px; height: 18px;" />
+                    <span>Inventário de NFTs ({{ $nfts->total() }})</span>
+                </button>
+
+                <button
+                    type="button"
+                    wire:click="setActiveTab('top_buys')"
+                    class="wa-tab-btn {{ $activeTab === 'top_buys' ? 'active' : '' }}"
+                >
+                    <x-heroicon-o-arrow-trending-up style="width: 18px; height: 18px;" />
+                    <span>Buy Momentum & DCA</span>
+                </button>
             </div>
 
-        </div>
-
-        <!-- SECAO DE NFTS DA CARTEIRA DE TERCEIROS -->
-        <div id="nft-inventory-section" class="wa-card">
-            <div class="wa-chart-header" style="margin-bottom: 16px; padding-bottom: 10px;">
+            <!-- CONTEÚDO DA ABA: TOKENS -->
+            @if ($activeTab === 'tokens')
                 <div>
-                    <h3 class="wa-text-main" style="font-size: 1rem; font-weight: 700; margin: 0;">Inventário de NFTs de Terceiros</h3>
-                </div>
-                <span class="wa-text-sub" style="font-size: 0.75rem;">Total em NFTs: <strong class="wa-text-main">${{ number_format($this->metrics['nfts_total'], 2) }}</strong></span>
-            </div>
-
-            <div class="wa-nft-grid">
-                @forelse($this->nfts as $nft)
-                    <div class="wa-nft-card">
-                        <div class="wa-nft-thumb">
-                            @if($nft->image_url)
-                                <img src="{{ $nft->image_url }}" alt="{{ $nft->name }}">
-                            @else
-                                <div class="wa-text-sub" style="text-align: center; font-size: 0.75rem;">
-                                    <div style="font-size: 1.5rem; margin-bottom: 4px;">🖼️</div>
-                                    Sem Imagem
-                                </div>
-                            @endif
-                            <span class="wa-badge" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.75); color: #EAECEF;">
-                                #{{ $nft->token_id }}
-                            </span>
+                    <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 16px;">
+                        <!-- Filtro por Rede -->
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <span class="wa-filter-label" style="margin: 0;">Filtrar por Rede:</span>
+                            <select wire:model.live="selectedNetwork" class="wa-select-custom" style="width: auto; min-width: 150px; height: 32px; padding: 4px 10px;">
+                                <option value="all">🌐 Todas as Redes</option>
+                                @foreach($availableNetworks as $net)
+                                    <option value="{{ $net }}">{{ ucfirst(str_replace('-', ' ', $net)) }}</option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div style="padding: 12px;">
-                            <strong class="wa-text-main" style="font-size: 0.8rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                {{ $nft->collection_name }}
-                            </strong>
-                            <div class="wa-header" style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; padding-bottom: 0; margin-bottom: 0;">
-                                <span class="wa-text-sub" style="font-size: 0.65rem;">Floor Price:</span>
-                                <strong style="font-size: 0.85rem; color: #0ECB81;">$ {{ number_format($nft->estimated_value_usd, 2) }}</strong>
+                        <span class="wa-text-sub" style="font-size: 0.75rem;">
+                            Total em Tokens: <strong class="wa-text-main" style="font-weight: 700;">${{ number_format((float) ($tokens->sum('balance_usd') ?? 0), 2, ',', '.') }}</strong>
+                        </span>
+                    </div>
+
+                    <div class="wa-table-scroll">
+                        <table class="wa-table">
+                            <thead>
+                                <tr>
+                                    <th>Token</th>
+                                    <th>Rede</th>
+                                    <th style="text-align: right;">Quantidade</th>
+                                    <th style="text-align: right;">Preço Unitário</th>
+                                    <th style="text-align: right;">Saldo Total (USD)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($tokens as $token)
+                                    <tr>
+                                        <td>
+                                            <div class="wa-token-info">
+                                                @if ($token->logo_url)
+                                                    <img src="{{ $token->logo_url }}" class="wa-token-icon" alt="{{ $token->symbol }}" onerror="this.style.display='none'" />
+                                                @else
+                                                    <span class="wa-token-avatar">
+                                                        {{ substr($token->symbol, 0, 3) }}
+                                                    </span>
+                                                @endif
+                                                <div>
+                                                    <strong class="wa-text-main" style="display: block; font-weight: 700; line-height: 1.1;">{{ $token->symbol }}</strong>
+                                                    <span class="wa-text-sub" style="font-size: 0.7rem; display: block; margin-top: 2px;">{{ $token->name ?: $token->symbol }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="wa-badge wa-badge-sky">
+                                                {{ strtoupper($token->network) }}
+                                            </span>
+                                        </td>
+                                        <td class="wa-mono-val wa-text-sub" style="text-align: right;">
+                                            {{ number_format((float) ($token->balance_quantity ?? 0), 4, ',', '.') }}
+                                        </td>
+                                        <td class="wa-mono-val wa-text-sub" style="text-align: right;">
+                                            ${{ number_format((float) ($token->token_price_usd ?? 0), 4, ',', '.') }}
+                                        </td>
+                                        <td class="wa-mono-val" style="text-align: right; font-weight: 700; color: #10B981;">
+                                            ${{ number_format((float) ($token->balance_usd ?? 0), 2, ',', '.') }}
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="5" class="wa-text-sub" style="text-align: center; padding: 24px;">
+                                            Nenhum token encontrado no banco de dados para os filtros selecionados.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endif
+
+            <!-- CONTEÚDO DA ABA: DEFI -->
+            @if ($activeTab === 'defi')
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <span class="wa-card-title">Posições em Protocolos DeFi</span>
+                        <span class="wa-text-sub" style="font-size: 0.75rem;">Total em DeFi: <strong class="wa-text-main">${{ number_format($metrics['defi_total'], 2, ',', '.') }}</strong></span>
+                    </div>
+
+                    <div style="max-height: 380px; overflow-y: auto; padding-right: 4px;">
+                        @forelse($defiPositions as $d)
+                            <div class="wa-defi-card">
+                                <div style="display: flex; align-items: center; gap: 12px;">
+                                    @if($d->protocol_logo_url)
+                                        <img src="{{ $d->protocol_logo_url }}" style="width: 32px; height: 32px; border-radius: 50%;" alt="{{ $d->protocol_name }}">
+                                    @else
+                                        <div class="wa-token-avatar" style="width: 32px; height: 32px; font-weight: 800;">
+                                            {{ substr($d->protocol_name, 0, 2) }}
+                                        </div>
+                                    @endif
+                                    <div>
+                                        <strong class="wa-text-main" style="font-size: 0.85rem; display: block;">{{ $d->protocol_name }}</strong>
+                                        <div style="display: flex; align-items: center; gap: 6px; margin-top: 2px;">
+                                            <span class="wa-badge wa-badge-sky" style="font-size: 0.65rem;">{{ strtoupper($d->position_type) }}</span>
+                                            @if($d->apr)
+                                                <span style="font-size: 0.7rem; color: #10B981; font-weight: 800;">APR {{ number_format($d->apr, 2) }}%</span>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="text-align: right;">
+                                    <strong class="wa-text-main" style="font-size: 0.9rem; display: block;">$ {{ number_format($d->total_value_usd, 2, ',', '.') }}</strong>
+                                    @if($d->rewards_value_usd > 0)
+                                        <span style="font-size: 0.7rem; color: #10B981; display: block;">+ ${{ number_format($d->rewards_value_usd, 2, ',', '.') }} Recompensas</span>
+                                    @endif
+                                </div>
+                            </div>
+                        @empty
+                            <div class="wa-text-sub" style="padding: 30px; text-align: center; font-size: 0.8rem;">
+                                Nenhuma posição DeFi encontrada nas carteiras selecionadas.
+                            </div>
+                        @endforelse
+                    </div>
+                </div>
+            @endif
+
+            <!-- CONTEÚDO DA ABA: NFTS -->
+            @if ($activeTab === 'nfts')
+                <div id="nft-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <span class="wa-card-title">Galeria e Floor Price de Coleções NFT</span>
+                        <span class="wa-text-sub" style="font-size: 0.75rem;">Total em NFTs: <strong class="wa-text-main">${{ number_format($metrics['nfts_total'], 2, ',', '.') }}</strong></span>
+                    </div>
+
+                    <div class="wa-nft-grid">
+                        @forelse($nfts as $nft)
+                            <div class="wa-nft-card">
+                                <div class="wa-nft-thumb">
+                                    @if($nft->image_url)
+                                        <img src="{{ $nft->image_url }}" alt="{{ $nft->name }}">
+                                    @else
+                                        <div class="wa-text-sub" style="text-align: center; font-size: 0.75rem;">
+                                            <div style="font-size: 1.5rem; margin-bottom: 4px;">🖼️</div>
+                                            Sem Imagem
+                                        </div>
+                                    @endif
+                                    <span class="wa-badge" style="position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.75); color: #EAECEF;">
+                                        #{{ $nft->token_id }}
+                                    </span>
+                                </div>
+                                <div style="padding: 12px;">
+                                    <strong class="wa-text-main" style="font-size: 0.8rem; display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{ $nft->collection_name }}
+                                    </strong>
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; padding-top: 8px; border-top: 1px solid #334155;">
+                                        <span class="wa-text-sub" style="font-size: 0.65rem;">Floor Price:</span>
+                                        <strong style="font-size: 0.85rem; color: #10B981;">$ {{ number_format($nft->estimated_value_usd, 2, ',', '.') }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="wa-text-sub" style="grid-column: 1 / -1; text-align: center; padding: 40px; font-size: 0.8rem;">
+                                Nenhum NFT cadastrado ou sincronizado no banco.
+                            </div>
+                        @endforelse
+                    </div>
+
+                    @if($nfts->hasPages())
+                        <div class="wa-pagination-container">
+                            <div class="wa-text-sub" style="font-size: 0.8rem;">
+                                Mostrando <strong class="wa-text-main">{{ $nfts->firstItem() ?? 0 }}</strong> a <strong class="wa-text-main">{{ $nfts->lastItem() ?? 0 }}</strong> de <strong class="wa-text-main">{{ $nfts->total() }}</strong> NFTs
+                            </div>
+                            <div style="display: flex; gap: 6px;">
+                                <button
+                                    type="button"
+                                    wire:click="previousPage('page')"
+                                    class="wa-pagination-btn"
+                                    @if($nfts->onFirstPage()) disabled @endif
+                                >
+                                    &laquo; Anterior
+                                </button>
+                                <button
+                                    type="button"
+                                    wire:click="nextPage('page')"
+                                    class="wa-pagination-btn"
+                                    @if(!$nfts->hasMorePages()) disabled @endif
+                                >
+                                    Próxima &raquo;
+                                </button>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="wa-text-sub" style="grid-column: 1 / -1; text-align: center; padding: 30px; font-size: 0.8rem;">
-                        Nenhum NFT encontrado nas carteiras selecionadas.
-                    </div>
-                @endforelse
-            </div>
+                    @endif
+                </div>
+            @endif
 
-            @if($this->nfts->hasPages())
-                @php
-                    $currentPage = $this->nfts->currentPage();
-                    $lastPage = $this->nfts->lastPage();
-                    $startPage = max(1, $currentPage - 2);
-                    $endPage = min($lastPage, $currentPage + 2);
-
-                    if ($endPage - $startPage < 4) {
-                        if ($startPage == 1) {
-                            $endPage = min($lastPage, $startPage + 4);
-                        } else {
-                            $startPage = max(1, $endPage - 4);
-                        }
-                    }
-                @endphp
-
-                <div class="wa-pagination-container">
-                    <div class="wa-pagination-info">
-                        Mostrando <strong class="wa-text-main">{{ $this->nfts->firstItem() ?? 0 }}</strong> a <strong class="wa-text-main">{{ $this->nfts->lastItem() ?? 0 }}</strong> de <strong class="wa-text-main">{{ $this->nfts->total() }}</strong> NFTs
+            <!-- CONTEÚDO DA ABA: BUY MOMENTUM & DCA -->
+            @if ($activeTab === 'top_buys')
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;">
+                        <span class="wa-card-title">Tokens Mais Comprados & Entradas Médias</span>
+                        <span class="wa-badge wa-badge-success">Buy Momentum</span>
                     </div>
 
-                    <div class="wa-pagination-controls">
-                        {{-- Botão Anterior --}}
-                        <button type="button"
-                                wire:click="previousPage('page')"
-                                x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
-                                class="wa-pagination-btn"
-                                @if($this->nfts->onFirstPage()) disabled @endif>
-                            &laquo; Anterior
-                        </button>
-
-                        @if($startPage > 1)
-                            <button type="button"
-                                    wire:click="gotoPage(1, 'page')"
-                                    x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
-                                    class="wa-pagination-num">
-                                1
-                            </button>
-                            @if($startPage > 2)
-                                <span class="wa-pagination-ellipsis">&hellip;</span>
-                            @endif
-                        @endif
-
-                        @for($p = $startPage; $p <= $endPage; $p++)
-                            <button type="button"
-                                    wire:click="gotoPage({{ $p }}, 'page')"
-                                    x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
-                                    class="wa-pagination-num {{ $p === $currentPage ? 'active' : '' }}">
-                                {{ $p }}
-                            </button>
-                        @endfor
-
-                        @if($endPage < $lastPage)
-                            @if($endPage < $lastPage - 1)
-                                <span class="wa-pagination-ellipsis">&hellip;</span>
-                            @endif
-                            <button type="button"
-                                    wire:click="gotoPage({{ $lastPage }}, 'page')"
-                                    x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
-                                    class="wa-pagination-num">
-                                {{ $lastPage }}
-                            </button>
-                        @endif
-
-                        {{-- Botão Próxima --}}
-                        <button type="button"
-                                wire:click="nextPage('page')"
-                                x-on:click="document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' })"
-                                class="wa-pagination-btn"
-                                @if(!$this->nfts->hasMorePages()) disabled @endif>
-                            Próxima &raquo;
-                        </button>
+                    <div class="wa-table-scroll">
+                        <table class="wa-table">
+                            <thead>
+                                <tr>
+                                    <th>Ativo</th>
+                                    <th>Rede</th>
+                                    <th style="text-align: right;">Volume Alocado</th>
+                                    <th style="text-align: right;">Preço DCA</th>
+                                    <th style="text-align: center;">Frequência de Compras</th>
+                                    <th style="text-align: right;">Tendência 24h</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($topBoughtTokens as $t)
+                                    <tr>
+                                        <td>
+                                            <div class="wa-token-info">
+                                                @if($t['logo_url'])
+                                                    <img src="{{ $t['logo_url'] }}" class="wa-token-icon" alt="{{ $t['symbol'] }}">
+                                                @else
+                                                    <div class="wa-token-avatar">{{ substr($t['symbol'], 0, 2) }}</div>
+                                                @endif
+                                                <div>
+                                                    <strong class="wa-text-main" style="display: block;">{{ $t['symbol'] }}</strong>
+                                                    <span class="wa-text-sub" style="font-size: 0.65rem;">{{ $t['name'] }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="wa-badge wa-badge-sky">
+                                                {{ $t['network'] }}
+                                            </span>
+                                        </td>
+                                        <td class="wa-text-main wa-mono-val" style="text-align: right; font-weight: 700;">
+                                            $ {{ number_format($t['allocated_usd'], 2, ',', '.') }}
+                                        </td>
+                                        <td class="wa-text-sub wa-mono-val" style="text-align: right;">
+                                            $ {{ number_format($t['dca_price'], 2, ',', '.') }}
+                                        </td>
+                                        <td style="text-align: center;">
+                                            <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
+                                                <div class="wa-progress-bar" style="width: 70px; margin: 0;">
+                                                    <div class="wa-progress-fill" style="width: {{ $t['buy_ratio'] }}%; background: #10B981;"></div>
+                                                </div>
+                                                <span style="font-size: 0.7rem; font-weight: 800; color: #10B981;">{{ $t['buy_ratio'] }}%</span>
+                                            </div>
+                                        </td>
+                                        <td class="wa-mono-val" style="text-align: right; font-weight: 800; color: #10B981;">
+                                            +{{ number_format($t['price_change_24h'], 2, ',', '.') }}%
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="wa-text-sub" style="text-align: center; padding: 24px;">
+                                            Nenhum histórico de compras encontrado.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             @endif
         </div>
 
     </div>
-
-    <!-- SCRIPT DE INTERATIVIDADE E EVENTOS COMPATÍVEIS COM LIVEWIRE V3 E FILAMENT V3 -->
-    <script>
-        function renderPortfolioChart() {
-            const ctx = document.getElementById('portfolioChart');
-            const container = document.getElementById('chartDataContainer');
-            if (!ctx || !container) return;
-
-            let chartData = { labels: [], portfolio: [], btc_benchmark: [] };
-            let compareBtc = true;
-
-            try {
-                chartData = JSON.parse(container.dataset.chart || '{}');
-                compareBtc = container.dataset.compareBtc === 'true';
-            } catch (e) {
-                console.error("Error parsing chart data:", e);
-                return;
-            }
-
-            if (window.myPortfolioChartInstance) {
-                window.myPortfolioChartInstance.destroy();
-            }
-
-            const canvasCtx = ctx.getContext('2d');
-            const gradient = canvasCtx.createLinearGradient(0, 0, 0, 280);
-            gradient.addColorStop(0, 'rgba(14, 203, 129, 0.35)');
-            gradient.addColorStop(1, 'rgba(14, 203, 129, 0.0)');
-
-            const datasets = [{
-                label: 'Portfólio de Terceiros (USD)',
-                data: chartData.portfolio || [],
-                borderColor: '#0ECB81',
-                borderWidth: 2.5,
-                backgroundColor: gradient,
-                fill: true,
-                tension: 0.35,
-                pointRadius: 0,
-                pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#0ECB81',
-                pointHoverBorderColor: '#FFFFFF',
-                pointHoverBorderWidth: 2,
-            }];
-
-            if (compareBtc && chartData.btc_benchmark) {
-                datasets.push({
-                    label: 'Benchmark BTC (Relativo)',
-                    data: chartData.btc_benchmark,
-                    borderColor: '#38BDF8',
-                    borderWidth: 1.8,
-                    borderDash: [5, 5],
-                    fill: false,
-                    tension: 0.3,
-                    pointRadius: 0,
-                });
-            }
-
-            window.myPortfolioChartInstance = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: chartData.labels || [],
-                    datasets: datasets
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        mode: 'index',
-                        intersect: false,
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'top',
-                            align: 'end',
-                            labels: {
-                                color: '#94A3B8',
-                                font: { size: 11, weight: '600' },
-                                boxWidth: 12,
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: '#0F172A',
-                            borderColor: '#334155',
-                            borderWidth: 1,
-                            titleColor: '#F8FAFC',
-                            bodyColor: '#F8FAFC',
-                            padding: 12,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    return context.dataset.label + ': $' + context.parsed.y.toLocaleString('en-US', {minimumFractionDigits: 2});
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
-                            ticks: { color: '#94A3B8', font: { size: 10 } }
-                        },
-                        y: {
-                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
-                            ticks: {
-                                color: '#94A3B8',
-                                font: { size: 10 },
-                                callback: function(value) {
-                                    return '$' + (value >= 1000 ? (value/1000).toFixed(0) + 'k' : value);
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        if (!window.__portfolioChartInitialized) {
-            window.__portfolioChartInitialized = true;
-
-            document.addEventListener('DOMContentLoaded', renderPortfolioChart);
-            document.addEventListener('livewire:init', renderPortfolioChart);
-            document.addEventListener('livewire:navigated', renderPortfolioChart);
-
-            document.addEventListener('livewire:init', () => {
-                if (window.Livewire) {
-                    Livewire.on('scroll-to-nfts', () => {
-                        setTimeout(() => {
-                            document.getElementById('nft-inventory-section')?.scrollIntoView({ behavior: 'smooth' });
-                        }, 50);
-                    });
-
-                    Livewire.hook('commit', ({ succeed }) => {
-                        succeed(() => {
-                            setTimeout(renderPortfolioChart, 50);
-                        });
-                    });
-                }
-            });
-        }
-    </script>
 </x-filament-panels::page>

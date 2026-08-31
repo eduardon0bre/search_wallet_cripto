@@ -2,18 +2,17 @@
 
 namespace App\Filament\Resources\Wallets\Tables;
 
+use App\Services\WalletSyncService;
+use Filament\Actions\Action;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
-use Filament\Actions\Action;
+use Filament\Notifications\Notification;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Filament\Notifications\Notification;
-use App\Services\ZerionService;
-use App\Services\WalletSyncService;
 
 class WalletsTable
 {

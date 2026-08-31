@@ -20,9 +20,15 @@ class ZerionService
      */
     protected function client()
     {
-        return Http::withBasicAuth($this->apiKey, '')
-            ->timeout(60)
-            ->retry(3, 1000)
+        return Http::withBasicAuth($this->apiKey ?? '', '')
+            ->timeout(15)
+            ->retry(2, 500, function ($exception, $request) {
+                if ($exception instanceof RequestException && $exception->response) {
+                    return $exception->response->serverError();
+                }
+
+                return true;
+            }, throw: false)
             ->acceptJson();
     }
 
@@ -31,7 +37,7 @@ class ZerionService
      */
     protected function get(string $endpoint, array $queryParams = []): array
     {
-        $url = rtrim($this->baseUrl, '/') . '/' . ltrim($endpoint, '/');
+        $url = rtrim($this->baseUrl, '/').'/'.ltrim($endpoint, '/');
 
         $response = $this->client()->get($url, $queryParams);
 
@@ -43,7 +49,7 @@ class ZerionService
                 ?? null;
 
             if ($response->status() === 429 || str_contains(strtolower($detail ?? ''), 'throttled')) {
-                throw new \RuntimeException("Limite de requisições excedido na Zerion API (Rate Limit). Aguarde alguns segundos e tente novamente.");
+                throw new \RuntimeException('Limite de requisições excedido na Zerion API (Rate Limit). Aguarde alguns segundos e tente novamente.');
             }
 
             if ($detail) {
@@ -123,5 +129,32 @@ class ZerionService
             'currency' => 'usd',
             'page[size]' => $pageSize,
         ]);
+    }
+
+    /**
+     * Busca os dados históricos de gráfico e evolução patrimonial da carteira.
+     * GET /v1/wallets/{address}/charts/{chart_type}
+     *
+     * @param  string  $walletAddress  Endereço ou domínio ENS da carteira
+     * @param  string  $chartType  Período: 'hour', 'day', 'week', 'month', 'year', 'max'
+     * @param  string  $currency  Moeda de cotação: 'usd', 'brl', 'eur', 'btc', 'eth'
+     * @param  string  $positionsFilter  Filtro de posições: 'no_filter', 'only_simple', 'only_complex'
+     */
+    public function getWalletChart(
+        string $walletAddress,
+        string $chartType = 'month',
+        string $currency = 'usd',
+        string $positionsFilter = 'no_filter'
+    ): array {
+        $queryParams = [
+            'currency' => strtolower($currency),
+            'filter[trash]' => 'only_non_trash',
+        ];
+
+        if ($positionsFilter !== 'no_filter') {
+            $queryParams['filter[positions]'] = $positionsFilter;
+        }
+
+        return $this->get("wallets/{$walletAddress}/charts/{$chartType}", $queryParams);
     }
 }
