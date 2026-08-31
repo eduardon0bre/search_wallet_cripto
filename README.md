@@ -20,7 +20,7 @@
 
 ---
 
-## 📌 Sobre o Projeto
+## Sobre o Projeto
 
 O **Search Wallet Cripto** é uma plataforma analítica para rastreamento, auditoria e consolidação patrimonial de carteiras blockchain. O sistema integra-se diretamente com a **Zerion API v1**, consumindo e persistindo dados indexados em alta velocidade, proporcionando uma experiência de visualização profissional inspirada nas melhores ferramentas do mercado Web3 (como Arkham Intelligence, DeBank e Nansen).
 
@@ -149,8 +149,6 @@ Banco de Dados Relacional (SQLite / PostgreSQL / MySQL)
 * Chave de API da Zerion ([Obtenha sua chave gratuita aqui](https://developers.zerion.io/))
 
 ### Passo a Passo
-
-1. **Clone o repositório:**
    ```bash
    git clone https://github.com/eduardon0bre/search_wallet_cripto.git
    cd search_wallet_cripto
@@ -159,6 +157,9 @@ Banco de Dados Relacional (SQLite / PostgreSQL / MySQL)
 2. **Configure o arquivo de ambiente:**
    ```bash
    cp .env.example .env
+   composer run setup
+   php artisan make:filament-user
+   php artisan serve
    ```
    *Abra o arquivo `.env` e configure sua chave da Zerion API:*
    ```env
