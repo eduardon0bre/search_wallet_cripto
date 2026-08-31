@@ -80,22 +80,6 @@ O **Search Wallet Cripto** é uma plataforma analítica para rastreamento, audit
 
 ---
 
-## 🚧 Funcionalidades Faltantes & Em Desenvolvimento (Roadmap)
-
-A tabela abaixo detalha o que ainda falta para a versão final da plataforma:
-
-| Funcionalidade | Status | O Que Falta / Objetivo |
-| :--- | :---: | :--- |
-| **📜 Histórico & Auditoria de Transações** | 🚧 Em Andamento | Integrar `getTransactions()` ao pipeline do `WalletSyncService`, persistir em `wallet_transactions` e criar aba de histórico no Dashboard com deltas de compra/venda, taxas de gas e links para block explorers. |
-| **⚙️ Sincronização Automatizada em Background** | ⏳ Pendente | Criar job assíncrono `SyncWalletJob` via Laravel Queues e agendamento no Scheduler (`routes/console.php`) para rodar periodicamente (ex: a cada 6h com rate limiter). |
-| **⚡ Suporte a Solana e Redes Não-EVM** | ⏳ Pendente | Expandir validações de formulário e sincronização para aceitar endereços Solana (Base58) e domínios `.sol`. |
-| **🔄 Paginação por Cursor na API** | ⏳ Pendente | Implementar iteração sobre o cursor `links.next` na Zerion API para sincronizar carteiras com mais de 100 tokens ou milhares de NFTs. |
-| **🔔 Webhooks & Alertas em Tempo Real** | ⏳ Pendente | Criar endpoint receptor de Webhooks para notificações automáticas de movimentações de baleias e transferências na carteira. |
-| **📑 Exportação de Extratos (PDF / CSV)** | ⏳ Pendente | Geração de relatórios patrimoniais para declaração fiscal e imposto de renda sobre criptoativos. |
-| **🔍 Infolist Customizado de Carteiras** | ⏳ Pendente | Implementar componentes no `WalletInfolist.php` para resumo executivo na tela de detalhes da carteira. |
-
----
-
 ## 🏗️ Arquitetura do Sistema
 
 ```text
@@ -179,13 +163,6 @@ Banco de Dados Relacional (SQLite / PostgreSQL / MySQL)
 
 5. **Inicie o servidor de desenvolvimento:**
    ```bash
-   composer run dev
+   php artisan serve
    ```
 
-6. **Acesse no seu navegador:**
-   [http://localhost:8000/admin](http://localhost:8000/admin)
-
----
-
-## 📄 Licença
-Este projeto está sob a licença [MIT](LICENSE).
