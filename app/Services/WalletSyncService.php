@@ -3,13 +3,12 @@
 namespace App\Services;
 
 use App\Models\Models\WalletsWeb3\Wallet;
-use App\Models\Models\WalletsWeb3\WalletTokenBalance;
 use App\Models\Models\WalletsWeb3\WalletDefiPosition;
 use App\Models\Models\WalletsWeb3\WalletNft;
 use App\Models\Models\WalletsWeb3\WalletSnapshot;
+use App\Models\Models\WalletsWeb3\WalletTokenBalance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class WalletSyncService
@@ -17,7 +16,6 @@ class WalletSyncService
     public function __construct(
         protected ZerionService $zerionService
     ) {}
-
 
     public function syncWallet(Wallet $wallet): array
     {
@@ -33,25 +31,25 @@ class WalletSyncService
         $address = trim($wallet->wallet_address ?? '');
 
         // Validação de formato EVM (0x + 40 hex chars) ou ENS (.eth)
-        if (!preg_match('/^(0x[a-fA-F0-9]{40}|[a-zA-Z0-9-]+\.eth)$/i', $address)) {
+        if (! preg_match('/^(0x[a-fA-F0-9]{40}|[a-zA-Z0-9-]+\.eth)$/i', $address)) {
             $errorMsg = "Endereço da carteira é inválido: '{$address}'. O formato deve ser um endereço EVM válido (ex: 0x...) ou ENS (.eth).";
             $syncResults['errors'][] = $errorMsg;
             $syncResults['status'] = 'error';
             $this->logSync($wallet->id, 'validateAddress', 'error', $errorMsg, $startTime);
             Log::warning("Tentativa de sincronizar carteira {$wallet->id} com endereço inválido: {$address}");
+
             return $syncResults;
         }
-            $tokenData = $this->zerionService->getTokens($wallet->wallet_address);
 
-            // 1. Sincronizar Tokens
+        // 1. Sincronizar Tokens
         try {
             $tokenData = $this->zerionService->getTokens($wallet->wallet_address);
             $syncResults['tokens_count'] = $this->saveTokenBalances($wallet, $tokenData);
             $this->logSync($wallet->id, 'getTokens', 'success', null, $startTime);
         } catch (\Throwable $e) {
-            $syncResults['errors'][] = 'Tokens: ' . $e->getMessage();
+            $syncResults['errors'][] = 'Tokens: '.$e->getMessage();
             $this->logSync($wallet->id, 'getTokens', 'error', $e->getMessage(), $startTime);
-            Log::error("Erro ao sincronizar tokens da carteira {$wallet->id}: " . $e->getMessage());
+            Log::error("Erro ao sincronizar tokens da carteira {$wallet->id}: ".$e->getMessage());
         }
 
         // 2. Sincronizar Posições DeFi
@@ -60,9 +58,9 @@ class WalletSyncService
             $syncResults['defi_count'] = $this->saveDefiPositions($wallet, $appData);
             $this->logSync($wallet->id, 'getAppBalances', 'success', null, $startTime);
         } catch (\Throwable $e) {
-            $syncResults['errors'][] = 'DeFi: ' . $e->getMessage();
+            $syncResults['errors'][] = 'DeFi: '.$e->getMessage();
             $this->logSync($wallet->id, 'getAppBalances', 'error', $e->getMessage(), $startTime);
-            Log::error("Erro ao sincronizar DeFi da carteira {$wallet->id}: " . $e->getMessage());
+            Log::error("Erro ao sincronizar DeFi da carteira {$wallet->id}: ".$e->getMessage());
         }
 
         usleep(100000);
@@ -72,12 +70,12 @@ class WalletSyncService
             $syncResults['nfts_count'] = $this->saveNfts($wallet, $nftData);
             $this->logSync($wallet->id, 'getNfts', 'success', null, $startTime);
         } catch (\Throwable $e) {
-            $syncResults['errors'][] = 'NFTs: ' . $e->getMessage();
+            $syncResults['errors'][] = 'NFTs: '.$e->getMessage();
             $this->logSync($wallet->id, 'getNfts', 'error', $e->getMessage(), $startTime);
-            Log::error("Erro ao sincronizar NFTs da carteira {$wallet->id}: " . $e->getMessage());
+            Log::error("Erro ao sincronizar NFTs da carteira {$wallet->id}: ".$e->getMessage());
         }
 
-        if (!empty($syncResults['errors']) && $syncResults['tokens_count'] === 0 && $syncResults['defi_count'] === 0 && $syncResults['nfts_count'] === 0) {
+        if (! empty($syncResults['errors']) && $syncResults['tokens_count'] === 0 && $syncResults['defi_count'] === 0 && $syncResults['nfts_count'] === 0) {
             $syncResults['status'] = 'error';
         } else {
             $wallet->markAsSynced();
@@ -97,7 +95,9 @@ class WalletSyncService
 
         foreach ($items as $item) {
             $attributes = $item['attributes'] ?? null;
-            if (!$attributes) continue;
+            if (! $attributes) {
+                continue;
+            }
 
             $fungibleInfo = $attributes['fungible_info'] ?? [];
             $chainData = $item['relationships']['chain']['data'] ?? [];
@@ -141,7 +141,9 @@ class WalletSyncService
 
         foreach ($items as $item) {
             $attributes = $item['attributes'] ?? null;
-            if (!$attributes) continue;
+            if (! $attributes) {
+                continue;
+            }
 
             $appMetadata = $attributes['application_metadata'] ?? [];
             $chainData = $item['relationships']['chain']['data'] ?? [];
@@ -188,7 +190,9 @@ class WalletSyncService
 
         foreach ($items as $item) {
             $attributes = $item['attributes'] ?? null;
-            if (!$attributes) continue;
+            if (! $attributes) {
+                continue;
+            }
 
             $nftInfo = $attributes['nft_info'] ?? [];
             $chainData = $item['relationships']['chain']['data'] ?? [];
