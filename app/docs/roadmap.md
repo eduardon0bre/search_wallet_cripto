@@ -25,7 +25,7 @@
 - [x] Sincronização e persistência de Posições DeFi (`wallet_defi_positions`)
 - [x] Sincronização e galeria de NFTs com paginação Livewire (`wallet_nfts`)
 - [x] Snapshots patrimoniais e consolidação histórica (`wallet_snapshots`)
-- [ ] Ingestão do Histórico de Transações decodificadas (`wallet_transactions`)
+- [x] Ingestão do Histórico de Transações decodificadas (`wallet_transactions`)
 
 ---
 
@@ -40,7 +40,7 @@
 - [x] Aba de Posições DeFi por protocolo
 - [x] Aba de NFTs com metadados e floor price
 - [x] Aba de Top Buys & Momentum (cálculo de DCA e acumulação)
-- [ ] Aba dedicada para Histórico de Transações e Movimentações
+- [x] Aba dedicada para Histórico de Transações e Movimentações
 
 ---
 

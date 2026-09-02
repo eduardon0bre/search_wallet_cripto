@@ -17,7 +17,7 @@ Este documento detalha o comparativo técnico entre os recursos disponibilizados
 | **Snapshots Patrimoniais e Consolidação Local** | ✅ Implementado | `WalletSnapshot`, consolidação automática em "Todas as Carteiras" | Média |
 | **Logs de Auditoria e Consumo de API** | ✅ Implementado | Tabela `zerion_sync_logs` com status, tempo de resposta e erros | Média |
 | **Tratamento de Rate Limit & Resiliência** | ✅ Implementado | Retries com backoff, captura de HTTP 429 e mensagens amigáveis | Média |
-| **Histórico Decodificado de Transações** | 🚧 Em Andamento / Pendente | Método existe em `ZerionService`, falta pipeline no sync e aba no Dashboard | Alta |
+| **Histórico Decodificado de Transações** | ✅ Implementado | `ZerionService::getTransactions`, `WalletSyncService::saveTransactions`, Aba no Dashboard | Alta |
 | **Sincronização em Background (Queues & Cron)** | ⏳ Pendente | Falta criar `SyncWalletJob` e agendamento no Laravel Scheduler | Alta |
 | **Suporte a Carteiras Solana e Não-EVM** | ⏳ Pendente | Validações atuais restritas a EVM (`0x...`) e ENS (`.eth`) | Média |
 | **Paginação por Cursor (Cursor Pagination)** | ⏳ Pendente | Chamadas limitadas a 100 itens por request (sem iterar `links.next`) | Média |
@@ -77,21 +77,21 @@ Este documento detalha o comparativo técnico entre os recursos disponibilizados
 - **Implementação:**
   - Cadastro de carteiras com validação de formato EVM (`0x...`) e domínios ENS (`.eth`).
   - Tabela Filament com busca, ordenação, filtro de carteiras ativas e botão de cópia de endereço.
-  - Ação de sincronização manual (`Sync`) diretamente na listagem de carteiras com Toast Notification detalhando tokens, DeFi e NFTs sincronizados.
+  - Ação de sincronização manual (`Sync`) diretamente na listagem de carteiras com Toast Notification detalhando tokens, DeFi, NFTs e transações sincronizados.
+
+### 1.8 Histórico Decodificado e Auditoria de Transações On-Chain
+- **Zerion Endpoint:** `GET /v1/wallets/{address}/transactions/`
+- **Implementação:**
+  - `ZerionService::getTransactions()` consulta a API com ordenação cronológica e filtro de proteção `filter[trash]=only_non_trash`.
+  - `WalletSyncService::saveTransactions()` decodifica o payload JSON:API, interpreta atributos (`operation_type`, `mined_at`, `fee`, `transfers`), formata descrições amigáveis human-readable e deltas de ativos (`sent` e `received`).
+  - Persistência imutável e idempotente na tabela `wallet_transactions` com chave única `[wallet_id, tx_hash]`.
+  - Apresentado na aba dedicada **"Transações"** do Dashboard Web3 (`WalletAnalytics`) com filtros por tipo de operação, cálculo real de taxa de gás gasta, badges visuais de ação e links diretos para exploradores de blocos (Etherscan, BscScan, Polygonscan, Arbiscan, Basescan, etc.).
 
 ---
 
 ## 🚧 2. Funcionalidades Pendentes / Faltantes (O Que Ainda Falta)
 
-### 2.1 Histórico Completo e Auditoria de Transações Decodificadas
-- **O que a Zerion oferece:** Endpoint `/v1/wallets/{address}/transactions/` com transações decodificadas em linguagem amigável (*human-readable*), discriminando tipo de ação (`buy`, `sell`, `swap`, `deposit`, `withdraw`, `mint`, `burn`), taxas de gás em USD (`gas_fee_usd`) e deltas exatos de ativos transferidos (`asset_deltas`).
-- **O que falta no projeto:**
-  1. Integrar o método `ZerionService::getTransactions()` dentro do fluxo de `WalletSyncService::syncWallet()`.
-  2. Implementar a rotina `saveTransactions()` para persistir na tabela existente `wallet_transactions` (evitando duplicatas por `tx_hash` e `wallet_id`).
-  3. Criar uma nova aba dedicada **"Transações"** no Dashboard Web3 (`WalletAnalytics`) exibindo lista cronológica com filtros por tipo, rede e links diretos para exploradores de blocos (Etherscan, Polygonscan, Arbiscan, etc.).
-  4. Substituir a aproximação atual de taxas de gás e *Buy Momentum* pelos dados reais das transações persistidas.
-
-### 2.2 Sincronização Assíncrona Automatizada (Jobs, Queues & Scheduler)
+### 2.1 Sincronização Assíncrona Automatizada (Jobs, Queues & Scheduler)
 - **O que falta no projeto:**
   1. **Job Assíncrono (`SyncWalletJob`):** Executar a sincronização em segundo plano via filas (`Laravel Queues`), impedindo que requisições longas travem a experiência do usuário no painel.
   2. **Comando Artisan (`wallets:sync`):** Criar comando no console para sincronizar carteiras ativas via terminal ou agendador.

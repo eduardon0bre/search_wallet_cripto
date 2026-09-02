@@ -54,7 +54,9 @@ class WalletAnalytics extends Page
 
     public string $positionsFilter = 'no_filter'; // 'no_filter', 'only_simple', 'only_complex'
 
-    public string $activeTab = 'tokens'; // 'tokens', 'defi', 'nfts', 'top_buys'
+    public string $activeTab = 'tokens'; // 'tokens', 'defi', 'nfts', 'top_buys', 'transactions'
+
+    public string $selectedActionType = 'all'; // 'all', 'trade', 'send', 'receive', etc.
 
     public int $reloadTimestamp = 0;
 
@@ -73,6 +75,7 @@ class WalletAnalytics extends Page
     public function updatedSelectedWalletId(): void
     {
         $this->resetPage();
+        $this->resetPage('txPage');
         $this->errorMessage = null;
         $this->dispatch('zerion-chart-reload');
     }
@@ -80,6 +83,12 @@ class WalletAnalytics extends Page
     public function updatedSelectedNetwork(): void
     {
         $this->resetPage();
+        $this->resetPage('txPage');
+    }
+
+    public function updatedSelectedActionType(): void
+    {
+        $this->resetPage('txPage');
     }
 
     public function updatedCurrency(): void
@@ -228,7 +237,7 @@ class WalletAnalytics extends Page
 
         $totalBuyTxCount = WalletTransaction::whereIn('wallet_id', $walletIds)
             ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
-            ->where('action_type', 'buy')
+            ->whereIn('action_type', ['buy', 'trade', 'receive'])
             ->count();
 
         $totalTxCount = max(1, WalletTransaction::whereIn('wallet_id', $walletIds)->count());
@@ -253,6 +262,51 @@ class WalletAnalytics extends Page
         }
 
         return $result;
+    }
+
+    #[Computed]
+    public function transactions(): LengthAwarePaginator
+    {
+        return WalletTransaction::whereIn('wallet_id', $this->filteredWalletIds)
+            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->when($this->selectedActionType !== 'all', function ($q) {
+                if ($this->selectedActionType === 'trade' || $this->selectedActionType === 'swap') {
+                    $q->whereIn('action_type', ['trade', 'swap']);
+                } elseif ($this->selectedActionType === 'send') {
+                    $q->whereIn('action_type', ['send', 'sell']);
+                } elseif ($this->selectedActionType === 'receive') {
+                    $q->whereIn('action_type', ['receive', 'buy']);
+                } else {
+                    $q->where('action_type', $this->selectedActionType);
+                }
+            })
+            ->orderByDesc('transaction_at')
+            ->paginate(15, ['*'], 'txPage');
+    }
+
+    #[Computed]
+    public function transactionsCount(): int
+    {
+        return WalletTransaction::whereIn('wallet_id', $this->filteredWalletIds)
+            ->when($this->selectedNetwork !== 'all', fn ($q) => $q->where('network', $this->selectedNetwork))
+            ->count();
+    }
+
+    #[Computed]
+    public function availableActionTypes(): array
+    {
+        return [
+            'all' => 'Todos os Tipos',
+            'trade' => 'Swaps & Trades',
+            'send' => 'Envios (Sends)',
+            'receive' => 'Recebimentos (Receives)',
+            'deposit' => 'Depósitos DeFi',
+            'withdraw' => 'Resgates DeFi',
+            'mint' => 'Mints',
+            'burn' => 'Queimas (Burn)',
+            'approve' => 'Aprovações',
+            'execution' => 'Contratos / Execuções',
+        ];
     }
 
     /**

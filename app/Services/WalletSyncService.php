@@ -7,6 +7,8 @@ use App\Models\Models\WalletsWeb3\WalletDefiPosition;
 use App\Models\Models\WalletsWeb3\WalletNft;
 use App\Models\Models\WalletsWeb3\WalletSnapshot;
 use App\Models\Models\WalletsWeb3\WalletTokenBalance;
+use App\Models\Models\WalletsWeb3\WalletTransaction;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
@@ -24,6 +26,7 @@ class WalletSyncService
             'tokens_count' => 0,
             'defi_count' => 0,
             'nfts_count' => 0,
+            'transactions_count' => 0,
             'status' => 'success',
             'errors' => [],
         ];
@@ -65,6 +68,7 @@ class WalletSyncService
 
         usleep(100000);
 
+        // 3. Sincronizar NFTs
         try {
             $nftData = $this->zerionService->getNfts($wallet->wallet_address);
             $syncResults['nfts_count'] = $this->saveNfts($wallet, $nftData);
@@ -75,7 +79,18 @@ class WalletSyncService
             Log::error("Erro ao sincronizar NFTs da carteira {$wallet->id}: ".$e->getMessage());
         }
 
-        if (! empty($syncResults['errors']) && $syncResults['tokens_count'] === 0 && $syncResults['defi_count'] === 0 && $syncResults['nfts_count'] === 0) {
+        // 4. Sincronizar Transações Decodificadas
+        try {
+            $txData = $this->zerionService->getTransactions($wallet->wallet_address, 50);
+            $syncResults['transactions_count'] = $this->saveTransactions($wallet, $txData);
+            $this->logSync($wallet->id, 'getTransactions', 'success', null, $startTime);
+        } catch (\Throwable $e) {
+            $syncResults['errors'][] = 'Transações: '.$e->getMessage();
+            $this->logSync($wallet->id, 'getTransactions', 'error', $e->getMessage(), $startTime);
+            Log::error("Erro ao sincronizar transações da carteira {$wallet->id}: ".$e->getMessage());
+        }
+
+        if (! empty($syncResults['errors']) && $syncResults['tokens_count'] === 0 && $syncResults['defi_count'] === 0 && $syncResults['nfts_count'] === 0 && $syncResults['transactions_count'] === 0) {
             $syncResults['status'] = 'error';
         } else {
             $wallet->markAsSynced();
@@ -226,6 +241,165 @@ class WalletSyncService
         }
 
         return $count;
+    }
+
+    /**
+     * Processa e salva histórico de transações na tabela `wallet_transactions`
+     */
+    public function saveTransactions(Wallet $wallet, array $apiResponse): int
+    {
+        $items = $apiResponse['data'] ?? [];
+        $count = 0;
+
+        foreach ($items as $item) {
+            $attributes = $item['attributes'] ?? null;
+            if (! $attributes) {
+                continue;
+            }
+
+            $hash = $attributes['hash'] ?? null;
+            if (! $hash) {
+                if (preg_match('/(0x[a-fA-F0-9]{64})/', $item['id'] ?? '', $matches)) {
+                    $hash = $matches[1];
+                } else {
+                    continue;
+                }
+            }
+
+            $chainData = $item['relationships']['chain']['data'] ?? [];
+            $network = $chainData['id'] ?? 'ethereum';
+
+            $operationType = strtolower($attributes['operation_type'] ?? $item['type'] ?? 'unknown');
+            $status = $attributes['status'] ?? 'confirmed';
+            $minedAt = $attributes['mined_at'] ?? now()->toIso8601String();
+            $transactionAt = Carbon::parse($minedAt);
+
+            $fee = $attributes['fee'] ?? [];
+            $gasFeeUsd = isset($fee['value']) ? (float) $fee['value'] : null;
+
+            $transfers = $attributes['transfers'] ?? [];
+            $sent = [];
+            $received = [];
+            $totalSentUsd = 0.0;
+            $totalReceivedUsd = 0.0;
+
+            foreach ($transfers as $t) {
+                $direction = strtolower($t['direction'] ?? '');
+                $fungible = $t['fungible_info'] ?? null;
+                $nft = $t['nft_info'] ?? null;
+
+                $symbol = $fungible['symbol'] ?? ($nft ? ($nft['name'] ?? 'NFT') : 'UNKNOWN');
+                $name = $fungible['name'] ?? ($nft['name'] ?? null);
+                $iconUrl = $fungible['icon']['url'] ?? ($nft['content']['preview']['url'] ?? null);
+
+                $amount = isset($t['quantity']['float'])
+                    ? (float) $t['quantity']['float']
+                    : (isset($t['quantity']['numeric']) && isset($t['quantity']['decimals'])
+                        ? (float) $t['quantity']['numeric'] / (10 ** (int) $t['quantity']['decimals'])
+                        : (float) ($t['quantity'] ?? 0));
+
+                $valueUsd = isset($t['value']) ? (float) $t['value'] : (isset($t['price']) ? $amount * (float) $t['price'] : null);
+
+                $summaryItem = [
+                    'symbol' => $symbol,
+                    'name' => $name,
+                    'amount' => $amount,
+                    'value_usd' => $valueUsd,
+                    'icon_url' => $iconUrl,
+                    'is_nft' => ! empty($nft),
+                ];
+
+                if ($direction === 'out') {
+                    $sent[] = $summaryItem;
+                    if ($valueUsd) {
+                        $totalSentUsd += $valueUsd;
+                    }
+                } elseif ($direction === 'in') {
+                    $received[] = $summaryItem;
+                    if ($valueUsd) {
+                        $totalReceivedUsd += $valueUsd;
+                    }
+                }
+            }
+
+            $transactionValueUsd = max($totalReceivedUsd, $totalSentUsd);
+            if ($transactionValueUsd === 0.0 && isset($attributes['value'])) {
+                $transactionValueUsd = (float) $attributes['value'];
+            }
+
+            $friendlyDescription = $this->buildFriendlyDescription($operationType, $sent, $received);
+
+            // Regra: Transações são imutáveis. Inserir idempotente sem duplicar (unique por wallet_id + tx_hash)
+            WalletTransaction::firstOrCreate(
+                [
+                    'wallet_id' => $wallet->id,
+                    'tx_hash' => $hash,
+                ],
+                [
+                    'network' => $network,
+                    'transaction_at' => $transactionAt,
+                    'action_type' => $operationType,
+                    'friendly_description' => $friendlyDescription,
+                    'gas_fee_usd' => $gasFeeUsd,
+                    'transaction_value_usd' => $transactionValueUsd > 0 ? $transactionValueUsd : null,
+                    'status' => $status,
+                    'asset_deltas' => [
+                        'sent' => $sent,
+                        'received' => $received,
+                    ],
+                    'raw_data' => $attributes,
+                ]
+            );
+
+            $count++;
+        }
+
+        return $count;
+    }
+
+
+    protected function buildFriendlyDescription(string $operationType, array $sent, array $received): string
+    {
+        $formatAmount = function (float $amount, string $symbol): string {
+            $formatted = $amount >= 1 ? number_format($amount, 2, ',', '.') : rtrim(rtrim(number_format($amount, 6, ',', '.'), '0'), ',');
+            return "{$formatted} {$symbol}";
+        };
+
+        return match ($operationType) {
+            'trade', 'swap' => ! empty($sent) && ! empty($received)
+                ? "Troca de {$formatAmount($sent[0]['amount'], $sent[0]['symbol'])} por {$formatAmount($received[0]['amount'], $received[0]['symbol'])}"
+                : 'Troca de ativos (Swap)',
+
+            'send' => ! empty($sent)
+                ? "Envio de {$formatAmount($sent[0]['amount'], $sent[0]['symbol'])}"
+                : 'Envio de ativos',
+
+            'receive' => ! empty($received)
+                ? "Recebimento de {$formatAmount($received[0]['amount'], $received[0]['symbol'])}"
+                : 'Recebimento de ativos',
+
+            'deposit' => ! empty($sent)
+                ? "Depósito de {$formatAmount($sent[0]['amount'], $sent[0]['symbol'])} em protocolo"
+                : 'Depósito em protocolo DeFi',
+
+            'withdraw' => ! empty($received)
+                ? "Resgate de {$formatAmount($received[0]['amount'], $received[0]['symbol'])} de protocolo"
+                : 'Resgate de protocolo DeFi',
+
+            'mint' => ! empty($received)
+                ? 'Mint de ' . $received[0]['symbol']
+                : 'Mint on-chain',
+
+            'burn' => ! empty($sent)
+                ? 'Queima de ' . $sent[0]['symbol']
+                : 'Queima de tokens (Burn)',
+
+            'approve' => 'Aprovação de contrato (' . ($sent[0]['symbol'] ?? $received[0]['symbol'] ?? 'Token') . ')',
+
+            'execution' => 'Execução de contrato inteligente',
+
+            default => ucfirst($operationType) . ' on-chain',
+        };
     }
 
     /**
