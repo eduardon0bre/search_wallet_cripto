@@ -123,11 +123,12 @@ class ZerionService
      * Busca o histórico de transações da carteira.
      * GET /v1/wallets/{address}/transactions/
      */
-    public function getTransactions(string $walletAddress, int $pageSize = 20): array
+    public function getTransactions(string $walletAddress, int $pageSize = 50): array
     {
         return $this->get("wallets/{$walletAddress}/transactions/", [
             'currency' => 'usd',
             'page[size]' => $pageSize,
+            'filter[trash]' => 'only_non_trash',
         ]);
     }
 

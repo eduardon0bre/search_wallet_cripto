@@ -65,7 +65,7 @@ class WalletsTable
                         if ($result['status'] === 'success') {
                             Notification::make()
                                 ->title('Carteira sincronizada com sucesso!')
-                                ->body("Foram atualizados: {$result['tokens_count']} tokens, {$result['defi_count']} posições DeFi e {$result['nfts_count']} NFTs.")
+                                ->body("Foram sincronizados: {$result['tokens_count']} tokens, {$result['defi_count']} posições DeFi, {$result['nfts_count']} NFTs e {$result['transactions_count']} transações.")
                                 ->success()
                                 ->send();
                         } else {

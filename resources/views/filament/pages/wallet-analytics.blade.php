@@ -6,14 +6,14 @@
     @push('styles')
         <style>
             .wa-dashboard {
-                background-color: #CBD5E1 !important;
-                color: #0F172A !important;
+                background-color: #16171A !important;
+                color: #F3F4F6 !important;
                 font-family: 'Inter', system-ui, -apple-system, sans-serif;
                 border-radius: 12px;
                 padding: 24px;
                 margin-top: -10px;
-                border: 1px solid #94A3B8;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+                border: 1px solid #26272B;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
             }
 
             .wa-header {
@@ -23,14 +23,14 @@
                 justify-content: space-between;
                 gap: 16px;
                 padding-bottom: 20px;
-                border-bottom: 1px solid #94A3B8;
+                border-bottom: 1px solid #2D2F36;
                 margin-bottom: 24px;
             }
 
             .wa-title-group h2 {
                 font-size: 1.5rem;
                 font-weight: 800;
-                color: #0F172A;
+                color: #F3F4F6;
                 margin: 0;
                 display: flex;
                 align-items: center;
@@ -39,16 +39,16 @@
 
             .wa-title-sub {
                 font-size: 0.8rem;
-                color: #475569;
+                color: #9CA3AF;
                 margin-top: 4px;
             }
 
             .wa-text-main {
-                color: #F8FAFC;
+                color: #F3F4F6;
             }
 
             .wa-text-sub {
-                color: #94A3B8;
+                color: #9CA3AF;
             }
 
             .wa-text-accent {
@@ -85,31 +85,49 @@
             }
 
             .wa-badge-sky {
-                background-color: rgba(56, 189, 248, 0.15);
-                color: #0284C7;
-                border: 1px solid rgba(56, 189, 248, 0.35);
+                background-color: rgba(56, 189, 248, 0.12);
+                color: #38BDF8;
+                border: 1px solid rgba(56, 189, 248, 0.3);
             }
 
             .wa-badge-success {
-                background-color: rgba(16, 185, 129, 0.2);
+                background-color: rgba(16, 185, 129, 0.15);
                 color: #10B981;
-                border: 1px solid rgba(16, 185, 129, 0.4);
+                border: 1px solid rgba(16, 185, 129, 0.35);
             }
 
             .wa-badge-danger {
-                background-color: rgba(239, 68, 68, 0.2);
+                background-color: rgba(239, 68, 68, 0.15);
                 color: #EF4444;
-                border: 1px solid rgba(239, 68, 68, 0.4);
+                border: 1px solid rgba(239, 68, 68, 0.35);
+            }
+
+            .wa-badge-purple {
+                background-color: rgba(168, 85, 247, 0.15);
+                color: #C084FC;
+                border: 1px solid rgba(168, 85, 247, 0.35);
+            }
+
+            .wa-badge-amber {
+                background-color: rgba(245, 158, 11, 0.15);
+                color: #FBBF24;
+                border: 1px solid rgba(245, 158, 11, 0.35);
+            }
+
+            .wa-badge-neutral {
+                background-color: rgba(161, 161, 170, 0.15);
+                color: #9CA3AF;
+                border: 1px solid rgba(161, 161, 170, 0.3);
             }
 
             /* BARRA DE FILTROS PRINCIPAL */
             .wa-filter-card {
-                background-color: #1E293B;
-                border: 1px solid #334155;
+                background-color: #202125;
+                border: 1px solid #2D2F36;
                 border-radius: 12px;
                 padding: 20px;
                 margin-bottom: 24px;
-                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+                box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             }
 
             .wa-filter-card-header {
@@ -119,7 +137,7 @@
                 justify-content: space-between;
                 gap: 12px;
                 padding-bottom: 14px;
-                border-bottom: 1px solid #334155;
+                border-bottom: 1px solid #2D2F36;
                 margin-bottom: 18px;
             }
 
@@ -129,7 +147,7 @@
                 gap: 8px;
                 font-size: 0.85rem;
                 font-weight: 700;
-                color: #F8FAFC;
+                color: #F3F4F6;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }
@@ -162,7 +180,7 @@
             .wa-filter-label {
                 font-size: 0.68rem;
                 font-weight: 700;
-                color: #94A3B8;
+                color: #9CA3AF;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
                 display: flex;
@@ -179,9 +197,9 @@
 
             .wa-select-custom {
                 width: 100%;
-                background-color: #0F172A !important;
-                color: #F8FAFC !important;
-                border: 1px solid #334155 !important;
+                background-color: #18191D !important;
+                color: #F3F4F6 !important;
+                border: 1px solid #2D2F36 !important;
                 border-radius: 8px !important;
                 padding: 8px 12px !important;
                 font-size: 0.82rem !important;
@@ -199,10 +217,10 @@
 
             .wa-period-group {
                 display: inline-flex;
-                background-color: #0F172A;
+                background-color: #18191D;
                 padding: 3px;
                 border-radius: 8px;
-                border: 1px solid #334155;
+                border: 1px solid #2D2F36;
                 width: 100%;
                 height: 38px;
                 align-items: center;
@@ -211,7 +229,7 @@
             .wa-period-btn {
                 flex: 1;
                 background: transparent;
-                color: #94A3B8;
+                color: #9CA3AF;
                 border: none;
                 padding: 6px 4px;
                 border-radius: 6px;
@@ -224,8 +242,8 @@
             }
 
             .wa-period-btn:hover {
-                color: #F8FAFC;
-                background-color: rgba(56, 189, 248, 0.1);
+                color: #F3F4F6;
+                background-color: rgba(255, 255, 255, 0.06);
             }
 
             .wa-period-btn.active {
@@ -270,9 +288,9 @@
                 gap: 12px;
                 padding-top: 14px;
                 margin-top: 16px;
-                border-top: 1px dashed #334155;
+                border-top: 1px dashed #2D2F36;
                 font-size: 0.75rem;
-                color: #94A3B8;
+                color: #9CA3AF;
             }
 
             .wa-filter-meta-item {
@@ -286,8 +304,8 @@
                 border-radius: 6px;
                 font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
                 font-weight: 600;
-                background-color: #0F172A;
-                border: 1px solid #334155;
+                background-color: #18191D;
+                border: 1px solid #2D2F36;
                 color: #38BDF8;
             }
 
@@ -300,8 +318,8 @@
             }
 
             .wa-card {
-                background-color: #1E293B;
-                border: 1px solid #334155;
+                background-color: #202125;
+                border: 1px solid #2D2F36;
                 border-radius: 10px;
                 padding: 18px;
                 display: flex;
@@ -311,7 +329,7 @@
             }
 
             .wa-card:hover {
-                border-color: #475569;
+                border-color: #3E414B;
             }
 
             .wa-card-sky {
@@ -336,7 +354,7 @@
             .wa-card-title {
                 font-size: 0.7rem;
                 font-weight: 700;
-                color: #94A3B8;
+                color: #9CA3AF;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
             }
@@ -344,16 +362,16 @@
             .wa-card-value {
                 font-size: 1.5rem;
                 font-weight: 800;
-                color: #F8FAFC;
+                color: #F3F4F6;
                 line-height: 1.2;
             }
 
             .wa-card-sub {
                 font-size: 0.72rem;
-                color: #94A3B8;
+                color: #9CA3AF;
                 margin-top: 10px;
                 padding-top: 8px;
-                border-top: 1px solid #334155;
+                border-top: 1px solid #2D2F36;
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
@@ -368,8 +386,8 @@
             }
 
             .wa-submetric-box {
-                background-color: #1E293B;
-                border: 1px solid #334155;
+                background-color: #202125;
+                border: 1px solid #2D2F36;
                 border-radius: 8px;
                 padding: 12px 14px;
                 display: flex;
@@ -379,11 +397,11 @@
 
             .wa-progress-bar {
                 width: 100%;
-                background-color: #0F172A;
+                background-color: #18191D;
                 border-radius: 999px;
                 height: 6px;
                 overflow: hidden;
-                border: 1px solid #334155;
+                border: 1px solid #2D2F36;
                 margin-top: 6px;
             }
 
@@ -395,8 +413,8 @@
 
             /* GRAFICO PATRIMONIAL */
             .wa-chart-section {
-                background-color: #1E293B;
-                border: 1px solid #334155;
+                background-color: #202125;
+                border: 1px solid #2D2F36;
                 border-radius: 10px;
                 padding: 20px;
                 margin-bottom: 24px;
@@ -410,7 +428,7 @@
                 justify-content: space-between;
                 gap: 12px;
                 padding-bottom: 14px;
-                border-bottom: 1px solid #334155;
+                border-bottom: 1px solid #2D2F36;
                 margin-bottom: 16px;
             }
 
@@ -425,7 +443,7 @@
                 inset: 0;
                 width: 100%;
                 height: 100%;
-                background-color: rgba(15, 23, 42, 0.85);
+                background-color: rgba(22, 23, 26, 0.9);
                 backdrop-filter: blur(4px);
                 -webkit-backdrop-filter: blur(4px);
                 display: flex;
@@ -442,8 +460,8 @@
             }
 
             .wa-section-card {
-                background-color: #1E293B;
-                border: 1px solid #334155;
+                background-color: #202125;
+                border: 1px solid #2D2F36;
                 border-radius: 10px;
                 padding: 20px;
                 margin-bottom: 24px;
@@ -453,7 +471,7 @@
                 max-height: 400px;
                 overflow-y: auto;
                 border-radius: 8px;
-                border: 1px solid #334155;
+                border: 1px solid #2D2F36;
             }
 
             .wa-table {
@@ -466,11 +484,11 @@
             .wa-table th {
                 font-size: 0.65rem;
                 font-weight: 700;
-                color: #94A3B8;
+                color: #9CA3AF;
                 text-transform: uppercase;
                 padding: 10px 14px;
-                border-bottom: 1px solid #334155;
-                background-color: #0F172A;
+                border-bottom: 1px solid #2D2F36;
+                background-color: #18191D;
                 position: sticky;
                 top: 0;
                 z-index: 10;
@@ -478,13 +496,14 @@
 
             .wa-table td {
                 padding: 12px 14px;
-                border-bottom: 1px solid #334155;
-                color: #F8FAFC;
+                border-bottom: 1px solid #2D2F36;
+                background-color: #202125;
+                color: #F3F4F6;
                 vertical-align: middle;
             }
 
             .wa-table tr:hover td {
-                background-color: #334155;
+                background-color: #282A30;
             }
 
             .wa-token-info {
@@ -526,7 +545,7 @@
                 flex-wrap: wrap;
                 gap: 8px;
                 margin-bottom: 16px;
-                border-bottom: 1px solid #334155;
+                border-bottom: 1px solid #2D2F36;
                 padding-bottom: 10px;
             }
 
@@ -536,7 +555,7 @@
                 gap: 8px;
                 background: transparent;
                 border: 1px solid transparent;
-                color: #94A3B8;
+                color: #9CA3AF;
                 padding: 8px 16px;
                 border-radius: 8px;
                 font-size: 0.8rem;
@@ -546,8 +565,8 @@
             }
 
             .wa-tab-btn:hover {
-                color: #F8FAFC;
-                background-color: #0F172A;
+                color: #F3F4F6;
+                background-color: #18191D;
             }
 
             .wa-tab-btn.active {
@@ -558,8 +577,8 @@
             }
 
             .wa-defi-card {
-                background-color: #0F172A;
-                border: 1px solid #334155;
+                background-color: #18191D;
+                border: 1px solid #2D2F36;
                 border-radius: 8px;
                 padding: 12px 14px;
                 margin-bottom: 10px;
@@ -580,8 +599,8 @@
             }
 
             .wa-nft-card {
-                background-color: #0F172A;
-                border: 1px solid #334155;
+                background-color: #18191D;
+                border: 1px solid #2D2F36;
                 border-radius: 8px;
                 overflow: hidden;
                 transition: transform 0.2s ease, border-color 0.2s ease;
@@ -594,7 +613,7 @@
 
             .wa-nft-thumb {
                 height: 160px;
-                background-color: #0B0E11;
+                background-color: #121315;
                 position: relative;
                 overflow: hidden;
                 display: flex;
@@ -616,30 +635,42 @@
                 gap: 12px;
                 margin-top: 20px;
                 padding-top: 16px;
-                border-top: 1px solid #334155;
+                border-top: 1px solid #2D2F36;
             }
 
             .wa-pagination-btn, .wa-pagination-num {
-                background-color: #0F172A;
-                color: #F8FAFC;
-                border: 1px solid #334155;
+                background-color: #18191D;
+                color: #F3F4F6;
+                border: 1px solid #2D2F36;
                 border-radius: 6px;
-                padding: 6px 12px;
+                padding: 6px 14px;
                 font-size: 0.8rem;
-                font-weight: 500;
+                font-weight: 600;
                 cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
                 transition: all 0.2s ease;
+                user-select: none;
             }
 
             .wa-pagination-btn:hover:not(:disabled), .wa-pagination-num:hover:not(.active) {
-                background-color: #334155;
+                background-color: #282A30;
                 border-color: #38BDF8;
                 color: #38BDF8;
             }
 
+            .wa-pagination-btn:disabled {
+                opacity: 0.35;
+                cursor: not-allowed;
+                border-color: #2D2F36;
+                color: #6B7280;
+                background-color: #18191D;
+            }
+
             .wa-pagination-num.active {
                 background-color: #0284C7;
-                border-color: #0284C7;
+                border-color: #38BDF8;
                 color: #FFFFFF;
                 font-weight: 700;
             }
@@ -654,20 +685,20 @@
                 margin-bottom: 24px;
             }
 
-            /* DARK MODE OVERRIDES */
+            /* DARK MODE HARMONIZATION */
             html.dark .wa-dashboard {
-                background-color: #0B0E11 !important;
-                color: #EAECEF !important;
-                border: none;
+                background-color: #16171A !important;
+                color: #F3F4F6 !important;
+                border-color: #26272B !important;
                 box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
             }
 
             html.dark .wa-header {
-                border-bottom-color: #2B313A;
+                border-bottom-color: #2D2F36;
             }
 
             html.dark .wa-title-group h2 {
-                color: #EAECEF;
+                color: #F3F4F6;
             }
 
             html.dark .wa-filter-card,
@@ -675,8 +706,8 @@
             html.dark .wa-card,
             html.dark .wa-chart-section,
             html.dark .wa-submetric-box {
-                background-color: #242A32;
-                border-color: #333B46;
+                background-color: #202125;
+                border-color: #2D2F36;
             }
 
             html.dark .wa-filter-card-header,
@@ -685,7 +716,7 @@
             html.dark .wa-card-sub,
             html.dark .wa-filter-meta-bar,
             html.dark .wa-pagination-container {
-                border-color: #333B46;
+                border-color: #2D2F36;
             }
 
             html.dark .wa-select-custom,
@@ -696,33 +727,42 @@
             html.dark .wa-table th,
             html.dark .wa-pagination-btn,
             html.dark .wa-pagination-num {
-                background-color: #181A20 !important;
-                color: #EAECEF !important;
-                border-color: #2B313A !important;
+                background-color: #18191D !important;
+                color: #F3F4F6 !important;
+                border-color: #2D2F36 !important;
+            }
+
+            html.dark .wa-pagination-btn:disabled {
+                opacity: 0.35;
+                cursor: not-allowed;
+                border-color: #2D2F36 !important;
+                color: #6B7280 !important;
+                background-color: #18191D !important;
             }
 
             html.dark .wa-period-btn.active,
             html.dark .wa-tab-btn.active,
             html.dark .wa-pagination-num.active {
-                background-color: #3861FB;
-                border-color: #3861FB;
+                background-color: #0284C7;
+                border-color: #38BDF8;
                 color: #FFFFFF;
-                box-shadow: 0 2px 8px rgba(56, 97, 251, 0.4);
+                box-shadow: 0 2px 8px rgba(2, 132, 199, 0.4);
             }
 
             html.dark .wa-btn-refresh {
-                background: linear-gradient(135deg, #3861FB 0%, #254EDB 100%);
-                border-color: #3861FB;
-                box-shadow: 0 2px 8px rgba(56, 97, 251, 0.3);
+                background: linear-gradient(135deg, #0284C7 0%, #0369A1 100%);
+                border-color: #38BDF8;
+                box-shadow: 0 2px 8px rgba(2, 132, 199, 0.3);
             }
 
             html.dark .wa-table td {
-                border-bottom-color: #333B46;
-                color: #EAECEF;
+                background-color: #202125 !important;
+                border-bottom-color: #2D2F36;
+                color: #F3F4F6;
             }
 
             html.dark .wa-table tr:hover td {
-                background-color: #2C333E;
+                background-color: #282A30 !important;
             }
         </style>
     @endpush
@@ -743,23 +783,6 @@
     @endphp
 
     <div class="wa-dashboard">
-
-        <!-- 1. HEADER PRINCIPAL DO DASHBOARD -->
-        <div class="wa-header">
-            <div class="wa-title-group">
-                <div>
-                    <h2>
-                        <span class="wa-pulse-dot"></span>
-                        Dashboard Web3: Histórico On-Chain & Analytics
-                    </h2>
-                    <div class="wa-title-sub">
-                        Monitoramento de patrimônio on-chain em tempo real, cotações multi-moedas e inteligência de ativos.
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. BARRA DE FILTROS PRINCIPAL (CARTEIRA, PERÍODO, MOEDA, COMPOSIÇÃO E ATUALIZAR) -->
         <div class="wa-filter-card">
             <div class="wa-filter-card-header">
                 <div class="wa-filter-card-title">
@@ -850,8 +873,6 @@
             @if ($selectedWallet)
                 <div class="wa-filter-meta-bar">
                     <div class="wa-filter-meta-item">
-                        <span>Endereço On-Chain:</span>
-                        <span class="wa-mono-badge">{{ $selectedWallet->wallet_address }}</span>
                     </div>
                     <div class="wa-filter-meta-item">
                         <span>Tokens em Carteira: <strong class="wa-text-main" style="color: #38BDF8;">{{ $tokens->count() }} ativos</strong></span>
@@ -1014,12 +1035,26 @@
 
             <!-- Chart Container with Alpine Component -->
             <div class="wa-chart-container"
+                 wire:ignore.self
                  x-data="{
                     chart: null,
                     init() {
                         this.$nextTick(() => this.draw());
+
+                        if (typeof Livewire !== 'undefined') {
+                            Livewire.hook('commit', ({ component, commit, respond, succeed, fail }) => {
+                                succeed(() => {
+                                    this.$nextTick(() => {
+                                        const canvas = this.$refs.canvas;
+                                        if (canvas && (!this.chart || !window.Chart?.getChart(canvas))) {
+                                            this.draw();
+                                        }
+                                    });
+                                });
+                            });
+                        }
                     },
-                    destroy() {
+                    cleanupChart() {
                         if (this.chart) {
                             try { this.chart.destroy(); } catch(e) {}
                             this.chart = null;
@@ -1037,10 +1072,16 @@
                         if (!canvas) return;
 
                         if (typeof window.Chart === 'undefined') {
+                            const timer = setInterval(() => {
+                                if (typeof window.Chart !== 'undefined') {
+                                    clearInterval(timer);
+                                    this.draw();
+                                }
+                            }, 50);
                             return;
                         }
 
-                        this.destroy();
+                        this.cleanupChart();
 
                         const labels = @js($chartResult['labels'] ?? []);
                         const values = @js($chartResult['values'] ?? []);
@@ -1086,10 +1127,10 @@
                                     plugins: {
                                         legend: { display: false },
                                         tooltip: {
-                                            backgroundColor: '#0F172A',
-                                            titleColor: '#94A3B8',
-                                            bodyColor: '#F8FAFC',
-                                            borderColor: '#334155',
+                                            backgroundColor: '#18191D',
+                                            titleColor: '#9CA3AF',
+                                            bodyColor: '#F3F4F6',
+                                            borderColor: '#2D2F36',
                                             borderWidth: 1,
                                             padding: 12,
                                             displayColors: false,
@@ -1103,9 +1144,9 @@
                                     },
                                     scales: {
                                         x: {
-                                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
+                                            grid: { color: 'rgba(255, 255, 255, 0.07)', drawBorder: false },
                                             ticks: {
-                                                color: '#94A3B8',
+                                                color: '#9CA3AF',
                                                 maxRotation: 0,
                                                 autoSkip: true,
                                                 maxTicksLimit: 10,
@@ -1113,9 +1154,9 @@
                                             }
                                         },
                                         y: {
-                                            grid: { color: 'rgba(51, 65, 85, 0.3)', drawBorder: false },
+                                            grid: { color: 'rgba(255, 255, 255, 0.07)', drawBorder: false },
                                             ticks: {
-                                                color: '#94A3B8',
+                                                color: '#9CA3AF',
                                                 font: { size: 10 },
                                                 callback: function(value) {
                                                     return symbol + ' ' + Number(value).toLocaleString('pt-BR', { notation: 'compact', compactDisplay: 'short' });
@@ -1145,51 +1186,11 @@
                     </div>
                 </div>
 
-                <canvas x-ref="canvas"></canvas>
+                <canvas wire:ignore x-ref="canvas"></canvas>
             </div>
         </div>
 
-        <!-- 6. TABELA EXPLORADORA DE PONTOS RECENTES DA API (COLAPSÁVEL) -->
-        @if (!empty($chartResult['recent_points']))
-            <div class="wa-section-card" x-data="{ open: false }" style="margin-bottom: 24px;">
-                <div style="display: flex; align-items: center; justify-content: space-between; cursor: pointer;" @click="open = !open">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <x-heroicon-o-table-cells style="width: 18px; height: 18px; color: #38BDF8;" />
-                        <strong style="font-size: 0.8rem; font-weight: 700;" class="wa-text-main">
-                            Explorador de Amostras de Pontos da API (Últimos 10 registros da Zerion)
-                        </strong>
-                    </div>
-                    <button type="button" style="background: transparent; border: none; font-size: 0.75rem; font-weight: 600; color: #94A3B8; cursor: pointer;">
-                        <span x-text="open ? '▲ Ocultar Amostras' : '▼ Ver Amostras Brutas'"></span>
-                    </button>
-                </div>
-
-                <div x-show="open" x-cloak style="margin-top: 14px;" class="wa-table-scroll">
-                    <table class="wa-table">
-                        <thead>
-                            <tr>
-                                <th>Data & Horário</th>
-                                <th>Timestamp Unix</th>
-                                <th style="text-align: right;">Patrimônio On-Chain ({{ $symbol }})</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($chartResult['recent_points'] as $pt)
-                                <tr>
-                                    <td class="wa-mono-val">{{ $pt['formatted_date'] }}</td>
-                                    <td class="wa-text-sub wa-mono-val">{{ $pt['timestamp'] }}</td>
-                                    <td class="wa-mono-val" style="text-align: right; font-weight: 700; color: #38BDF8;">
-                                        {{ $symbol }} {{ number_format((float) ($pt['value'] ?? 0), 2, ',', '.') }}
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        @endif
-
-        <!-- 7. SEÇÕES DE ATIVOS & INTELIGÊNCIA EM ABAS (TOKENS, DEFI, NFTS, BUY MOMENTUM) -->
+        <!-- 6. SEÇÕES DE ATIVOS & INTELIGÊNCIA EM ABAS (TOKENS, DEFI, NFTS, BUY MOMENTUM, TRANSAÇÕES) -->
         <div class="wa-section-card">
             <!-- NAVEGAÇÃO POR ABAS -->
             <div class="wa-tabs-nav">
@@ -1227,6 +1228,15 @@
                 >
                     <x-heroicon-o-arrow-trending-up style="width: 18px; height: 18px;" />
                     <span>Buy Momentum & DCA</span>
+                </button>
+
+                <button
+                    type="button"
+                    wire:click="setActiveTab('transactions')"
+                    class="wa-tab-btn {{ $activeTab === 'transactions' ? 'active' : '' }}"
+                >
+                    <x-heroicon-o-arrows-right-left style="width: 18px; height: 18px;" />
+                    <span>Transações ({{ $this->transactionsCount }})</span>
                 </button>
             </div>
 
@@ -1394,17 +1404,21 @@
 
                     @if($nfts->hasPages())
                         <div class="wa-pagination-container">
-                            <div class="wa-text-sub" style="font-size: 0.8rem;">
-                                Mostrando <strong class="wa-text-main">{{ $nfts->firstItem() ?? 0 }}</strong> a <strong class="wa-text-main">{{ $nfts->lastItem() ?? 0 }}</strong> de <strong class="wa-text-main">{{ $nfts->total() }}</strong> NFTs
+                            <div class="wa-text-sub" style="font-size: 0.8rem; display: flex; align-items: center; gap: 8px;">
+                                <span>Mostrando <strong class="wa-text-main">{{ $nfts->firstItem() ?? 0 }}</strong> a <strong class="wa-text-main">{{ $nfts->lastItem() ?? 0 }}</strong> de <strong class="wa-text-main">{{ $nfts->total() }}</strong> NFTs</span>
+                                <span style="padding: 2px 8px; background: #18191D; border: 1px solid #2D2F36; border-radius: 4px; font-size: 0.72rem; color: #9CA3AF; font-weight: 600;">
+                                    Página {{ $nfts->currentPage() }} de {{ $nfts->lastPage() }}
+                                </span>
                             </div>
-                            <div style="display: flex; gap: 6px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
                                 <button
                                     type="button"
                                     wire:click="previousPage('page')"
                                     class="wa-pagination-btn"
                                     @if($nfts->onFirstPage()) disabled @endif
                                 >
-                                    &laquo; Anterior
+                                    <x-heroicon-m-chevron-left style="width: 14px; height: 14px;" />
+                                    <span>Anterior</span>
                                 </button>
                                 <button
                                     type="button"
@@ -1412,7 +1426,8 @@
                                     class="wa-pagination-btn"
                                     @if(!$nfts->hasMorePages()) disabled @endif
                                 >
-                                    Próxima &raquo;
+                                    <span>Próxima</span>
+                                    <x-heroicon-m-chevron-right style="width: 14px; height: 14px;" />
                                 </button>
                             </div>
                         </div>
@@ -1489,6 +1504,203 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            @endif
+
+            <!-- CONTEÚDO DA ABA: TRANSAÇÕES -->
+            @if ($activeTab === 'transactions')
+                <div>
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div>
+                            <span class="wa-card-title">Auditoria & Movimentações On-Chain</span>
+                        </div>
+
+                        <!-- Filtro por Tipo de Ação -->
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label for="tx-action-type" class="wa-text-sub" style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase;">
+                                Operação:
+                            </label>
+                            <select
+                                id="tx-action-type"
+                                wire:model.live="selectedActionType"
+                                class="wa-select-custom"
+                                style="min-width: 180px; padding: 6px 12px; font-size: 0.75rem;"
+                            >
+                                @foreach ($this->availableActionTypes as $actionKey => $actionLabel)
+                                    <option value="{{ $actionKey }}">{{ $actionLabel }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="wa-table-scroll">
+                        <table class="wa-table">
+                            <thead>
+                                <tr>
+                                    <th>Data / Hora</th>
+                                    <th>Operação</th>
+                                    <th>Descrição / Deltas</th>
+                                    <th style="text-align: right;">Volume (USD)</th>
+                                    <th style="text-align: right;">Gás (USD)</th>
+                                    <th>Rede</th>
+                                    <th style="text-align: center;">Explorer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($this->transactions as $tx)
+                                    @php
+                                        $actionType = strtolower($tx->action_type ?? 'unknown');
+                                        $badgeClass = match($actionType) {
+                                            'trade', 'swap' => 'wa-badge-sky',
+                                            'receive', 'buy' => 'wa-badge-success',
+                                            'send', 'sell' => 'wa-badge-danger',
+                                            'deposit' => 'wa-badge-purple',
+                                            'withdraw' => 'wa-badge-amber',
+                                            'mint' => 'wa-badge-purple',
+                                            'burn' => 'wa-badge-danger',
+                                            default => 'wa-badge-neutral',
+                                        };
+                                        $deltas = $tx->asset_deltas ?? [];
+                                        $sentList = $deltas['sent'] ?? [];
+                                        $rcvList = $deltas['received'] ?? [];
+                                    @endphp
+                                    <tr>
+                                        <!-- Data / Hora -->
+                                        <td style="white-space: nowrap;">
+                                            <div class="wa-text-main" style="font-weight: 600; font-size: 0.78rem;">
+                                                {{ $tx->transaction_at ? $tx->transaction_at->format('d/m/Y H:i') : '-' }}
+                                            </div>
+                                            <div class="wa-text-sub" style="font-size: 0.65rem;">
+                                                {{ $tx->transaction_at ? $tx->transaction_at->diffForHumans() : '' }}
+                                            </div>
+                                        </td>
+
+                                        <!-- Operação Badge -->
+                                        <td>
+                                            <span class="wa-badge {{ $badgeClass }}">
+                                                {{ strtoupper($tx->action_type) }}
+                                            </span>
+                                        </td>
+
+                                        <!-- Descrição & Deltas -->
+                                        <td>
+                                            <div class="wa-text-main" style="font-weight: 600; font-size: 0.78rem; margin-bottom: 4px;">
+                                                {{ $tx->friendly_description }}
+                                            </div>
+
+                                            @if(!empty($sentList) || !empty($rcvList))
+                                                <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center;">
+                                                    @foreach($sentList as $s)
+                                                        <span class="wa-badge wa-badge-danger" style="font-size: 0.65rem; padding: 2px 6px; gap: 4px;">
+                                                            @if(!empty($s['icon_url']))
+                                                                <img src="{{ $s['icon_url'] }}" style="width: 12px; height: 12px; border-radius: 50%;" alt="{{ $s['symbol'] }}">
+                                                            @endif
+                                                            - {{ number_format((float) ($s['amount'] ?? 0), 4, ',', '.') }} {{ $s['symbol'] }}
+                                                        </span>
+                                                    @endforeach
+
+                                                    @if(!empty($sentList) && !empty($rcvList))
+                                                        <x-heroicon-m-arrow-right style="width: 12px; height: 12px; color: #94A3B8;" />
+                                                    @endif
+
+                                                    @foreach($rcvList as $r)
+                                                        <span class="wa-badge wa-badge-success" style="font-size: 0.65rem; padding: 2px 6px; gap: 4px;">
+                                                            @if(!empty($r['icon_url']))
+                                                                <img src="{{ $r['icon_url'] }}" style="width: 12px; height: 12px; border-radius: 50%;" alt="{{ $r['symbol'] }}">
+                                                            @endif
+                                                            + {{ number_format((float) ($r['amount'] ?? 0), 4, ',', '.') }} {{ $r['symbol'] }}
+                                                        </span>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        </td>
+
+                                        <!-- Volume USD -->
+                                        <td class="wa-text-main wa-mono-val" style="text-align: right; font-weight: 700;">
+                                            @if($tx->transaction_value_usd)
+                                                $ {{ number_format((float) $tx->transaction_value_usd, 2, ',', '.') }}
+                                            @else
+                                                <span class="wa-text-sub">-</span>
+                                            @endif
+                                        </td>
+
+                                        <!-- Gás Fee USD -->
+                                        <td class="wa-mono-val" style="text-align: right;">
+                                            @if($tx->gas_fee_usd)
+                                                <span class="wa-text-sub" style="font-size: 0.75rem;">$ {{ number_format((float) $tx->gas_fee_usd, 4, ',', '.') }}</span>
+                                            @else
+                                                <span class="wa-text-sub">-</span>
+                                            @endif
+                                        </td>
+
+                                        <!-- Rede -->
+                                        <td>
+                                            <span class="wa-badge wa-badge-sky">
+                                                {{ strtoupper($tx->network) }}
+                                            </span>
+                                        </td>
+
+                                        <!-- Explorer Link -->
+                                        <td style="text-align: center;">
+                                            @if($tx->tx_hash)
+                                                <a
+                                                    href="{{ $tx->explorer_url }}"
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    class="wa-mono-val"
+                                                    style="display: inline-flex; align-items: center; gap: 4px; color: #38BDF8; font-size: 0.72rem; text-decoration: none;"
+                                                    title="Abrir no Explorador de Blocos"
+                                                >
+                                                    <span>{{ $tx->short_hash }}</span>
+                                                    <x-heroicon-m-arrow-top-right-on-square style="width: 13px; height: 13px;" />
+                                                </a>
+                                            @else
+                                                <span class="wa-text-sub">-</span>
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="wa-text-sub" style="text-align: center; padding: 28px;">
+                                            Nenhuma transação encontrada para os filtros selecionados. Sincronize a carteira para atualizar o histórico on-chain.
+                                        </td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- PAGINAÇÃO DE TRANSAÇÕES -->
+                    @if ($this->transactions->hasPages())
+                        <div class="wa-pagination-container">
+                            <div class="wa-text-sub" style="font-size: 0.8rem; display: flex; align-items: center; gap: 8px;">
+                                <span>Mostrando <strong class="wa-text-main">{{ $this->transactions->firstItem() ?? 0 }}</strong> a <strong class="wa-text-main">{{ $this->transactions->lastItem() ?? 0 }}</strong> de <strong class="wa-text-main">{{ $this->transactions->total() }}</strong> transações</span>
+                                <span style="padding: 2px 8px; background: #18191D; border: 1px solid #2D2F36; border-radius: 4px; font-size: 0.72rem; color: #9CA3AF; font-weight: 600;">
+                                    Página {{ $this->transactions->currentPage() }} de {{ $this->transactions->lastPage() }}
+                                </span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button
+                                    type="button"
+                                    wire:click="previousPage('txPage')"
+                                    class="wa-pagination-btn"
+                                    @if($this->transactions->onFirstPage()) disabled @endif
+                                >
+                                    <x-heroicon-m-chevron-left style="width: 14px; height: 14px;" />
+                                    <span>Anterior</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    wire:click="nextPage('txPage')"
+                                    class="wa-pagination-btn"
+                                    @if(!$this->transactions->hasMorePages()) disabled @endif
+                                >
+                                    <span>Próxima</span>
+                                    <x-heroicon-m-chevron-right style="width: 14px; height: 14px;" />
+                                </button>
+                            </div>
+                        </div>
+                    @endif
                 </div>
             @endif
         </div>

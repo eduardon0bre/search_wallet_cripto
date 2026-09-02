@@ -76,7 +76,14 @@ O **Search Wallet Cripto** é uma plataforma analítica para rastreamento, audit
 - [x] **Zero Custódia**: Opera exclusivamente com endereços públicos (`0x...` e domínios ENS `.eth`). Nunca armazena chaves privadas ou seed phrases.
 - [x] **Resiliência na Integração**: Retries com backoff exponencial para erros 5xx, tratamento de limites de requisição (*Rate Limit - HTTP 429*) com avisos amigáveis.
 - [x] **Auditoria Completa de API**: Tabela de logs `zerion_sync_logs` registrando endpoints, tempo de resposta em ms, status e consumo.
-- [x] **Sincronização Manual com Feedback**: Ação de sync no painel Filament com notificações toast detalhando tokens, posições DeFi e NFTs gravados.
+- [x] **Sincronização Manual com Feedback**: Ação de sync no painel Filament com notificações toast detalhando tokens, posições DeFi, NFTs e transações gravados.
+
+### 📜 7. Histórico & Auditoria de Transações Decodificadas
+- [x] **Ingestão On-Chain Decodificada**: Ingestão de transações em linguagem amigável com classificação em Swaps, Envios, Recebimentos, Depósitos e Resgates.
+- [x] **Deltas de Ativos**: Discriminação de fluxos de ativos transferidos (`sent` e `received`) com ícones e valores em USD.
+- [x] **Auditoria de Taxas de Gás**: Cálculo e consolidação exata dos custos de rede em USD por transação.
+- [x] **Aba Dedicada no Dashboard**: Tabela responsiva com filtros dinâmicos por tipo de operação e paginação Livewire.
+- [x] **Links Diretos para Exploradores**: Acesso direto aos block explorers (Etherscan, BscScan, Polygonscan, Arbiscan, Basescan, etc.).
 
 ---
 
@@ -86,7 +93,7 @@ A tabela abaixo detalha o que ainda falta para a versão final da plataforma:
 
 | Funcionalidade | Status | O Que Falta / Objetivo |
 | :--- | :---: | :--- |
-| **📜 Histórico & Auditoria de Transações** | 🚧 Em Andamento | Integrar `getTransactions()` ao pipeline do `WalletSyncService`, persistir em `wallet_transactions` e criar aba de histórico no Dashboard com deltas de compra/venda, taxas de gas e links para block explorers. |
+| **📜 Histórico & Auditoria de Transações** | ✅ Concluído | Ingestão no `WalletSyncService::saveTransactions`, persistência em `wallet_transactions`, aba no Dashboard com deltas, taxas de gas e links para block explorers. |
 | **⚙️ Sincronização Automatizada em Background** | ⏳ Pendente | Criar job assíncrono `SyncWalletJob` via Laravel Queues e agendamento no Scheduler (`routes/console.php`) para rodar periodicamente (ex: a cada 6h com rate limiter). |
 | **⚡ Suporte a Solana e Redes Não-EVM** | ⏳ Pendente | Expandir validações de formulário e sincronização para aceitar endereços Solana (Base58) e domínios `.sol`. |
 | **🔄 Paginação por Cursor na API** | ⏳ Pendente | Implementar iteração sobre o cursor `links.next` na Zerion API para sincronizar carteiras com mais de 100 tokens ou milhares de NFTs. |

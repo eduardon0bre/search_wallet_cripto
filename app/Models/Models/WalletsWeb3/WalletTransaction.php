@@ -43,23 +43,52 @@ class WalletTransaction extends Model
 
     public function getShortHashAttribute(): string
     {
+        if (! $this->tx_hash || strlen($this->tx_hash) <= 16) {
+            return $this->tx_hash ?? '-';
+        }
+
         return substr($this->tx_hash, 0, 10)
             . '...'
             . substr($this->tx_hash, -8);
     }
 
+    public function getExplorerUrlAttribute(): string
+    {
+        $network = strtolower($this->network ?? 'ethereum');
+        $hash = $this->tx_hash;
+
+        return match ($network) {
+            'ethereum', 'eth', 'mainnet' => "https://etherscan.io/tx/{$hash}",
+            'polygon', 'matic' => "https://polygonscan.com/tx/{$hash}",
+            'arbitrum', 'arbitrum-one' => "https://arbiscan.io/tx/{$hash}",
+            'optimism', 'optimistic-ethereum', 'op' => "https://optimistic.etherscan.io/tx/{$hash}",
+            'base' => "https://basescan.org/tx/{$hash}",
+            'binance-smart-chain', 'bsc', 'bnb' => "https://bscscan.com/tx/{$hash}",
+            'avalanche', 'avax' => "https://snowtrace.io/tx/{$hash}",
+            'solana' => "https://solscan.io/tx/{$hash}",
+            'linea' => "https://lineascan.build/tx/{$hash}",
+            'blast' => "https://blastscan.io/tx/{$hash}",
+            'zksync', 'zksync-era' => "https://era.zksync.network/tx/{$hash}",
+            'scroll' => "https://scrollscan.com/tx/{$hash}",
+            'fantom' => "https://ftmscan.com/tx/{$hash}",
+            'gnosis' => "https://gnosisscan.io/tx/{$hash}",
+            'polygon-zkevm' => "https://zkevm.polygonscan.com/tx/{$hash}",
+            default => "https://etherscan.io/tx/{$hash}",
+        };
+    }
+
     public function isSwap(): bool
     {
-        return strtolower($this->action_type) === 'swap';
+        return in_array(strtolower($this->action_type ?? ''), ['swap', 'trade']);
     }
 
     public function isSend(): bool
     {
-        return strtolower($this->action_type) === 'send';
+        return in_array(strtolower($this->action_type ?? ''), ['send', 'sell']);
     }
 
     public function isReceive(): bool
     {
-        return strtolower($this->action_type) === 'receive';
+        return in_array(strtolower($this->action_type ?? ''), ['receive', 'buy']);
     }
 }
