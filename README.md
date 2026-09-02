@@ -186,13 +186,6 @@ Banco de Dados Relacional (SQLite / PostgreSQL / MySQL)
 
 5. **Inicie o servidor de desenvolvimento:**
    ```bash
-   composer run dev
+   php artisan serve
    ```
 
-6. **Acesse no seu navegador:**
-   [http://localhost:8000/admin](http://localhost:8000/admin)
-
----
-
-## 📄 Licença
-Este projeto está sob a licença [MIT](LICENSE).
