@@ -30,9 +30,9 @@ O **Search Wallet Cripto** é uma plataforma analítica para rastreamento, audit
 
 <div align="left">
 <img src="https://github.com/user-attachments/assets/f9164b2b-d3a7-4828-8a34-7b48793b131d" width="400px" />
-<img src="https://github.com/user-attachments/assets/9f11023f-d15f-40e9-88b1-07731465a739" width="400px" />
-<img src="https://github.com/user-attachments/assets/1a780c2c-32ee-4c0e-b5a7-072a58ecf638" width="400px" />
-<img src="https://github.com/user-attachments/assets/3efc7d00-373e-4da6-b5e4-620bd32c24ea" width="400px" />
+<img src="https://github.com/user-attachments/assets/26a8b4a6-254f-40ef-9c00-e61e70595a35" width="400px" />
+<img src="https://github.com/user-attachments/assets/979a2308-823e-497f-9a6e-e7544f7d3080" width="400px" />
+<img src="https://github.com/user-attachments/assets/da0fa792-8023-4e65-a8c9-7ddc6e0fe298" width="400px" />
 </div>
 
 ---
